@@ -1,15 +1,14 @@
 package org.mohya.account;
 
-import android.app.Activity;
+import org.apache.cordova.DroidGap;
+
 import android.os.Bundle;
 
-public class Home extends Activity
-{
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
+public class Home extends DroidGap {
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		super.loadUrl("file:///android_asset/www/index.html");
+	}
 }
