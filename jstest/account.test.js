@@ -9,18 +9,21 @@ describe('Account', function() {
     });
 
     // set up mock transaction
-    var txMock = {};
-    txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
-        onSuccess(this, txMock.executeSql.resultSet);
+    var txMock;
+    beforeEach(function() {
+        txMock = {};
+        txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+            onSuccess(this, txMock.executeSql.resultSet);
+        });
+        txMock.executeSql.resultSet = {
+            insertId: undefined,
+            rowsAffected: 0,
+            rows: {
+                length: 0,
+                item: sinon.spy.create(function(order){ return {}; }),
+            }
+        };
     });
-    txMock.executeSql.resultSet = {
-        insertId: undefined,
-        rowsAffected: 0,
-        rows: {
-            length: 0,
-            item: sinon.spy.create(function(order){ return {}; }),
-        }
-    };
     
     describe('#initialize', function() {
         it('should have default values', function() {
