@@ -60,6 +60,21 @@ describe('Account', function() {
             Account.find(tx, success);
             expect(success.called).to.be.ok();
         });
+        it('should return found Account as Arrary', function() {
+            // set up mocking
+            tx.mocks.rowLength = 1;
+            tx.mocks.rowItem = sinon.spy.create(function(order) {
+                return {};
+            });
+            // callback to check results
+            var success = sinon.spy.create(function(tx, results) {
+                expect(results).to.be.an(Array);
+                expect(results).to.have.length(1);
+            });
+            // execute
+            Account.find(tx, success);
+            expect(success.called).to.be.ok();
+        });
     });
 });
 
