@@ -25,10 +25,12 @@ describe('Account', function() {
             expect(target.date).to.be.a(Date);
         });
     });
+    
     describe('::find', function() {
         it('should function', function() {
             expect(Account.find).to.be.a('function')
         });
+        it('should return empty array if no record found');
     });
 });
 
