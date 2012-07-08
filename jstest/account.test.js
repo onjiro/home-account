@@ -83,12 +83,12 @@ describe('Account', function() {
             expect(Account.find).to.be.a('function')
         });
         it('should pass empty array for callback if no record found', function() {
-            txMock.executeSql.resultSet.rows.rowLength = 0;
+            txMock.executeSql.resultSet.rows.length = 0;
             Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
         it('should pass found Account as Arrary for callback', function() {
-            txMock.executeSql.resultSet.rows.rowLength = 1;
+            txMock.executeSql.resultSet.rows.length = 1;
             Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
