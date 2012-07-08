@@ -51,6 +51,7 @@ describe('Account', function() {
     });
     
     describe('::find', function() {
+        // set up mock transaction
         var tx = {
             mocks:  {
                 rowLength: 0,
@@ -70,28 +71,25 @@ describe('Account', function() {
             };
             onSuccess(this, resultSet);
         });
+        // callback to check results
+        var success = sinon.spy.create(function(tx, results) {
+            expect(results).to.be.an(Array);
+            expect(results).to.have.length(tx.mocks.rowLength);
+        });
         
+        // tests
         it('should function', function() {
             expect(Account.find).to.be.a('function')
         });
         it('should pass empty array for callback if no record found', function() {
-            // mock
-            var success = sinon.spy.create(function(tx, results) {
-                expect(results).to.be.an(Array);
-                expect(results).to.have.length(0);
-            });
-            // execute
+            tx.mocks.rowLength = 0;
+            
             Account.find(tx, success);
             expect(success.called).to.be.ok();
         });
         it('should pass found Account as Arrary for callback', function() {
             tx.mocks.rowLength = 1;
-            // callback to check results
-            var success = sinon.spy.create(function(tx, results) {
-                expect(results).to.be.an(Array);
-                expect(results).to.have.length(1);
-            });
-            // execute
+            
             Account.find(tx, success);
             expect(success.called).to.be.ok();
         });
