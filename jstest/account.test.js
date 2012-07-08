@@ -27,10 +27,39 @@ describe('Account', function() {
     });
     
     describe('::find', function() {
+        var tx = {
+            mocks:  {
+                rowLength: 0,
+                rowItem: sinon.spy.create(function(order) { return undefined; }),
+            }
+        };
+        tx.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+            var resultSet = {
+                // always `undefined` unless SQL insert statement
+                insertId: undefined,
+                // always `0` for SQL select statement
+                rowsAffected: 0,
+                rows: {
+                    length: tx.mocks.rowLength,
+                    item: tx.mocks.rowItem,
+                }
+            };
+            onSuccess(this, resultSet);
+        });
+        
         it('should function', function() {
             expect(Account.find).to.be.a('function')
         });
-        it('should return empty array if no record found');
+        it('should return empty array if no record found', function() {
+            // mock
+            var success = sinon.spy.create(function(tx, results) {
+                expect(results).to.be.an(Array);
+                expect(results).to.have.length(0);
+            });
+            // execute
+            Account.find(tx, success);
+            expect(success.called).to.be.ok();
+        });
     });
 });
 
