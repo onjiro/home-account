@@ -30,6 +30,7 @@ describe('Account', function() {
         it ('should be a function', function() {
             expect(target.save).to.be.a('function');
         });
+        it ('should pass transaction and insertId for callback')
     });
     
     describe('::find', function() {
