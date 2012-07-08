@@ -1,12 +1,12 @@
-var global = this;
-this.Account = function(values) {
+this.Account = (function(global) {
+var Constructor = function(values) {
     values = values || {}
     this.item = values.item;
     this.amount = values.amount || 0;
     this.date = values.date || new Date();
 }
 
-this.Account.prototype.save = function(tx, onSuccess, onError) {
+Constructor.prototype.save = function(tx, onSuccess, onError) {
     tx.executeSql(
         'INSERT INTO ACCOUNT (DATE, ITEM, AMOUNT) VALUES (?, ?, ?)',
         [this.date, this.item, this.amount],
@@ -17,12 +17,14 @@ this.Account.prototype.save = function(tx, onSuccess, onError) {
     )
 }
 
-this.Account.find = function(tx, onSuccess, onError) {
+Constructor.find = function(tx, onSuccess, onError) {
     tx.executeSql('SELECT * FROM ACCOUNT', [], function(tx, resultSet) {
         var results = [];
         for (var i = 0; i < resultSet.rows.length; i++) {
-            results.push(new global.Account(resultSet.rows.item(i)));
+            results.push(new Constructor(resultSet.rows.item(i)));
         };
         onSuccess(tx, results);
     }, onError);
 }
+return Constructor;
+})(this);
