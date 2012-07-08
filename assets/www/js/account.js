@@ -1,3 +1,4 @@
+var global = this;
 this.Account = function(values) {
     values = values || {}
     this.item = values.item;
@@ -20,7 +21,7 @@ this.Account.find = function(tx, onSuccess, onError) {
     tx.executeSql('SELECT * FROM ACCOUNT', [], function(tx, resultSet) {
         var results = [];
         for (var i = 0; i < resultSet.rows.length; i++) {
-            results.push(resultSet.rows.item(i));
+            results.push(new global.Account(resultSet.rows.item(i)));
         };
         onSuccess(tx, results);
     }, onError);
