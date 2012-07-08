@@ -4,6 +4,10 @@ this.Account = function(values) {
     this.item = values.item;
     this.amount = values.amount || 0;
     this.date = values.date || new Date();
+    // methods
+    this.save = function(tx) {
+        // TODO
+    };
 }
 
 this.Account.find = function(tx, onSuccess, onError) {

@@ -26,6 +26,12 @@ describe('Account', function() {
         });
     });
     
+    describe('#save', function() {
+        it ('should be a function', function() {
+            expect(target.save).to.be.a('function');
+        });
+    });
+    
     describe('::find', function() {
         var tx = {
             mocks:  {
