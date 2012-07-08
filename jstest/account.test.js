@@ -44,14 +44,12 @@ describe('Account', function() {
     });
     
     describe('#save', function() {
-        var txMock = {};
-        txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
-            var resultSet = {
+        beforeEach(function() {
+            txMock.executeSql.resultSet = {
                 insertId: 'the insertId',
                 rowsAffected: 1,
                 rows: undefined,
             };
-            onSuccess(this, resultSet);
         });
         
         it ('should be a function', function() {
