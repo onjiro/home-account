@@ -3,14 +3,10 @@ var sinon = require('sinon');
 var Account = require('../assets/www/js/account.js').Account;
 
 describe('Account', function() {
-    var target;
+    var target, txMock;
     beforeEach(function() {
         target = new Account();
-    });
-
-    // set up mock transaction
-    var txMock;
-    beforeEach(function() {
+        
         txMock = {};
         txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
             onSuccess(this, txMock.executeSql.resultSet);
