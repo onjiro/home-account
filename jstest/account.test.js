@@ -14,8 +14,8 @@ describe('Account', function() {
         onSuccess(this, txMock.executeSql.resultSet);
     });
     txMock.executeSql.resultSet = {
-        insertId: undefined, // always `undefined` unless SQL insert statement
-        rowsAffected: 0, // always `0` for SQL select statement
+        insertId: undefined,
+        rowsAffected: 0,
         rows: {
             length: 0,
             item: sinon.spy.create(function(order){ return {}; }),
@@ -69,6 +69,13 @@ describe('Account', function() {
         var success = sinon.spy.create(function(tx, results) {
             expect(results).to.be.an(Array);
             expect(results).to.have.length(txMock.executeSql.resultSet.rows.length);
+        });
+        
+        beforeEach(function() {
+            // always `undefined` unless SQL insert statement
+            txMock.executeSql.resultSet.insertId = undefined
+            // always `0` for SQL select statement
+            txMock.executeSql.resultSet.rowsAffected = 0
         });
         
         // tests
