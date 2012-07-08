@@ -3,9 +3,22 @@ var sinon = require('sinon');
 var Account = require('../assets/www/js/account.js').Account;
 
 describe('Account', function() {
-    var target;
+    var target, txMock;
     beforeEach(function() {
         target = new Account();
+        
+        txMock = {};
+        txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+            onSuccess(this, txMock.executeSql.resultSet);
+        });
+        txMock.executeSql.resultSet = {
+            insertId: undefined,
+            rowsAffected: 0,
+            rows: {
+                length: 0,
+                item: sinon.spy.create(function(order){ return {}; }),
+            }
+        };
     });
     
     describe('#initialize', function() {
@@ -27,14 +40,12 @@ describe('Account', function() {
     });
     
     describe('#save', function() {
-        var txMock = {};
-        txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
-            var resultSet = {
+        beforeEach(function() {
+            txMock.executeSql.resultSet = {
                 insertId: 'the insertId',
                 rowsAffected: 1,
                 rows: undefined,
             };
-            onSuccess(this, resultSet);
         });
         
         it ('should be a function', function() {
@@ -51,30 +62,17 @@ describe('Account', function() {
     });
     
     describe('::find', function() {
-        // set up mock transaction
-        var tx = {
-            mocks:  {
-                rowLength: 0,
-                rowItem: sinon.spy.create(function(order) { return {}; }),
-            }
-        };
-        tx.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
-            var resultSet = {
-                // always `undefined` unless SQL insert statement
-                insertId: undefined,
-                // always `0` for SQL select statement
-                rowsAffected: 0,
-                rows: {
-                    length: tx.mocks.rowLength,
-                    item: tx.mocks.rowItem,
-                }
-            };
-            onSuccess(this, resultSet);
-        });
         // callback to check results
         var success = sinon.spy.create(function(tx, results) {
             expect(results).to.be.an(Array);
-            expect(results).to.have.length(tx.mocks.rowLength);
+            expect(results).to.have.length(txMock.executeSql.resultSet.rows.length);
+        });
+        
+        beforeEach(function() {
+            // always `undefined` unless SQL insert statement
+            txMock.executeSql.resultSet.insertId = undefined
+            // always `0` for SQL select statement
+            txMock.executeSql.resultSet.rowsAffected = 0
         });
         
         // tests
@@ -82,15 +80,13 @@ describe('Account', function() {
             expect(Account.find).to.be.a('function')
         });
         it('should pass empty array for callback if no record found', function() {
-            tx.mocks.rowLength = 0;
-            
-            Account.find(tx, success);
+            txMock.executeSql.resultSet.rows.length = 0;
+            Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
         it('should pass found Account as Arrary for callback', function() {
-            tx.mocks.rowLength = 1;
-            
-            Account.find(tx, success);
+            txMock.executeSql.resultSet.rows.length = 1;
+            Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
     });
