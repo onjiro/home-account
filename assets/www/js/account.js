@@ -5,7 +5,6 @@ this.Account = function(values) {
     this.amount = values.amount || 0;
     this.date = values.date || new Date();
     
-    // functions
-    this.save = function() {
-    };
+}
+this.Account.find = function() {
 }
