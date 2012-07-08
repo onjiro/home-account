@@ -54,7 +54,7 @@ describe('Account', function() {
         var tx = {
             mocks:  {
                 rowLength: 0,
-                rowItem: sinon.spy.create(function(order) { return undefined; }),
+                rowItem: sinon.spy.create(function(order) { return {}; }),
             }
         };
         tx.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
@@ -85,11 +85,7 @@ describe('Account', function() {
             expect(success.called).to.be.ok();
         });
         it('should pass found Account as Arrary for callback', function() {
-            // set up mocking
             tx.mocks.rowLength = 1;
-            tx.mocks.rowItem = sinon.spy.create(function(order) {
-                return {};
-            });
             // callback to check results
             var success = sinon.spy.create(function(tx, results) {
                 expect(results).to.be.an(Array);
