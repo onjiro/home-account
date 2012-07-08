@@ -9,19 +9,19 @@ describe('Account', function() {
     });
 
     // set up mock transaction
-    var tx = {
+    var txMock = {
         mocks:  {
             rowLength: 0,
             rowItem: sinon.spy.create(function(order) { return {}; }),
         }
     };
-    tx.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+    txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
         var resultSet = {
             insertId: undefined, // always `undefined` unless SQL insert statement
             rowsAffected: 0, // always `0` for SQL select statement
             rows: {
-                length: tx.mocks.rowLength,
-                item: tx.mocks.rowItem,
+                length: txMock.mocks.rowLength,
+                item: txMock.mocks.rowItem,
             }
         };
         onSuccess(this, resultSet);
@@ -81,15 +81,15 @@ describe('Account', function() {
             expect(Account.find).to.be.a('function')
         });
         it('should pass empty array for callback if no record found', function() {
-            tx.mocks.rowLength = 0;
+            txMock.mocks.rowLength = 0;
             
-            Account.find(tx, success);
+            Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
         it('should pass found Account as Arrary for callback', function() {
-            tx.mocks.rowLength = 1;
+            txMock.mocks.rowLength = 1;
             
-            Account.find(tx, success);
+            Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
     });
