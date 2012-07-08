@@ -9,23 +9,18 @@ describe('Account', function() {
     });
 
     // set up mock transaction
-    var txMock = {
-        mocks:  {
-            rowLength: 0,
-            rowItem: sinon.spy.create(function(order) { return {}; }),
+    var txMock = {};
+    txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+        onSuccess(this, txMock.executeSql.resultSet);
+    });
+    txMock.executeSql.resultSet = {
+        insertId: undefined, // always `undefined` unless SQL insert statement
+        rowsAffected: 0, // always `0` for SQL select statement
+        rows: {
+            length: 0,
+            item: sinon.spy.create(function(order){ return {}; }),
         }
     };
-    txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
-        var resultSet = {
-            insertId: undefined, // always `undefined` unless SQL insert statement
-            rowsAffected: 0, // always `0` for SQL select statement
-            rows: {
-                length: txMock.mocks.rowLength,
-                item: txMock.mocks.rowItem,
-            }
-        };
-        onSuccess(this, resultSet);
-    });
     
     describe('#initialize', function() {
         it('should have default values', function() {
@@ -73,7 +68,7 @@ describe('Account', function() {
         // callback to check results
         var success = sinon.spy.create(function(tx, results) {
             expect(results).to.be.an(Array);
-            expect(results).to.have.length(tx.mocks.rowLength);
+            expect(results).to.have.length(txMock.executeSql.resultSet.rows.length);
         });
         
         // tests
@@ -81,14 +76,12 @@ describe('Account', function() {
             expect(Account.find).to.be.a('function')
         });
         it('should pass empty array for callback if no record found', function() {
-            txMock.mocks.rowLength = 0;
-            
+            txMock.executeSql.resultSet.rows.rowLength = 0;
             Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
         it('should pass found Account as Arrary for callback', function() {
-            txMock.mocks.rowLength = 1;
-            
+            txMock.executeSql.resultSet.rows.rowLength = 1;
             Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
