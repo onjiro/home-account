@@ -74,7 +74,7 @@ describe('Account', function() {
         it('should function', function() {
             expect(Account.find).to.be.a('function')
         });
-        it('should return empty array if no record found', function() {
+        it('should pass empty array for callback if no record found', function() {
             // mock
             var success = sinon.spy.create(function(tx, results) {
                 expect(results).to.be.an(Array);
@@ -84,7 +84,7 @@ describe('Account', function() {
             Account.find(tx, success);
             expect(success.called).to.be.ok();
         });
-        it('should return found Account as Arrary', function() {
+        it('should pass found Account as Arrary for callback', function() {
             // set up mocking
             tx.mocks.rowLength = 1;
             tx.mocks.rowItem = sinon.spy.create(function(order) {
