@@ -7,6 +7,25 @@ describe('Account', function() {
     beforeEach(function() {
         target = new Account();
     });
+
+    // set up mock transaction
+    var tx = {
+        mocks:  {
+            rowLength: 0,
+            rowItem: sinon.spy.create(function(order) { return {}; }),
+        }
+    };
+    tx.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+        var resultSet = {
+            insertId: undefined, // always `undefined` unless SQL insert statement
+            rowsAffected: 0, // always `0` for SQL select statement
+            rows: {
+                length: tx.mocks.rowLength,
+                item: tx.mocks.rowItem,
+            }
+        };
+        onSuccess(this, resultSet);
+    });
     
     describe('#initialize', function() {
         it('should have default values', function() {
@@ -51,26 +70,6 @@ describe('Account', function() {
     });
     
     describe('::find', function() {
-        // set up mock transaction
-        var tx = {
-            mocks:  {
-                rowLength: 0,
-                rowItem: sinon.spy.create(function(order) { return {}; }),
-            }
-        };
-        tx.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
-            var resultSet = {
-                // always `undefined` unless SQL insert statement
-                insertId: undefined,
-                // always `0` for SQL select statement
-                rowsAffected: 0,
-                rows: {
-                    length: tx.mocks.rowLength,
-                    item: tx.mocks.rowItem,
-                }
-            };
-            onSuccess(this, resultSet);
-        });
         // callback to check results
         var success = sinon.spy.create(function(tx, results) {
             expect(results).to.be.an(Array);
