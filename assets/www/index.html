@@ -3,9 +3,29 @@
 <head>
   <meta charset="utf8">
   <title>Home Account</title>
+  <script src="js/jquery-1.7.2.min.js"></script>
+  <script src="js/account.js"></script>
+  <script src="js/indexController.js"></script>
   <script src="cordova-1.9.0.js"></script>
 </head>
 <body>
-  <h1>Hello World!!</h1>
+  <h1>Home Account</h1>
+  <form id="account-entry" method="post">
+    <legend>支出登録</legend>
+
+    <input name="date" class="js-date" type="hidden"/>
+
+    <label>支払い方法</label>
+    <input name="opposite-item" type="text" placeholder="現金" required/>
+
+    <label>品目</label>
+    <input name="item" type="text" placeholder="食費" required/>
+
+    <label>金額</label>
+    <input name="amount" type="number" placeholder="1000" step="100" required/>
+
+    <input type="submit" value="決定"/>
+    <input type="reset" value="リセット"/>
+  </form>
 </body>
 </html>
