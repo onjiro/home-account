@@ -11,7 +11,7 @@ this.Account = (function(global) {
             'INSERT INTO ACCOUNTS (DATE, ITEM, AMOUNT) VALUES (?, ?, ?)',
             [this.date, this.item, this.amount],
             function(tx, resultSet) {
-                onSuccess(tx, resultSet.insertId);
+                if (onSuccess) { onSuccess(tx, resultSet.insertId); };
             },
             onError
         )
