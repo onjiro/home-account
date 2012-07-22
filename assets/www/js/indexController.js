@@ -29,7 +29,7 @@ $(function() {
         // trx をオープン、save
         db.transaction(function(tx) {
             // account.save(tx, function() {opposite.save(tx, function() { alert("ok to save!"); })});
-            account.save(tx, function() {opposite.save(tx, function(){/* no-op */}); });
+            account.save(tx, function() {opposite.save(tx);});
         }, errorCallback, function() {
             alert("ok to save!!");
         });

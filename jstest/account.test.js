@@ -58,6 +58,10 @@ describe('Account', function() {
             };
             target.save(txMock, success);
             expect(txMock.executeSql.called).to.be.ok();
+        });
+        it ('should allow no success-callback passed', function() {
+            target.save(txMock);
+            expect(txMock.executeSql.called).to.be.ok();
         })
     });
     
