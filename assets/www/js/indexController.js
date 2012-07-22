@@ -8,7 +8,8 @@ $(function() {
     }, errorCallback, function() {
         console.log('ready to use ACCOUNTS table');
     });
-    // Account 登録時の動作
+    
+    // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry').bind('submit', function(event){
         var entries = {
             date: new Date(),
@@ -26,9 +27,7 @@ $(function() {
             item: entries.oppositeItem,
             amount: entries.amount
         });
-        // trx をオープン、save
         db.transaction(function(tx) {
-            // account.save(tx, function() {opposite.save(tx, function() { alert("ok to save!"); })});
             account.save(tx, function() {opposite.save(tx);});
         }, errorCallback, function() {
             alert("ok to save!!");
