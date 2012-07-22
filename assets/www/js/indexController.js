@@ -4,9 +4,9 @@ $(function() {
         alert('something failed while accessing database.', err);
     };
     db.transaction(function(tx) {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS ACCOUNT (DATE, ITEM, AMOUNT)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ACCOUNTS (DATE, ITEM, AMOUNT)');
     }, errorCallback, function() {
-        console.log('ready to use ACCOUNT table');
+        console.log('ready to use ACCOUNTS table');
     });
     // Account 登録時の動作
     $('#account-entry').bind('submit', function(event){
