@@ -8,7 +8,7 @@ this.Account = (function(global) {
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
         tx.executeSql(
-            'INSERT INTO ACCOUNT (DATE, ITEM, AMOUNT) VALUES (?, ?, ?)',
+            'INSERT INTO ACCOUNTS (DATE, ITEM, AMOUNT) VALUES (?, ?, ?)',
             [this.date, this.item, this.amount],
             function(tx, resultSet) {
                 onSuccess(tx, resultSet.insertId);
@@ -18,7 +18,7 @@ this.Account = (function(global) {
     }
 
     Constructor.find = function(tx, onSuccess, onError) {
-        tx.executeSql('SELECT * FROM ACCOUNT', [], function(tx, resultSet) {
+        tx.executeSql('SELECT * FROM ACCOUNTS', [], function(tx, resultSet) {
             var results = [];
             for (var i = 0; i < resultSet.rows.length; i++) {
                 results.push(new Constructor(resultSet.rows.item(i)));
