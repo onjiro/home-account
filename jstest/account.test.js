@@ -26,16 +26,19 @@ describe('Account', function() {
             expect(target.item).to.be(undefined);
             expect(target.amount).to.be(0);
             expect(target.date).to.be.a(Date);
+            expect(target.type).to.be('credit');
         });
         it('should accepts initial values', function() {
             var target = new Account({
                 item: '科目',
                 amount: 3000,
                 date: new Date(),
+                type: 'debit',
             });
             expect(target.item).to.be('科目');
             expect(target.amount).to.be(3000);
             expect(target.date).to.be.a(Date);
+            expect(target.type).to.be('debit');
         });
     });
     

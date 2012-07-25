@@ -4,6 +4,7 @@ this.Account = (function(global) {
         this.item = values.item;
         this.amount = values.amount || 0;
         this.date = values.date || new Date();
+        this.type = values.type || 'credit';
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
