@@ -9,8 +9,8 @@ this.Account = (function(global) {
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
         tx.executeSql(
-            'INSERT INTO ACCOUNTS (DATE, ITEM, AMOUNT) VALUES (?, ?, ?)',
-            [this.date, this.item, this.amount],
+            'INSERT INTO ACCOUNTS (DATE, ITEM, AMOUNT, TYPE) VALUES (?, ?, ?, ?)',
+            [this.date, this.item, this.amount, this.type],
             function(tx, resultSet) {
                 if (onSuccess) { onSuccess(tx, resultSet.insertId); };
             },
