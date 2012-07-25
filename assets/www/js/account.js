@@ -4,12 +4,13 @@ this.Account = (function(global) {
         this.item = values.item;
         this.amount = values.amount || 0;
         this.date = values.date || new Date();
+        this.type = values.type || 'credit';
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
         tx.executeSql(
-            'INSERT INTO ACCOUNTS (DATE, ITEM, AMOUNT) VALUES (?, ?, ?)',
-            [this.date, this.item, this.amount],
+            'INSERT INTO ACCOUNTS (DATE, ITEM, AMOUNT, TYPE) VALUES (?, ?, ?, ?)',
+            [this.date, this.item, this.amount, this.type],
             function(tx, resultSet) {
                 if (onSuccess) { onSuccess(tx, resultSet.insertId); };
             },
