@@ -21,22 +21,36 @@
       </div>
     </div>
     <div class="container">
-      <form id="account-entry" method="post">
+      <form id="account-entry" class="form-horizontal" method="post">
         <legend>支出登録</legend>
 
         <input name="date" class="js-date" type="hidden"/>
+        
+        <div class="control-group">
+          <label class="control-label">支払い方法</label>
+          <div class="controls">
+            <input name="opposite-item" type="text" placeholder="現金" required/>
+          </div>
+        </div>
 
-        <label>支払い方法</label>
-        <input name="opposite-item" type="text" placeholder="現金" required/>
+        <div class="control-group">
+          <label class="control-label">品目</label>
+          <div class="controls">
+            <input name="item" type="text" placeholder="食費" required/>
+          </div>
+        </div>
 
-        <label>品目</label>
-        <input name="item" type="text" placeholder="食費" required/>
+        <div class="control-group">
+          <label class="control-label">金額</label>
+          <div class="controls">
+            <input name="amount" type="number" placeholder="1000" required/>
+          </div>
+        </div>
 
-        <label>金額</label>
-        <input name="amount" type="number" placeholder="1000" required/>
-
-        <input type="submit" value="決定"/>
-        <input type="reset" value="リセット"/>
+        <div class="form-actions">
+          <input type="submit" value="決定"/>
+          <input type="reset" value="リセット"/>
+        </div>
       </form>
     </div>
   </body>
