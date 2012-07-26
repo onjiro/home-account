@@ -1,14 +1,6 @@
 $(function() {
     var db = openDatabase('home-account', '0.1', 'home account', 100000);
-    var errorCallback = function(err) {
-        alert('something failed while accessing database.\n' + err.message);
-    };
-    db.transaction(function(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS ACCOUNTS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS ACCOUNTS (DATE, ITEM, AMOUNT, TYPE)');
-    }, errorCallback, function() {
-        console.log('ready to use ACCOUNTS table');
-    });
+    Account.init(db);
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry').bind('submit', function(event){
@@ -36,7 +28,9 @@ $(function() {
         });
         db.transaction(function(tx) {
             account.save(tx, function() {opposite.save(tx);});
-        }, errorCallback, function() {
+        }, function(err) {
+            alert('something failed while accessing database.\n' + err.message);
+        }, function() {
             alert("ok to save!!");
         });
         return false;
