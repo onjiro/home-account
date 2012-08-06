@@ -52,7 +52,7 @@ $(function() {
         })
     ];
     var $recentAccountsBody = $('#recent-accounts table tbody');
-    (function($target, accounts) {
+    var addToHistory = function($target, accounts) {
         var format = function(date) {
             return date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate()
                 + ' ' + date.getHours() + ':' + date.getMinutes();
@@ -68,5 +68,15 @@ $(function() {
                 '</tr>'
             ].join('\n'));
         }
-    }($recentAccountsBody, sampleAccounts));
+    };
+    
+    db.transaction(function(tx) {
+        Account.find(tx, function(tx, accounts) {
+            addToHistory($recentAccountsBody, accounts);
+        }, function(err) {
+            alert('something failed while accessing database.\n' + err.message);
+        });
+    }, function(err) {
+        alert('something failed while accessing database.\n' + err.message);
+    });
 });
