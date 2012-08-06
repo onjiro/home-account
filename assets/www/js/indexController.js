@@ -54,8 +54,11 @@ $(function() {
     var $recentAccountsBody = $('#recent-accounts table tbody');
     var addToHistory = function($target, accounts) {
         var format = function(date) {
-            return date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate()
-                + ' ' + date.getHours() + ':' + date.getMinutes();
+            return date.getFullYear()
+                + '/' + ('0' + date.getMonth()).slice(-2)
+                + '/' + ('0' + date.getDate()).slice(-2)
+                + ' ' + ('0' + date.getHours()).slice(-2)
+                + ':' + ('0' + date.getMinutes()).slice(-2);
         }
         var i;
         for (i = 0; i < accounts.length; i++) {
