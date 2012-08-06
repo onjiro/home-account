@@ -30,7 +30,6 @@ this.Account = (function(global) {
     
     Constructor.init = function(db) {
         db.transaction(function(tx) {
-            tx.executeSql('DROP TABLE IF EXISTS ACCOUNTS');
             tx.executeSql('CREATE TABLE IF NOT EXISTS ACCOUNTS (DATE, ITEM, AMOUNT, TYPE)');
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
