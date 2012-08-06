@@ -35,4 +35,38 @@ $(function() {
         });
         return false;
     });
+    
+    // 支出履歴の表示
+    var sampleAccounts = [
+        new Account({
+            date: new Date('2012/07/11 18:30'),
+            item: '表示例',
+            amount: 8000,
+            type: 'debit'
+        }),
+        new Account({
+            date: new Date(),
+            item: '表示例',
+            amount: 8000,
+            type: 'credit'
+        })
+    ];
+    var $recentAccountsBody = $('#recent-accounts table tbody');
+    (function($target, accounts) {
+        var format = function(date) {
+            return date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate()
+                + ' ' + date.getHours() + ':' + date.getMinutes();
+        }
+        var i;
+        for (i = 0; i < accounts.length; i++) {
+            $target.append([
+                '<tr>',
+                '  <td>' + format(accounts[i].date) + '</td>',
+                '  <td>' + accounts[i].item + '</td>',
+                '  <td>' + accounts[i].amount + '</td>',
+                '  <td>' + accounts[i].type + '</td>',
+                '</tr>'
+            ].join('\n'));
+        }
+    }($recentAccountsBody, sampleAccounts));
 });
