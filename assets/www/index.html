@@ -21,32 +21,35 @@
       </div>
     </div>
     <div class="container">
-      <form id="account-entry" class="form-horizontal" method="post">
-        <legend>支出登録</legend>
+      <div class="row">
+        <div class="span12">
+          <form id="account-entry" class="form-horizontal" method="post">
+            <legend>支出登録</legend>
 
-        <input name="date" class="js-date" type="hidden"/>
-        
-        <div class="control-group">
-          <label class="control-label">支払い方法</label>
-          <div class="controls">
-            <input name="opposite-item" type="text" placeholder="現金" required/>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label">品目</label>
-          <div class="controls">
-            <input name="item" type="text" placeholder="食費" required/>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label">金額</label>
-          <div class="controls">
-            <div class="input-prepend input-append">
-              <span class="add-on">&yen;</span><input name="amount" type="number" placeholder="1000" required/><span class="add-on">.00</span>
+            <input name="date" class="js-date" type="hidden"/>
+            
+            <div class="control-group">
+              <label class="control-label">支払い方法</label>
+              <div class="controls">
+                <input name="opposite-item" type="text" placeholder="現金" required/>
+              </div>
             </div>
-          </div>
+
+            <div class="control-group">
+              <label class="control-label">品目</label>
+              <div class="controls">
+                <input name="item" type="text" placeholder="食費" required/>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">金額</label>
+              <div class="controls">
+                <div class="input-prepend input-append">
+                  <span class="add-on">&yen;</span><input name="amount" type="number" placeholder="1000" required/><span class="add-on">.00</span>
+                </div>
+              </div>
+            </div>
         </div>
 
         <div class="form-actions">
@@ -57,22 +60,27 @@
             <i class="icon-remove"></i>リセット
           </button>
         </div>
-      </form>
-      
-      <div id="recent-accounts">
-        <h2>履歴</h2>
-        <table class="table table-striped table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th>日時</th>
-              <th>科目</th>
-              <th>金額</th>
-              <th>貸借</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="span12">
+          <div id="recent-accounts">
+            <h2>履歴</h2>
+            <table class="table table-striped table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>日時</th>
+                  <th>科目</th>
+                  <th>金額</th>
+                  <th>貸借</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </body>
