@@ -1,6 +1,6 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
-var Account = require('../assets/www/js/transaction.js').Account;
+var Transaction = require('../assets/www/js/transaction.js').Transaction;
 
 describe('Transaction', function() {
     describe('#initialize', function() {
