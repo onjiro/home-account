@@ -8,7 +8,10 @@ describe('Transaction', function() {
             var target = new Transaction();
             expect(target).to.be.a(Transaction);
         });
-        it('should not store accounts unless argument passed');
+        it('should not store accounts unless argument passed', function() {
+            var target = new Transaction();
+            expect(target.accounts).to.be.empty();
+        });
         it('should store argument as accounts');
     });
 });
