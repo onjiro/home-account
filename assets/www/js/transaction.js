@@ -1,6 +1,7 @@
 this.Transaction = (function(global) {
-    var Constractor = function() {
-        this.accounts = [];
+    var Constractor = function(values) {
+        values = values || {};
+        this.accounts = values.accounts || [];
     };
     return Constractor;
 })(this);

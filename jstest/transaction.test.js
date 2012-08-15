@@ -12,6 +12,11 @@ describe('Transaction', function() {
             var target = new Transaction();
             expect(target.accounts).to.be.empty();
         });
-        it('should store argument as accounts');
+        it('should store argument as accounts', function() {
+            var target = new Transaction({accounts: ["hoge", "fuga"]});
+            expect(target.accounts).to.have.length(2);
+            expect(target.accounts[0]).to.be("hoge");
+            expect(target.accounts[1]).to.be("fuga");
+        });
     });
 });
