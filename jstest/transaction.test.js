@@ -66,4 +66,44 @@ describe('Transaction', function() {
         })
     });
 
+    describe('::find', function() {
+        var txMock = {};
+        var success = sinon.spy.create(function(tx, results) {
+            expect(results).to.be.an(Array);
+            expect(results).to.have.length(txMock.executeSql.resultSet.rows.length);
+        });
+        
+        beforeEach(function() {
+            txMock.executeSql = sinon.spy.create(function(sql, def, onSuccess, onError) {
+                onSuccess(this, txMock.executeSql.resultSet);
+            });
+            txMock.executeSql.resultSet = {
+                // always `undefined` unless SQL insert statement
+                insertId: undefined, 
+                // always `0` for SQL select statement
+                rowsAffected: 0,
+                rows: {
+                    length: 0,
+                    item: sinon.spy.create(function(order){ return {
+                        date: new Date()
+                    }; }),
+                }
+            };
+        });
+        
+        // tests
+        it('should function', function() {
+            expect(Transaction.find).to.be.a('function')
+        });
+        it('should pass empty array for callback if no record found', function() {
+            txMock.executeSql.resultSet.rows.length = 0;
+            Transaction.find(txMock, success);
+            expect(success.called).to.be.ok();
+        });
+        it('should pass found Transaction as Arrary for callback', function() {
+            txMock.executeSql.resultSet.rows.length = 1;
+            Transaction.find(txMock, success);
+            expect(success.called).to.be.ok();
+        });
+    });
 });
