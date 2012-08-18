@@ -96,6 +96,16 @@ describe('Account', function() {
             Account.find(txMock, success);
             expect(success.called).to.be.ok();
         });
+        it('should support query argument for date', function() {
+            txMock.executeSql.resultSet.rows.length = 1;
+            var queryArgs = { date: new Date() };
+            Account.find(txMock, success, null, queryArgs);
+            expect(success.called).to.be.ok();
+            expect(txMock.executeSql.calledWith(
+                'SELECT * FROM Accounts WHERE date = ?',
+                [queryArgs.date]
+            )).to.be.ok();
+        });
     });
     
     describe('::init', function() {
