@@ -27,7 +27,17 @@ this.Transaction = (function(global) {
     };
     
     Constructor.find = function(tx, onSuccess, onError) {
-        tx.executeSql('SELECT Transactions.date as date, Transactions.details as details, Accounts.item as item, Accounts.type as type FROM Transactions inner join Accounts on Transactions.date = Accounts.date', [], function(tx, resultSet) {
+        var sql = [
+            'SELECT',
+            '  Transactions.date as date,',
+            '  Transactions.details as details,',
+            '  Accounts.item as item,',
+            '  Accounts.type as type',
+            'FROM',
+            '  Transactions INNER JOIN Accounts ',
+            '  ON Transactions.date = Accounts.date'
+        ].join(' ');
+        tx.executeSql(sql, [], function(tx, resultSet) {
             var results = [];
             for (var i = 0; i < resultSet.rows.length; i++) {
                 var current = new Constructor(resultSet.rows.item(i));
