@@ -36,7 +36,9 @@ this.Transaction = (function(global) {
             '  Accounts.type as type',
             'FROM',
             '  Transactions INNER JOIN Accounts ',
-            '  ON Transactions.date = Accounts.date'
+            '  ON Transactions.date = Accounts.date',
+            'ORDER BY',
+            '  Transactions.date'
         ].join(' ');
         tx.executeSql(sql, [], function(tx, resultSet) {
             var results = [];
