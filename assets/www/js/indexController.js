@@ -1,6 +1,23 @@
 $(function() {
-    var db = openDatabase('home-account', '0.1', 'home account', 100000);
-    Account.init(db);
+    var db = openDatabase('home-account', '', 'home account', 100000);
+    var m = new Migrator(db);
+    m.migration(1, function(tx) {
+        Account.init(db);
+    });
+    m.migration(2, function(tx) {
+        Transaction.init(db);
+    });
+    m.migration(3, function(tx) {
+        var sql = 'SELECT DISTINCT date FROM Accounts ';
+        tx.executeSql(sql, [], function(tx, resultSet) {
+            for (var i = 0; i < resultSet.rows.length; i++) {
+                new Transaction({
+                    date: resultSet.rows.item(i).date,
+                }).save(tx);
+            }
+        });
+    });
+    m.doIt();
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry').bind('submit', function(event){
@@ -10,6 +27,7 @@ $(function() {
             item: $('[name=item]' ,this).val(),
             oppositeItem: $('[name=opposite-item]' ,this).val(),
             amount: $('[name=amount]' ,this).val(),
+            details: null
         };
         // 勘定を登録する
         // account は購入した品目側、通常は資産増加のため、借方（左側）の増加
@@ -26,8 +44,13 @@ $(function() {
             amount: entries.amount,
             type: 'credit'
         });
+        var accountTransaction = new Transaction({
+            date: entries.date,
+            details: entries.details,
+            accounts: [account, opposite]
+        });
         db.transaction(function(tx) {
-            account.save(tx, function() {opposite.save(tx);});
+            accountTransaction.save(tx);
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
@@ -72,10 +95,44 @@ $(function() {
             ].join('\n'));
         }
     };
+    var addToTransactionHistory = function($target, transactions) {
+        var format = function(date) {
+            return date.getFullYear()
+                + '/' + ('0' + date.getMonth()).slice(-2)
+                + '/' + ('0' + date.getDate()).slice(-2)
+                + ' ' + ('0' + date.getHours()).slice(-2)
+                + ':' + ('0' + date.getMinutes()).slice(-2);
+        }
+        for (var i = 0; i < transactions.length; i++) {
+            var item = '', amount = 0, creditItems = [];
+            var accounts = transactions[i].accounts;
+            for (var j = 0; j < accounts.length; j++) {
+                switch (accounts[j].type) {
+                case 'debit':
+                    item += (item === '') ? '': ', ';
+                    item += accounts[j].item;
+                    amount += accounts[j].amount;
+                    break;
+                case 'credit':
+                    creditItems.push(accounts[j].item);
+                    break
+                }
+            }
+            $target.append([
+                '<tr>',
+                '  <td>' + format(transactions[i].date) + '</td>',
+                '  <td>' + item + '</td>',
+                '  <td>' + creditItems + '</td>',
+                '  <td>' + amount + '</td>',
+                '  <td>' + transactions[i].details + '</td>',
+                '</tr>'
+            ].join('\n'));
+        }
+    };
     
     db.transaction(function(tx) {
-        Account.find(tx, function(tx, accounts) {
-            addToHistory($recentAccountsBody, accounts);
+        Transaction.find(tx, function(tx, transactions) {
+            addToTransactionHistory($recentAccountsBody, transactions);
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         });
