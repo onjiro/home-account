@@ -88,8 +88,8 @@ $(function() {
                 '<tr>',
                 '  <td>' + format(transactions[i].date) + '</td>',
                 '  <td>' + item + '</td>',
-                '  <td>' + creditItems + '</td>',
-                '  <td>' + amount + '</td>',
+                '  <td><span class="label">' + creditItems + '</span></td>',
+                '  <td style="text-align: right;">' + amount + '</td>',
                 '  <td>' + transactions[i].details + '</td>',
                 '</tr>'
             ].join('\n'));
