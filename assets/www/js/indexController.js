@@ -1,5 +1,6 @@
 $(function() {
     var db = openDatabase('home-account', '0.1', 'home account', 100000);
+    Transaction.init(db);
     Account.init(db);
     
     // submit 時に勘定と反対勘定を同時に登録する
@@ -10,6 +11,7 @@ $(function() {
             item: $('[name=item]' ,this).val(),
             oppositeItem: $('[name=opposite-item]' ,this).val(),
             amount: $('[name=amount]' ,this).val(),
+            details: null
         };
         // 勘定を登録する
         // account は購入した品目側、通常は資産増加のため、借方（左側）の増加
@@ -26,8 +28,13 @@ $(function() {
             amount: entries.amount,
             type: 'credit'
         });
+        var accountTransaction = new Transaction({
+            date: entries.date,
+            details: entries.details,
+            accounts: [account, opposite]
+        });
         db.transaction(function(tx) {
-            account.save(tx, function() {opposite.save(tx);});
+            accountTransaction.save(tx);
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
