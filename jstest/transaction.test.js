@@ -29,7 +29,7 @@ describe('Transaction', function() {
             
             var target = new Transaction(values);
             
-            expect(target.date).to.be(values.date);
+            expect(target.date.getTime()).to.be(values.date.getTime());
             expect(target.accounts).to.be(values.accounts);
             expect(target.details).to.be(values.details);
         });
