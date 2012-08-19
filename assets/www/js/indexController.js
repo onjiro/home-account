@@ -61,7 +61,7 @@ $(function() {
     
     // 支出履歴の表示
     var $recentAccountsBody = $('#recent-accounts table tbody');
-    var addToTransactionHistory = function($target, transactions) {
+    var addToHistory = function($target, transactions) {
         var format = function(date) {
             return date.getFullYear()
                 + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -98,7 +98,7 @@ $(function() {
     
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
-            addToTransactionHistory($recentAccountsBody, transactions);
+            addToHistory($recentAccountsBody, transactions);
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         });
