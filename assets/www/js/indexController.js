@@ -1,7 +1,23 @@
 $(function() {
-    var db = openDatabase('home-account', '0.1', 'home account', 100000);
-    Transaction.init(db);
-    Account.init(db);
+    var db = openDatabase('home-account', '', 'home account', 100000);
+    var m = new Migrator(db);
+    m.migration(1, function(tx) {
+        Account.init(db);
+    });
+    m.migration(2, function(tx) {
+        Transaction.init(db);
+    });
+    m.migration(3, function(tx) {
+        var sql = 'SELECT DISTINCT date FROM Accounts ';
+        tx.executeSql(sql, [], function(tx, resultSet) {
+            for (var i = 0; i < resultSet.rows.length; i++) {
+                new Transaction({
+                    date: resultSet.rows.item(i).date,
+                }).save(tx);
+            }
+        });
+    });
+    m.doIt();
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry').bind('submit', function(event){
