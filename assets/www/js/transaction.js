@@ -5,7 +5,7 @@ if (this.window === undefined) {
 this.Transaction = (function(global) {
     var Constructor = function(values) {
         values = values || {};
-        this.date     = values.date     || new Date();
+        this.date     = (values.date) ? new Date(values.date): new Date();
         this.accounts = values.accounts || [];
         this.details  = values.details  || "";
     };
@@ -41,8 +41,8 @@ this.Transaction = (function(global) {
             var results = [];
             for (var i = 0; i < resultSet.rows.length; i++) {
                 var current = new Constructor(resultSet.rows.item(i));
-                var lastOne = (results.length === 0) ? null: results[length - 1];
-                if (lastOne === null || current.date.getTime() !== lastOne.date.getTime()) {
+                var lastOne = (results.length === 0) ? null: results[results.length - 1];
+                if (!lastOne || current.date.getTime() !== lastOne.date.getTime()) {
                     results.push(current);
                 } else {
                     current = lastOne;
