@@ -2,7 +2,7 @@ this.Account = (function(global) {
     var Constructor = function(values) {
         values = values || {}
         this.item = values.item;
-        this.amount = values.amount || 0;
+        this.amount = (values.amount) ? parseInt(values.amount): 0;
         this.date = new Date(values.date) || new Date();
         this.type = values.type || 'credit';
     }

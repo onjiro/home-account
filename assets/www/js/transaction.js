@@ -32,6 +32,7 @@ this.Transaction = (function(global) {
             '  Transactions.date as date,',
             '  Transactions.details as details,',
             '  Accounts.item as item,',
+            '  Accounts.amount as amount,',
             '  Accounts.type as type',
             'FROM',
             '  Transactions INNER JOIN Accounts ',
