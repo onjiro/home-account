@@ -59,7 +59,7 @@ this.Transaction = (function(global) {
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
-            console.log('ready to use ACCOUNTS table');
+            console.log('ready to use Transaction table');
         });
     }
     
