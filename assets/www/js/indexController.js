@@ -60,42 +60,8 @@ $(function() {
     });
     
     // 支出履歴の表示
-    var sampleAccounts = [
-        new Account({
-            date: new Date('2012/07/11 18:30'),
-            item: '表示例',
-            amount: 8000,
-            type: 'debit'
-        }),
-        new Account({
-            date: new Date(),
-            item: '表示例',
-            amount: 8000,
-            type: 'credit'
-        })
-    ];
     var $recentAccountsBody = $('#recent-accounts table tbody');
-    var addToHistory = function($target, accounts) {
-        var format = function(date) {
-            return date.getFullYear()
-                + '/' + ('0' + date.getMonth()).slice(-2)
-                + '/' + ('0' + date.getDate()).slice(-2)
-                + ' ' + ('0' + date.getHours()).slice(-2)
-                + ':' + ('0' + date.getMinutes()).slice(-2);
-        }
-        var i;
-        for (i = 0; i < accounts.length; i++) {
-            $target.append([
-                '<tr>',
-                '  <td>' + format(accounts[i].date) + '</td>',
-                '  <td>' + accounts[i].item + '</td>',
-                '  <td>' + accounts[i].amount + '</td>',
-                '  <td>' + accounts[i].type + '</td>',
-                '</tr>'
-            ].join('\n'));
-        }
-    };
-    var addToTransactionHistory = function($target, transactions) {
+    var addToHistory = function($target, transactions) {
         var format = function(date) {
             return date.getFullYear()
                 + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -132,7 +98,7 @@ $(function() {
     
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
-            addToTransactionHistory($recentAccountsBody, transactions);
+            addToHistory($recentAccountsBody, transactions);
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         });
