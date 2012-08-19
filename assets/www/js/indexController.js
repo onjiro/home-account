@@ -95,10 +95,44 @@ $(function() {
             ].join('\n'));
         }
     };
+    var addToTransactionHistory = function($target, transactions) {
+        var format = function(date) {
+            return date.getFullYear()
+                + '/' + ('0' + date.getMonth()).slice(-2)
+                + '/' + ('0' + date.getDate()).slice(-2)
+                + ' ' + ('0' + date.getHours()).slice(-2)
+                + ':' + ('0' + date.getMinutes()).slice(-2);
+        }
+        for (var i = 0; i < transactions.length; i++) {
+            var item = '', amount = 0, creditItems = [];
+            var accounts = transactions[i].accounts;
+            for (var j = 0; j < accounts.length; j++) {
+                switch (accounts[j].type) {
+                case 'debit':
+                    item += (item === '') ? '': ', ';
+                    item += accounts[j].item;
+                    amount += accounts[j].amount;
+                    break;
+                case 'credit':
+                    creditItems.push(accounts[j].item);
+                    break
+                }
+            }
+            $target.append([
+                '<tr>',
+                '  <td>' + format(transactions[i].date) + '</td>',
+                '  <td>' + item + '</td>',
+                '  <td>' + creditItems + '</td>',
+                '  <td>' + amount + '</td>',
+                '  <td>' + transactions[i].details + '</td>',
+                '</tr>'
+            ].join('\n'));
+        }
+    };
     
     db.transaction(function(tx) {
-        Account.find(tx, function(tx, accounts) {
-            addToHistory($recentAccountsBody, accounts);
+        Transaction.find(tx, function(tx, transactions) {
+            addToTransactionHistory($recentAccountsBody, transactions);
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         });
