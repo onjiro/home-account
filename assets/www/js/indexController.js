@@ -69,7 +69,7 @@ $(function() {
                 + ' ' + ('0' + date.getHours()).slice(-2)
                 + ':' + ('0' + date.getMinutes()).slice(-2);
         }
-        for (var i = 0; i < transactions.length; i++) {
+        for (var i = transactions.length - 1; i >= 0; i--) {
             var item = '', amount = 0, creditItems = [];
             var accounts = transactions[i].accounts;
             for (var j = 0; j < accounts.length; j++) {
