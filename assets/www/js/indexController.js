@@ -60,20 +60,6 @@ $(function() {
     });
     
     // 支出履歴の表示
-    var sampleAccounts = [
-        new Account({
-            date: new Date('2012/07/11 18:30'),
-            item: '表示例',
-            amount: 8000,
-            type: 'debit'
-        }),
-        new Account({
-            date: new Date(),
-            item: '表示例',
-            amount: 8000,
-            type: 'credit'
-        })
-    ];
     var $recentAccountsBody = $('#recent-accounts table tbody');
     var addToTransactionHistory = function($target, transactions) {
         var format = function(date) {
