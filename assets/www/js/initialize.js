@@ -17,5 +17,19 @@ $(function() {
             }
         });
     });
+    m.migration(4, function(tx) {
+        var sql = 'ALTER TABLE Accounts ADD COLUMN transactionId INTEGER';
+        tx.executeSql(sql);
+    });
+    m.migration(5, function(tx) {
+        var sql = [
+            'UPDATE Accounts',
+            'SET transactionId =',
+            '  (SELECT rowid',
+            '  FROM Transactions',
+            '  WHERE Transactions.date = Accounts.date)'
+        ].join(' ');
+        tx.executeSql(sql);
+    });
     m.doIt();
 });

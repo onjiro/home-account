@@ -23,6 +23,7 @@ describe('Account', function() {
     
     describe('#initialize', function() {
         it('should have default values', function() {
+            expect(target.transactionId).to.be(undefined);
             expect(target.item).to.be(undefined);
             expect(target.amount).to.be(0);
             expect(target.date).to.be.a(Date);
@@ -30,11 +31,13 @@ describe('Account', function() {
         });
         it('should accepts initial values', function() {
             var target = new Account({
+                transactionId: 55,
                 item: '科目',
                 amount: 3000,
                 date: new Date(),
                 type: 'debit',
             });
+            expect(target.transactionId).to.be(55);
             expect(target.item).to.be('科目');
             expect(target.amount).to.be(3000);
             expect(target.date).to.be.a(Date);
@@ -66,46 +69,6 @@ describe('Account', function() {
             target.save(txMock);
             expect(txMock.executeSql.called).to.be.ok();
         })
-    });
-    
-    describe('::find', function() {
-        // callback to check results
-        var success = sinon.spy.create(function(tx, results) {
-            expect(results).to.be.an(Array);
-            expect(results).to.have.length(txMock.executeSql.resultSet.rows.length);
-        });
-        
-        beforeEach(function() {
-            // always `undefined` unless SQL insert statement
-            txMock.executeSql.resultSet.insertId = undefined
-            // always `0` for SQL select statement
-            txMock.executeSql.resultSet.rowsAffected = 0
-        });
-        
-        // tests
-        it('should function', function() {
-            expect(Account.find).to.be.a('function')
-        });
-        it('should pass empty array for callback if no record found', function() {
-            txMock.executeSql.resultSet.rows.length = 0;
-            Account.find(txMock, success);
-            expect(success.called).to.be.ok();
-        });
-        it('should pass found Account as Arrary for callback', function() {
-            txMock.executeSql.resultSet.rows.length = 1;
-            Account.find(txMock, success);
-            expect(success.called).to.be.ok();
-        });
-        it('should support query argument for date', function() {
-            txMock.executeSql.resultSet.rows.length = 1;
-            var queryArgs = { date: new Date() };
-            Account.find(txMock, success, null, queryArgs);
-            expect(success.called).to.be.ok();
-            expect(txMock.executeSql.calledWith(
-                'SELECT * FROM Accounts WHERE date = ?',
-                [queryArgs.date]
-            )).to.be.ok();
-        });
     });
     
     describe('::init', function() {
