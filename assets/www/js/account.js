@@ -9,14 +9,23 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
-        tx.executeSql(
-            'INSERT INTO Accounts (transactionId, date, item, amount, type) VALUES (?, ?, ?, ?, ?)',
-            [this.transactionId, this.date, this.item, this.amount, this.type],
-            function(tx, resultSet) {
-                if (onSuccess) { onSuccess(tx, resultSet.insertId); };
-            },
-            onError
-        )
+        tx.executeSql([
+            'INSERT INTO Accounts (',
+            '  transactionId,',
+            '  date,',
+            '  item,',
+            '  amount,',
+            '  type',
+            ') VALUES (?, ?, ?, ?, ?)'
+        ].join(' '), [
+            this.transactionId,
+            this.date,
+            this.item,
+            this.amount,
+            this.type
+        ], function(tx, resultSet) {
+            if (onSuccess) { onSuccess(tx, resultSet.insertId); };
+        }, onError)
     }
 
     Constructor.find = function(tx, onSuccess, onError, queryArgs) {
