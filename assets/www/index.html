@@ -25,6 +25,17 @@
     <div class="container">
       <div class="row">
         <div class="span12">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#entry-tab">支払</a>
+            </li>
+            <li><a href="#withdraw-tab">引落</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="entry-tab" class="row">
+        <div class="span12">
           <form id="account-entry" class="form-horizontal" method="post">
             <legend>支出登録</legend>
 
@@ -54,7 +65,52 @@
             </div>
             
         </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="icon-ok icon-white"></i>決定
+          </button>
+          <button type="reset" class="btn">
+            <i class="icon-remove"></i>リセット
+          </button>
+        </div>
+        </form>
+      </div>
 
+      <div id="withdraw-tab" class="row">
+        <div class="span12">
+          <form id="account-withdraw" class="form-horizontal" method="post">
+            <legend>引落登録</legend>
+            
+            <div class="control-group">
+              <label class="control-label">引き落とし日</label>
+              <div class="controls">
+                <input name="date" type="date" required/>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">金額</label>
+              <div class="controls">
+                <div class="input-prepend input-append">
+                  <span class="add-on">&yen;</span><input name="amount" type="number" placeholder="1000" required/><span class="add-on">.00</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">カード/品目</label>
+              <div class="controls">
+                <input name="item" type="text" placeholder="水道料金" required/>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">引き落とし口座</label>
+              <div class="controls">
+                <input name="opposite-item" type="text" placeholder="XX銀行普通預金" required/>
+              </div>
+            </div>
+        </div>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
             <i class="icon-ok icon-white"></i>決定
