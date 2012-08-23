@@ -30,7 +30,7 @@ $(function() {
         // 画面に入力された情報を取得
         var dateVal = $('[name=date]', this).val();
         var entries = {
-            date: (dateVal !== '') ? dateVal: new Date(),
+            date: (dateVal) ? new Date(dateVal): new Date(),
             item: $('[name=item]' ,this).val(),
             oppositeItem: $('[name=opposite-item]' ,this).val(),
             amount: $('[name=amount]' ,this).val(),
