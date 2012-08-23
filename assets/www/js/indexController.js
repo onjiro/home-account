@@ -19,6 +19,12 @@ $(function() {
     });
     m.doIt();
     
+    // タブの動作
+    $('.js-tab a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry').bind('submit', function(event){
         // 画面に入力された情報を取得
