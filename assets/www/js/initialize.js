@@ -17,5 +17,9 @@ $(function() {
             }
         });
     });
+    m.migration(4, function(tx) {
+        var sql = 'ALTER TABLE Accounts ADD COLUMN transaction_id INTEGER';
+        tx.executeSql(sql);
+    })
     m.doIt();
 });
