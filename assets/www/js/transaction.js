@@ -38,7 +38,7 @@ this.Transaction = (function(global) {
             '  Transactions INNER JOIN Accounts ',
             '  ON Transactions.date = Accounts.date',
             'ORDER BY',
-            '  Transactions.date'
+            '  Transactions.rowid'
         ].join(' ');
         tx.executeSql(sql, [], function(tx, resultSet) {
             var results = [];
