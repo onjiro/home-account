@@ -23,6 +23,7 @@ describe('Account', function() {
     
     describe('#initialize', function() {
         it('should have default values', function() {
+            expect(target.transactionId).to.be(undefined);
             expect(target.item).to.be(undefined);
             expect(target.amount).to.be(0);
             expect(target.date).to.be.a(Date);
@@ -30,11 +31,13 @@ describe('Account', function() {
         });
         it('should accepts initial values', function() {
             var target = new Account({
+                transactionId: 55,
                 item: '科目',
                 amount: 3000,
                 date: new Date(),
                 type: 'debit',
             });
+            expect(target.transactionId).to.be(55);
             expect(target.item).to.be('科目');
             expect(target.amount).to.be(3000);
             expect(target.date).to.be.a(Date);
