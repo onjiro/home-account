@@ -28,21 +28,6 @@ this.Account = (function(global) {
         }, onError)
     }
 
-    Constructor.find = function(tx, onSuccess, onError, queryArgs) {
-        var sql = 'SELECT * FROM Accounts', queryParameters = [];
-        if (queryArgs && queryArgs.date) {
-            sql += ' WHERE date = ?';
-            queryParameters.push(queryArgs.date);
-        }
-        tx.executeSql(sql, queryParameters, function(tx, resultSet) {
-            var results = [];
-            for (var i = 0; i < resultSet.rows.length; i++) {
-                results.push(new Constructor(resultSet.rows.item(i)));
-            };
-            onSuccess(tx, results);
-        }, onError);
-    }
-    
     Constructor.init = function(db) {
         db.transaction(function(tx) {
             tx.executeSql('CREATE TABLE IF NOT EXISTS Accounts (date, item, amount, type)');
