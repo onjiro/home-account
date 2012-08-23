@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="container">
-      <div class="row">
+      <div class="rowb">
         <div class="span12">
           <ul class="nav nav-tabs">
             <li class="active">
@@ -34,8 +34,8 @@
         </div>
       </div>
       
-      <div id="entry-tab" class="row">
-        <div class="span12">
+      <div class="row">
+        <div id="entry-tab" class="span12">
           <form id="account-entry" class="form-horizontal" method="post">
             <legend>支出登録</legend>
 
@@ -63,21 +63,18 @@
                 <input name="opposite-item" type="text" placeholder="現金" required/>
               </div>
             </div>
-            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="icon-ok icon-white"></i>決定
+              </button>
+              <button type="reset" class="btn">
+                <i class="icon-remove"></i>リセット
+              </button>
+            </div>
+          </form>
         </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">
-            <i class="icon-ok icon-white"></i>決定
-          </button>
-          <button type="reset" class="btn">
-            <i class="icon-remove"></i>リセット
-          </button>
-        </div>
-        </form>
-      </div>
-
-      <div id="withdraw-tab" class="row">
-        <div class="span12">
+        
+        <div id="withdraw-tab" class="span12">
           <form id="account-withdraw" class="form-horizontal" method="post">
             <legend>引落登録</legend>
             
@@ -110,16 +107,16 @@
                 <input name="opposite-item" type="text" placeholder="XX銀行普通預金" required/>
               </div>
             </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="icon-ok icon-white"></i>決定
+              </button>
+              <button type="reset" class="btn">
+                <i class="icon-remove"></i>リセット
+              </button>
+            </div>
+          </form>
         </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">
-            <i class="icon-ok icon-white"></i>決定
-          </button>
-          <button type="reset" class="btn">
-            <i class="icon-remove"></i>リセット
-          </button>
-        </div>
-        </form>
       </div>
 
       <div class="row">
