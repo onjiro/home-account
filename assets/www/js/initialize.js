@@ -20,6 +20,16 @@ $(function() {
     m.migration(4, function(tx) {
         var sql = 'ALTER TABLE Accounts ADD COLUMN transaction_id INTEGER';
         tx.executeSql(sql);
-    })
+    });
+    m.migration(5, function(tx) {
+        var sql = [
+            'UPDATE Accounts',
+            'SET transaction_id =',
+            '  (SELECT rowid',
+            '  FROM Transactions',
+            '  WHERE Transactions.date = Accounts.date)'
+        ].join(' ');
+        tx.executeSql(sql);
+    });
     m.doIt();
 });
