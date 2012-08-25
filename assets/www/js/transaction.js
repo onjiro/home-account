@@ -19,6 +19,7 @@ this.Transaction = (function(global) {
             function(tx, resultSet) {
                 // accounts はそれぞれ Accounts テーブルに格納
                 for (var i = 0; i < _this.accounts.length; i++) {
+                    _this.accounts[i].transactionId = resultSet.insertId;
                     _this.accounts[i].save(tx, null, onError);
                 }
                 if (onSuccess) { onSuccess(tx, resultSet.insertId); };
