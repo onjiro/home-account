@@ -11,15 +11,16 @@ this.Transaction = (function(global) {
     };
     
     Constructor.prototype.save = function(tx, onSuccess, onError) {
-        // accounts はそれぞれ Accounts テーブルに格納
-        for (var i = 0; i < this.accounts.length; i++) {
-            this.accounts[i].save(tx, null, onError);
-        }
+        var _this = this;
         // Transactions テーブルに格納
         tx.executeSql(
             'INSERT INTO Transactions (date, details) VALUES (?, ?)',
             [this.date, this.details],
             function(tx, resultSet) {
+                // accounts はそれぞれ Accounts テーブルに格納
+                for (var i = 0; i < _this.accounts.length; i++) {
+                    _this.accounts[i].save(tx, null, onError);
+                }
                 if (onSuccess) { onSuccess(tx, resultSet.insertId); };
             },
             onError
