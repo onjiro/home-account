@@ -43,6 +43,7 @@ $(function() {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
             alert("ok to save!!");
+            addToHistory($recentAccountsBody, [accountTransaction], true);
             _this.reset();
         });
         return false;
@@ -50,7 +51,7 @@ $(function() {
     
     // 支出履歴の表示
     var $recentAccountsBody = $('#recent-accounts table tbody');
-    var addToHistory = function($target, transactions) {
+    var addToHistory = function($target, transactions, doPrepend) {
         var format = function(date) {
             return date.getFullYear()
                 + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -73,7 +74,7 @@ $(function() {
                     break
                 }
             }
-            $target.append([
+            var newElementString = [
                 '<tr>',
                 '  <td>' + format(transactions[i].date) + '</td>',
                 '  <td>' + item + '</td>',
@@ -81,7 +82,12 @@ $(function() {
                 '  <td style="text-align: right;">' + amount + '</td>',
                 '  <td>' + transactions[i].details + '</td>',
                 '</tr>'
-            ].join('\n'));
+            ].join('\n');
+            if (doPrepend) {
+                $target.prepend(newElementString);
+            } else {
+                $target.append(newElementString);
+            }
         }
     };
     
