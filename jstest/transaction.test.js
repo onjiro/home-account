@@ -53,7 +53,7 @@ describe('Transaction', function() {
             expect(target.save).to.be.a('function');
         });
         it ('should pass transaction and insertId for callback', function() {
-            var success = function(tX, insertId) {
+            var success = function(tx, insertId) {
                 expect(tx).to.eql(txMock);
                 expect(insertId).to.be('the insertId');
             };
