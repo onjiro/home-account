@@ -7,6 +7,7 @@ $(function() {
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
+        var _this = this;
         // 画面に入力された情報を取得
         var dateVal = $('[name=date]', this).val();
         var entries = {
@@ -42,6 +43,7 @@ $(function() {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
             alert("ok to save!!");
+            _this.reset();
         });
         return false;
     });
