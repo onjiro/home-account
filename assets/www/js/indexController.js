@@ -58,31 +58,34 @@ $(function() {
             + ' ' + ('0' + date.getHours()).slice(-2)
             + ':' + ('0' + date.getMinutes()).slice(-2);
     };
+    var formatToTableRow = function(transaction) {
+        var item = '', amount = 0, creditItems = [];
+        var accounts = transaction.accounts;
+        for (var j = 0; j < accounts.length; j++) {
+            switch (accounts[j].type) {
+            case 'debit':
+                item += (item === '') ? '': ', ';
+                item += accounts[j].item;
+                amount += accounts[j].amount;
+                break;
+            case 'credit':
+                creditItems.push(accounts[j].item);
+                break
+            }
+        }
+        return $([
+            '<tr>',
+            '  <td>' + format(transaction.date) + '</td>',
+            '  <td>' + item + '</td>',
+            '  <td><span class="label">' + creditItems + '</span></td>',
+            '  <td style="text-align: right;">' + amount + '</td>',
+            '  <td>' + transaction.details + '</td>',
+            '</tr>'
+        ].join('\n'));
+    };
     var addToHistory = function($target, transactions, doPrepend) {
         for (var i = transactions.length - 1; i >= 0; i--) {
-            var item = '', amount = 0, creditItems = [];
-            var accounts = transactions[i].accounts;
-            for (var j = 0; j < accounts.length; j++) {
-                switch (accounts[j].type) {
-                case 'debit':
-                    item += (item === '') ? '': ', ';
-                    item += accounts[j].item;
-                    amount += accounts[j].amount;
-                    break;
-                case 'credit':
-                    creditItems.push(accounts[j].item);
-                    break
-                }
-            }
-            var $newElement = $([
-                '<tr>',
-                '  <td>' + format(transactions[i].date) + '</td>',
-                '  <td>' + item + '</td>',
-                '  <td><span class="label">' + creditItems + '</span></td>',
-                '  <td style="text-align: right;">' + amount + '</td>',
-                '  <td>' + transactions[i].details + '</td>',
-                '</tr>'
-            ].join('\n'));
+            var $newElement = formatToTableRow(transactions[i]);
             if (doPrepend) {
                 $target.prepend($newElement.hide());
                 $newElement.fadeIn();
