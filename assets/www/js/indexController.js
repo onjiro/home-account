@@ -5,6 +5,9 @@ $(function() {
         $(this).tab('show');
     });
     
+    // bootstrap の Alert div のテンプレート
+    var $alertDiv = $('<div class="alert alert-success"></div>');
+    
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
         var _this = this;
@@ -42,7 +45,17 @@ $(function() {
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
-            alert("ok to save!!");
+            var $his = $('#history');
+            $his.prepend(
+                $alertDiv
+                    .clone()
+                    .append("ok to save!!")
+                    .delay(1000)
+                    .fadeOut(),
+                function() {
+                    this.remove();
+                }
+            );
             var $newRow = $(formatToTableRow(accountTransaction));
             $history.prepend($newRow.hide().fadeIn());
             _this.reset();
