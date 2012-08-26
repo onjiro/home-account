@@ -84,16 +84,12 @@ $(function() {
             '</tr>'
         ].join('\n');
     };
-    var addToHistory = function($target, transactions) {
-        for (var i = transactions.length - 1; i >= 0; i--) {
-            var newElement = formatToTableRow(transactions[i]);
-            $target.append(newElement);
-        }
-    };
     
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
-            addToHistory($recentAccountsBody, transactions);
+            $.each(transactions.reverse(), function(i, transaction) {
+                $recentAccountsBody.append(formatToTableRow(transaction));
+            });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         });
