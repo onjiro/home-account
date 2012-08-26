@@ -74,7 +74,7 @@ $(function() {
                     break
                 }
             }
-            var newElementString = [
+            var $newElement = $([
                 '<tr>',
                 '  <td>' + format(transactions[i].date) + '</td>',
                 '  <td>' + item + '</td>',
@@ -82,11 +82,12 @@ $(function() {
                 '  <td style="text-align: right;">' + amount + '</td>',
                 '  <td>' + transactions[i].details + '</td>',
                 '</tr>'
-            ].join('\n');
+            ].join('\n'));
             if (doPrepend) {
-                $target.prepend(newElementString);
+                $target.prepend($newElement.hide());
+                $newElement.fadeIn();
             } else {
-                $target.append(newElementString);
+                $target.append($newElement);
             }
         }
     };
