@@ -45,8 +45,7 @@ $(function() {
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
-            var $his = $('#history');
-            $his.prepend(
+            $history.prepend(
                 $alertDiv
                     .clone()
                     .append("ok to save!!")
@@ -57,14 +56,15 @@ $(function() {
                 }
             );
             var $newRow = $(formatToTableRow(accountTransaction));
-            $history.prepend($newRow.hide().fadeIn());
+            $historyBody.prepend($newRow.hide().fadeIn());
             _this.reset();
         });
         return false;
     });
     
     // 支出履歴の表示
-    var $history = $('#history table tbody');
+    var $history = $('#history');
+    var $historyBody = $history.children('table').children('tbody');
     var format = function(date) {
         return date.getFullYear()
             + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -101,7 +101,7 @@ $(function() {
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
             $.each(transactions.reverse(), function(i, transaction) {
-                $history.append(formatToTableRow(transaction));
+                $historyBody.append(formatToTableRow(transaction));
             });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
