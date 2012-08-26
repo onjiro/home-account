@@ -51,14 +51,14 @@ $(function() {
     
     // 支出履歴の表示
     var $recentAccountsBody = $('#recent-accounts table tbody');
+    var format = function(date) {
+        return date.getFullYear()
+            + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
+            + '/' + ('0' + date.getDate()).slice(-2)
+            + ' ' + ('0' + date.getHours()).slice(-2)
+            + ':' + ('0' + date.getMinutes()).slice(-2);
+    };
     var addToHistory = function($target, transactions, doPrepend) {
-        var format = function(date) {
-            return date.getFullYear()
-                + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
-                + '/' + ('0' + date.getDate()).slice(-2)
-                + ' ' + ('0' + date.getHours()).slice(-2)
-                + ':' + ('0' + date.getMinutes()).slice(-2);
-        }
         for (var i = transactions.length - 1; i >= 0; i--) {
             var item = '', amount = 0, creditItems = [];
             var accounts = transactions[i].accounts;
