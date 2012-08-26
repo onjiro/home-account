@@ -73,7 +73,7 @@ $(function() {
                 break
             }
         }
-        return $([
+        return [
             '<tr>',
             '  <td>' + format(transaction.date) + '</td>',
             '  <td>' + item + '</td>',
@@ -81,16 +81,17 @@ $(function() {
             '  <td style="text-align: right;">' + amount + '</td>',
             '  <td>' + transaction.details + '</td>',
             '</tr>'
-        ].join('\n'));
+        ].join('\n');
     };
     var addToHistory = function($target, transactions, doPrepend) {
         for (var i = transactions.length - 1; i >= 0; i--) {
-            var $newElement = formatToTableRow(transactions[i]);
+            var newElement = formatToTableRow(transactions[i]);
             if (doPrepend) {
+                var $newElement = $(newElement);
                 $target.prepend($newElement.hide());
                 $newElement.fadeIn();
             } else {
-                $target.append($newElement);
+                $target.append(newElement);
             }
         }
     };
