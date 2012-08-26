@@ -62,15 +62,15 @@ $(function() {
     var formatToTableRow = function(transaction) {
         var item = '', amount = 0, creditItems = [];
         var accounts = transaction.accounts;
-        for (var j = 0; j < accounts.length; j++) {
-            switch (accounts[j].type) {
+        for (var i = 0; i < accounts.length; i++) {
+            switch (accounts[i].type) {
             case 'debit':
                 item += (item === '') ? '': ', ';
-                item += accounts[j].item;
-                amount += accounts[j].amount;
+                item += accounts[i].item;
+                amount += accounts[i].amount;
                 break;
             case 'credit':
-                creditItems.push(accounts[j].item);
+                creditItems.push(accounts[i].item);
                 break
             }
         }
