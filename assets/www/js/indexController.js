@@ -43,51 +43,53 @@ $(function() {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
             alert("ok to save!!");
+            var $newRow = $(formatToTableRow(accountTransaction));
+            $history.prepend($newRow.hide().fadeIn());
             _this.reset();
         });
         return false;
     });
     
     // 支出履歴の表示
-    var $recentAccountsBody = $('#recent-accounts table tbody');
-    var addToHistory = function($target, transactions) {
-        var format = function(date) {
-            return date.getFullYear()
-                + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
-                + '/' + ('0' + date.getDate()).slice(-2)
-                + ' ' + ('0' + date.getHours()).slice(-2)
-                + ':' + ('0' + date.getMinutes()).slice(-2);
-        }
-        for (var i = transactions.length - 1; i >= 0; i--) {
-            var item = '', amount = 0, creditItems = [];
-            var accounts = transactions[i].accounts;
-            for (var j = 0; j < accounts.length; j++) {
-                switch (accounts[j].type) {
-                case 'debit':
-                    item += (item === '') ? '': ', ';
-                    item += accounts[j].item;
-                    amount += accounts[j].amount;
-                    break;
-                case 'credit':
-                    creditItems.push(accounts[j].item);
-                    break
-                }
+    var $history = $('#history table tbody');
+    var format = function(date) {
+        return date.getFullYear()
+            + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
+            + '/' + ('0' + date.getDate()).slice(-2)
+            + ' ' + ('0' + date.getHours()).slice(-2)
+            + ':' + ('0' + date.getMinutes()).slice(-2);
+    };
+    var formatToTableRow = function(transaction) {
+        var item = '', amount = 0, creditItems = [];
+        var accounts = transaction.accounts;
+        for (var j = 0; j < accounts.length; j++) {
+            switch (accounts[j].type) {
+            case 'debit':
+                item += (item === '') ? '': ', ';
+                item += accounts[j].item;
+                amount += accounts[j].amount;
+                break;
+            case 'credit':
+                creditItems.push(accounts[j].item);
+                break
             }
-            $target.append([
-                '<tr>',
-                '  <td>' + format(transactions[i].date) + '</td>',
-                '  <td>' + item + '</td>',
-                '  <td><span class="label">' + creditItems + '</span></td>',
-                '  <td style="text-align: right;">' + amount + '</td>',
-                '  <td>' + transactions[i].details + '</td>',
-                '</tr>'
-            ].join('\n'));
         }
+        return [
+            '<tr>',
+            '  <td>' + format(transaction.date) + '</td>',
+            '  <td>' + item + '</td>',
+            '  <td><span class="label">' + creditItems + '</span></td>',
+            '  <td style="text-align: right;">' + amount + '</td>',
+            '  <td>' + transaction.details + '</td>',
+            '</tr>'
+        ].join('\n');
     };
     
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
-            addToHistory($recentAccountsBody, transactions);
+            $.each(transactions.reverse(), function(i, transaction) {
+                $history.append(formatToTableRow(transaction));
+            });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         });
