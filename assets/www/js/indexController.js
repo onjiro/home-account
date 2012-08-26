@@ -43,7 +43,8 @@ $(function() {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
             alert("ok to save!!");
-            addToHistory($recentAccountsBody, [accountTransaction], true);
+            var $newRow = $(formatToTableRow(accountTransaction));
+            $recentAccountsBody.prepend($newRow.hide().fadeIn());
             _this.reset();
         });
         return false;
@@ -83,16 +84,10 @@ $(function() {
             '</tr>'
         ].join('\n');
     };
-    var addToHistory = function($target, transactions, doPrepend) {
+    var addToHistory = function($target, transactions) {
         for (var i = transactions.length - 1; i >= 0; i--) {
             var newElement = formatToTableRow(transactions[i]);
-            if (doPrepend) {
-                var $newElement = $(newElement);
-                $target.prepend($newElement.hide());
-                $newElement.fadeIn();
-            } else {
-                $target.append(newElement);
-            }
+            $target.append(newElement);
         }
     };
     
