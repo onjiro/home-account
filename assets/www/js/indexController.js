@@ -44,14 +44,14 @@ $(function() {
         }, function() {
             alert("ok to save!!");
             var $newRow = $(formatToTableRow(accountTransaction));
-            $recentAccountsBody.prepend($newRow.hide().fadeIn());
+            $history.prepend($newRow.hide().fadeIn());
             _this.reset();
         });
         return false;
     });
     
     // 支出履歴の表示
-    var $recentAccountsBody = $('#recent-accounts table tbody');
+    var $history = $('#history table tbody');
     var format = function(date) {
         return date.getFullYear()
             + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -88,7 +88,7 @@ $(function() {
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
             $.each(transactions.reverse(), function(i, transaction) {
-                $recentAccountsBody.append(formatToTableRow(transaction));
+                $history.append(formatToTableRow(transaction));
             });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
