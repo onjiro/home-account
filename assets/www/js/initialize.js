@@ -2,7 +2,14 @@ var db = openDatabase('home-account', '', 'home account', 100000);
 $(function() {
     var m = new Migrator(db);
     m.migration(1, function(tx) {
-        Account.init(db);
+        tx.executeSql([
+            'CREATE TABLE IF NOT EXISTS Accounts (',
+            '  date,',
+            '  item,',
+            '  amount,',
+            '  type',
+            ')'
+        ].join(' '));
     });
     m.migration(2, function(tx) {
         Transaction.init(db);
