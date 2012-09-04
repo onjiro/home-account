@@ -34,14 +34,13 @@ $(function() {
         tx.executeSql(sql);
     });
     m.migration(5, function(tx) {
-        var sql = [
+        tx.executeSql([
             'UPDATE Accounts',
             'SET transactionId =',
             '  (SELECT rowid',
             '  FROM Transactions',
             '  WHERE Transactions.date = Accounts.date)'
-        ].join(' ');
-        tx.executeSql(sql);
+        ].join(' '));
     });
     m.doIt();
 });
