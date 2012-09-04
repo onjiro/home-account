@@ -28,14 +28,5 @@ this.Account = (function(global) {
         }, onError)
     }
 
-    Constructor.init = function(db) {
-        db.transaction(function(tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS Accounts (date, item, amount, type)');
-        }, function(err) {
-            alert('something failed while accessing database.\n' + err.message);
-        }, function() {
-            console.log('ready to use ACCOUNTS table');
-        });
-    }
     return Constructor;
 })(this);
