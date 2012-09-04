@@ -12,7 +12,12 @@ $(function() {
         ].join(' '));
     });
     m.migration(2, function(tx) {
-        Transaction.init(db);
+        tx.executeSql([
+            'CREATE TABLE IF NOT EXISTS Transactions (',
+            '  date,',
+            '  details',
+            ')'
+        ].join(' '));
     });
     m.migration(3, function(tx) {
         var sql = 'SELECT DISTINCT date FROM Accounts ';

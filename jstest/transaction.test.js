@@ -106,10 +106,4 @@ describe('Transaction', function() {
             expect(success.called).to.be.ok();
         });
     });
-    
-    describe('::init', function() {
-        it('should function', function() {
-            expect(Transaction.init).to.be.a('function');
-        });
-    });
 });
