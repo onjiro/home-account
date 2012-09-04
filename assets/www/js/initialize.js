@@ -30,8 +30,11 @@ $(function() {
         });
     });
     m.migration(4, function(tx) {
-        var sql = 'ALTER TABLE Accounts ADD COLUMN transactionId INTEGER';
-        tx.executeSql(sql);
+        tx.executeSql([
+            'ALTER TABLE Accounts',
+            'ADD COLUMN',
+            '  transactionId INTEGER'
+        ].join(' '));
     });
     m.migration(5, function(tx) {
         tx.executeSql([
