@@ -70,11 +70,5 @@ describe('Account', function() {
             expect(txMock.executeSql.called).to.be.ok();
         })
     });
-    
-    describe('::init', function() {
-        it('should function', function() {
-            expect(Account.init).to.be.a('function');
-        });
-    });
 });
 
