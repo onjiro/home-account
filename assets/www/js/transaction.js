@@ -18,6 +18,7 @@ this.Transaction = (function(global) {
             'INSERT INTO Transactions (date, details) VALUES (?, ?)',
             [this.date, this.details],
             function(tx, resultSet) {
+                _this.rowid = resultSet.insertId;
                 // accounts はそれぞれ Accounts テーブルに格納
                 for (var i = 0; i < _this.accounts.length; i++) {
                     _this.accounts[i].transactionId = resultSet.insertId;
