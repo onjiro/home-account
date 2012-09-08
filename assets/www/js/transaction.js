@@ -5,6 +5,7 @@ if (this.window === undefined) {
 this.Transaction = (function(global) {
     var Constructor = function(values) {
         values = values || {};
+        this.rowid    = values.rowid;
         this.date     = (values.date) ? new Date(values.date): new Date();
         this.accounts = values.accounts || [];
         this.details  = values.details  || "";
@@ -31,6 +32,7 @@ this.Transaction = (function(global) {
     Constructor.find = function(tx, onSuccess, onError) {
         var sql = [
             'SELECT',
+            '  Transactions.rowid as rowid,',
             '  Transactions.date as date,',
             '  Transactions.details as details,',
             '  Transactions.rowid as transactionId,',
