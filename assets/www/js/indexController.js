@@ -106,7 +106,7 @@ $(function() {
             new Transaction({
                 rowid: $this.data('transaction-id')
             }).remove(tx, function(tx) {
-                alert('ok to remove!!');
+                $this.detach();
             }, function(err) {
                 alert('something failed while removing transactions.\n' + err.message);
             });
