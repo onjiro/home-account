@@ -59,5 +59,21 @@ this.Transaction = (function(global) {
         }, onError);
     }
     
+    Constructor.remove = function(tx, onSuccess, onError) {
+        var rowid = this.rowid;
+        tx.executeSql(
+            'DELETE FROM Transactions where rowid = ?',
+            [rowid],
+            function(tx, resultSet) {
+                tx.executeSql(
+                    'delete from accounts where transactionId = ?'
+                    [rowid],
+                    onSuccess()
+                );
+            },
+            onError
+        );
+    }
+    
     return Constructor;
 })(this);
