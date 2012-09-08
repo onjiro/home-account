@@ -102,6 +102,9 @@ $(function() {
     var $histories = $('tbody tr', $history); // TODO
     $histories.live('dblclick', function(event) {
         var $this = $(this);
+        if (!window.confirm('指定の履歴を削除します。')) {
+            return;
+        }
         db.transaction(function(tx) {
             new Transaction({
                 rowid: $this.data('transaction-id')
