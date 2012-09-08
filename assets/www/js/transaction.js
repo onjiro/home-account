@@ -5,6 +5,7 @@ if (this.window === undefined) {
 this.Transaction = (function(global) {
     var Constructor = function(values) {
         values = values || {};
+        this.rowid    = values.rowid;
         this.date     = (values.date) ? new Date(values.date): new Date();
         this.accounts = values.accounts || [];
         this.details  = values.details  || "";
@@ -17,6 +18,7 @@ this.Transaction = (function(global) {
             'INSERT INTO Transactions (date, details) VALUES (?, ?)',
             [this.date, this.details],
             function(tx, resultSet) {
+                _this.rowid = resultSet.insertId;
                 // accounts はそれぞれ Accounts テーブルに格納
                 for (var i = 0; i < _this.accounts.length; i++) {
                     _this.accounts[i].transactionId = resultSet.insertId;
@@ -31,6 +33,7 @@ this.Transaction = (function(global) {
     Constructor.find = function(tx, onSuccess, onError) {
         var sql = [
             'SELECT',
+            '  Transactions.rowid as rowid,',
             '  Transactions.date as date,',
             '  Transactions.details as details,',
             '  Transactions.rowid as transactionId,',
@@ -57,6 +60,22 @@ this.Transaction = (function(global) {
             };
             onSuccess(tx, results);
         }, onError);
+    }
+    
+    Constructor.prototype.remove = function(tx, onSuccess, onError) {
+        var rowid = this.rowid;
+        tx.executeSql(
+            'DELETE FROM Transactions where rowid = ?',
+            [rowid],
+            function(tx, resultSet) {
+                tx.executeSql(
+                    'delete from accounts where transactionId = ?',
+                    [rowid],
+                    onSuccess
+                );
+            },
+            onError
+        );
     }
     
     return Constructor;
