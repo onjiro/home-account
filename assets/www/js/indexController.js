@@ -100,7 +100,7 @@ $(function() {
     
     // 支出の削除
     var $histories = $('tbody > tr', $history);
-    $histories.live('dblclick', function(event) {
+    $histories.live('click', function(event) {
         var $this = $(this);
         if (!window.confirm('指定の履歴を削除します。')) {
             return;
