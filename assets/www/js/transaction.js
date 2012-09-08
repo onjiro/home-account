@@ -69,7 +69,7 @@ this.Transaction = (function(global) {
             [rowid],
             function(tx, resultSet) {
                 tx.executeSql(
-                    'delete from accounts where transactionId = ?'
+                    'delete from accounts where transactionId = ?',
                     [rowid],
                     onSuccess
                 );
