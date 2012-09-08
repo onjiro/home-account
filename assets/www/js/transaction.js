@@ -71,7 +71,7 @@ this.Transaction = (function(global) {
                 tx.executeSql(
                     'delete from accounts where transactionId = ?'
                     [rowid],
-                    onSuccess()
+                    onSuccess
                 );
             },
             onError
