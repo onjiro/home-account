@@ -62,7 +62,7 @@ this.Transaction = (function(global) {
         }, onError);
     }
     
-    Constructor.remove = function(tx, onSuccess, onError) {
+    Constructor.prototype.remove = function(tx, onSuccess, onError) {
         var rowid = this.rowid;
         tx.executeSql(
             'DELETE FROM Transactions where rowid = ?',
