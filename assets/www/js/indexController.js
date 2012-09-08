@@ -109,7 +109,7 @@ $(function() {
             new Transaction({
                 rowid: $this.data('transaction-id')
             }).remove(tx, function(tx) {
-                $this.detach();
+                $this.fadeOut(function() { $this.detach() });
             }, function(err) {
                 alert('something failed while removing transactions.\n' + err.message);
             });
