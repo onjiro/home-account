@@ -88,7 +88,7 @@ $(function() {
             }
         }
         return [
-            '<tr>',
+            '<tr data-transaction-id="' + transaction.rowid + '">',
             '  <td>' + format(transaction.date) + '</td>',
             '  <td>' + item + '</td>',
             '  <td><span class="label">' + creditItems + '</span></td>',
@@ -97,6 +97,21 @@ $(function() {
             '</tr>'
         ].join('\n');
     };
+    
+    // 支出の削除
+    var $histories = $('tbody tr', $history); // TODO
+    $histories.live('dblclick', function(event) {
+        var $this = $(this);
+        db.transaction(function(tx) {
+            new Transaction({
+                rowid: $this.data('transaction-id')
+            }).remove(tx, function(tx) {
+                alert('ok to remove!!');
+            }, function(err) {
+                alert('something failed while removing transactions.\n' + err.message);
+            });
+        });
+    });
     
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
