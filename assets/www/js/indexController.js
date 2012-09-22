@@ -8,6 +8,10 @@ $(function() {
     // bootstrap の Alert div のテンプレート
     var $alertDiv = $('<div class="alert alert-success"></div>');
     
+    // タブ押下時に入力内容を引き継ぐ
+    $('.js-tab a').bind('click', function(event) {
+    });
+    
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
         var _this = this;
