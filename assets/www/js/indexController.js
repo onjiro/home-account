@@ -1,10 +1,4 @@
 $(function() {
-    // タブの動作
-    $('.js-tab a').click(function(e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-    
     // bootstrap の Alert div のテンプレート
     var $alertDiv = $('<div class="alert alert-success"></div>');
     
