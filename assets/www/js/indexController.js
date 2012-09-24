@@ -9,7 +9,7 @@ $(function() {
     var $alertDiv = $('<div class="alert alert-success"></div>');
     
     // タブ押下時に入力内容を引き継ぐ
-    $('.js-tab a').bind('click', function(event) {
+    $('.js-tab a').on('show', function(e) {
     });
     
     // submit 時に勘定と反対勘定を同時に登録する
