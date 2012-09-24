@@ -12,14 +12,10 @@ $(function() {
     $('.js-tab a').on('show', function(e) {
         var $inputs = $('#' + e.target.toString().split('#').slice(-1)[0]).find('input')
         , $previousInputs = $('#' + e.relatedTarget.toString().split('#').slice(-1)[0]).find('input')
-        , takeOver = function($inputs, $previousInputs, name) {
+        $.each(['date', 'amount', 'item', 'opposite-item'], function(i, name) {
             var selector = '[name="' + name + '"]';
             $inputs.filter(selector).val(
-                $previousInputs.filter(selector).val() || $inputs.filter(selector).val()
-            );
-        }
-        $.each(['date', 'amount', 'item', 'opposite-item'], function(i, name) {
-            takeOver($inputs, $previousInputs, name);
+                $previousInputs.filter(selector).val() || $inputs.filter(selector).val());
         });
     });
     
