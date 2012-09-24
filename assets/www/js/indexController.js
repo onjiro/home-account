@@ -12,19 +12,15 @@ $(function() {
     $('.js-tab a').on('show', function(e) {
         var $target = $('#' + e.target.toString().split('#').slice(-1)[0])
         , $relatedTarget = $('#' + e.relatedTarget.toString().split('#').slice(-1)[0])
-        , date = $relatedTarget.find('input[name="date"]').val()
-            || $target.find('input[name="date"]').val()
-        , amount = $relatedTarget.find('input[name="amount"]').val()
-            || $target.find('input[name="amount"]').val()
-        , item = $relatedTarget.find('input[name="item"]').val()
-            || $target.find('input[name="item"]').val()
-        , oppositeItem = $relatedTarget.find('input[name="opposite-item"]').val()
-            || $target.find('input[name="opposite-item"]').val();
-        $target
-            .find('input[name="date"]').val(date).end()
-            .find('input[name="amount"]').val(amount).end()
-            .find('input[name="item"]').val(item).end()
-            .find('input[name="opposite-item"]').val(oppositeItem);
+        , takeOver = function($target, $relatedTarget, name) {
+            var selector = 'input[name="' + name + '"]';
+            $target.find(selector).val(
+                $relatedTarget.find(selector).val() || $target.find(selector).val()
+            );
+        }
+        $.each(['date', 'amount', 'item', 'opposite-item'], function(i, name) {
+            takeOver($target, $relatedTarget, name);
+        });
     });
     
     // submit 時に勘定と反対勘定を同時に登録する
