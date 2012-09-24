@@ -10,25 +10,21 @@ $(function() {
     
     // タブ押下時に入力内容を引き継ぐ
     $('.js-tab a').on('show', function(e) {
-        var $target = $('#' + e.target.toString().split('#').slice(-1)[0]);
-        var $relatedTarget = $('#' + e.relatedTarget.toString().split('#').slice(-1)[0]);
-        var previousValues = {
-            date: $relatedTarget.find('input[name="date"]').val(),
-            amount: $relatedTarget.find('input[name="amount"]').val(),
-            item: $relatedTarget.find('input[name="item"]').val(),
-            oppositeItem: $relatedTarget.find('input[name="opposite-item"]').val()
-        }
-        var values = {
-            date: previousValues.date || $target.find('input[name="date"]').val(),
-            amount: previousValues.amount || $target.find('input[name="amount"]').val(),
-            item: previousValues.item || $target.find('input[name="item"]').val(),
-            oppositeItem: previousValues.oppositeItem || $target.find('input[name="opposite-item"]').val()
-        }
+        var $target = $('#' + e.target.toString().split('#').slice(-1)[0])
+        , $relatedTarget = $('#' + e.relatedTarget.toString().split('#').slice(-1)[0])
+        , date = $relatedTarget.find('input[name="date"]').val()
+            || $target.find('input[name="date"]').val()
+        , amount = $relatedTarget.find('input[name="amount"]').val()
+            || $target.find('input[name="amount"]').val()
+        , item = $relatedTarget.find('input[name="item"]').val()
+            || $target.find('input[name="item"]').val()
+        , oppositeItem = $relatedTarget.find('input[name="opposite-item"]').val()
+            || $target.find('input[name="opposite-item"]').val();
         $target
-            .find('input[name="date"]').val(values.date).end()
-            .find('input[name="amount"]').val(values.amount).end()
-            .find('input[name="item"]').val(values.item).end()
-            .find('input[name="opposite-item"]').val(values.oppositeItem);
+            .find('input[name="date"]').val(date).end()
+            .find('input[name="amount"]').val(amount).end()
+            .find('input[name="item"]').val(item).end()
+            .find('input[name="opposite-item"]').val(oppositeItem);
     });
     
     // submit 時に勘定と反対勘定を同時に登録する
