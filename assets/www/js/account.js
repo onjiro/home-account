@@ -43,28 +43,28 @@ this.Account = (function(global) {
         ].join(' '), [
             // no query data given
         ], function(tx, resultSet) {
-            var totals = {}, i;
+            var totals = {}, totalArray = [], i;
             for(i = 0; i < resultSet.rows.length; i++) {
-                // TODO 現在地道に計算しているけど、全部データを突っ込んでから map かけた方が楽かも
-                var newone = resultSet.rows.item(i)
-                , item = newone.item
-                , sum;
-                if (totals[item]) {
-                    if (newone.type === 'debit') {
-                        sum = newone.amount - totals[item].amount;
-                    } else {
-                        sum = totals[item].amount - newone.amount;
-                    }
-                    totals[item] = new Account({
-                        item: newone.item,
-                        type: (sum < 0) ? 'credit': 'debit',
-                        amount: (sum < 0) ? sum * -1: sum,
-                    });
-                } else {
-                    totals[item] = new Account(resultSet.rows.item(i));
-                }
+                var newone = resultSet.rows.item(i);
+                totals[newone.item] = totals[newone.item] || {};
+                totals[newone.item][newone.type] = newone;
             }
-            if (onSuccess) { onSuccess(tx, totals); };
+            // Hash を Array に移し替える
+            for (i in totals) {
+                totalArray.push(totals[i]);
+            }
+            // map で各科目を合算する
+            totalArray = $.map(totalArray, function(pair, i) {
+                var credit = pair['credit'] || { amount: 0 }
+                , debit = pair['debit'] || { amount: 0 }
+                , amount = debit.amount - credit.amount;
+                return new Account({
+                    item: credit.item || debit.item,
+                    type: (amount < 0) ? 'credit': 'debit',
+                    amount: Math.abs(amount),
+                });
+            });
+            if (onSuccess) { onSuccess(tx, totalArray); };
         }, onError);
     }
     return Constructor;
