@@ -43,9 +43,26 @@ this.Account = (function(global) {
         ].join(' '), [
             // no query data given
         ], function(tx, resultSet) {
-            var totals = [], i;
+            var totals = {}, i;
             for(i = 0; i < resultSet.rows.length; i++) {
-                totals.push(new Account(resultSet.rows.item(i)));
+                // TODO 現在地道に計算しているけど、全部データを突っ込んでから map かけた方が楽かも
+                var newone = resultSet.rows.item(i)
+                , item = newone.item
+                , sum;
+                if (totals[item]) {
+                    if (newone.type === 'debit') {
+                        sum = newone.amount - totals[item].amount;
+                    } else {
+                        sum = totals[item].amount - newone.amount;
+                    }
+                    totals[item] = new Account({
+                        item: newone.item,
+                        type: (sum < 0) ? 'credit': 'debit',
+                        amount: (sum < 0) ? sum * -1: sum,
+                    });
+                } else {
+                    totals[item] = new Account(resultSet.rows.item(i));
+                }
             }
             if (onSuccess) { onSuccess(tx, totals); };
         }, onError);
