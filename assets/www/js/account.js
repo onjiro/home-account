@@ -29,7 +29,7 @@ this.Account = (function(global) {
     }
 
     Constructor.total = function(tx, onSuccess, onError) {
-        // TODO 現在の日付を条件に追加するには date の保存形式の変更が必要
+        // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
         tx.executeSql([
             'SELECT',
             '  item,',
