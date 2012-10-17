@@ -28,7 +28,7 @@ this.Account = (function(global) {
         }, onError)
     }
 
-    Constructor.improvedTotal = function(tx, onSuccess, onError) {
+    Constructor.total = function(tx, onSuccess, onError) {
         // TODO 現在の日付を条件に追加するには date の保存形式の変更が必要
         tx.executeSql([
             'SELECT',

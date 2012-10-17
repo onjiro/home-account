@@ -123,7 +123,7 @@ $(function() {
     });
 
     db.transaction(function(tx) {
-        Account.improvedTotal(tx, function(tx, accounts) {
+        Account.total(tx, function(tx, accounts) {
             $inventoryBody = $('#inventory-tab tbody');
             $.each(accounts, function(i, account) {
                 $inventoryBody.append([
