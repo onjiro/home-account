@@ -34,9 +34,9 @@ this.Account = (function(global) {
             'SELECT',
             '  item,',
             '  type,',
-            '  sum(amount)',
+            '  sum(amount) as amount',
             'FROM',
-            '  Account',
+            '  Accounts',
             'GROUP BY',
             '  item,',
             '  type'
