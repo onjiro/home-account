@@ -28,7 +28,7 @@ this.Account = (function(global) {
         }, onError)
     }
 
-    Constructor.total = function(tx, onSuccess, onError) {
+    Constructor.improvedTotal = function(tx, onSuccess, onError) {
         // TODO 現在の日付を条件に追加するには date の保存形式の変更が必要
         tx.executeSql([
             'SELECT',
@@ -43,16 +43,11 @@ this.Account = (function(global) {
         ].join(' '), [
             // no query data given
         ], function(tx, resultSet) {
-            if (onSuccess) { onSuccess(tx, resultSet); };
-        }, onError);
-    }
-    Constructor.improvedTotal = function(tx, onSuccess, onError) {
-        this.total(tx, function(tx, resultSet) {
             var totals = [], i;
             for(i = 0; i < resultSet.rows.length; i++) {
                 totals.push(new Account(resultSet.rows.item(i)));
             }
-            onSuccess(tx, totals);
+            if (onSuccess) { onSuccess(tx, totals); };
         }, onError);
     }
     return Constructor;
