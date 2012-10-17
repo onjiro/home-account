@@ -43,18 +43,18 @@ this.Account = (function(global) {
         ].join(' '), [
             // no query data given
         ], function(tx, resultSet) {
-            var totals = {}, totalArray = [], i;
+            var totalPairs = {}, totals = [], i;
             for(i = 0; i < resultSet.rows.length; i++) {
                 var newone = resultSet.rows.item(i);
-                totals[newone.item] = totals[newone.item] || {};
-                totals[newone.item][newone.type] = newone;
+                totalPairs[newone.item] = totalPairs[newone.item] || {};
+                totalPairs[newone.item][newone.type] = newone;
             }
             // Hash を Array に移し替える
-            for (i in totals) {
-                totalArray.push(totals[i]);
+            for (item in totalPairs) {
+                totals.push(totalPairs[item]);
             }
             // map で各科目を合算する
-            totalArray = $.map(totalArray, function(pair, i) {
+            totals = $.map(totals, function(pair, i) {
                 var credit = pair['credit'] || { amount: 0 }
                 , debit = pair['debit'] || { amount: 0 }
                 , amount = debit.amount - credit.amount;
@@ -64,7 +64,7 @@ this.Account = (function(global) {
                     amount: Math.abs(amount),
                 });
             });
-            if (onSuccess) { onSuccess(tx, totalArray); };
+            if (onSuccess) { onSuccess(tx, totals); };
         }, onError);
     }
     return Constructor;
