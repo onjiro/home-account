@@ -123,17 +123,17 @@ $(function() {
     });
 
     db.transaction(function(tx) {
-        Account.total(tx, function(tx, resultSet) {
+        Account.improvedTotal(tx, function(tx, accounts) {
             $inventoryBody = $('#inventory-tab tbody');
-            for(i = 0; i < resultSet.rows.length; i++) {
+            $.each(accounts, function(i, account) {
                 $inventoryBody.append([
                     '<tr>',
-                    '  <td>' + resultSet.rows.item(i).item + '</td>',
-                    '  <td>' + resultSet.rows.item(i).type + '</td>',
-                    '  <td>' + resultSet.rows.item(i).amount + '</td>',
+                    '  <td>' + account.item + '</td>',
+                    '  <td>' + account.type + '</td>',
+                    '  <td>' + account.amount + '</td>',
                     '</tr>',
                 ].join('\n'));
-            }
+            });
         }, function(err) {
             alert('something failed while accessing Accounts.\n' + err.message);
         });
