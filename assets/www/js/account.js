@@ -46,5 +46,14 @@ this.Account = (function(global) {
             if (onSuccess) { onSuccess(tx, resultSet); };
         }, onError);
     }
+    Constructor.improvedTotal = function(tx, onSuccess, onError) {
+        this.total(tx, function(tx, resultSet) {
+            var totals = [], i;
+            for(i = 0; i < resultSet.rows.length; i++) {
+                totals.push(new Account(resultSet.rows.item(i)));
+            }
+            onSuccess(tx, totals);
+        }, onError);
+    }
     return Constructor;
 })(this);
