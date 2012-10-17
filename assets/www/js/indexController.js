@@ -121,4 +121,23 @@ $(function() {
     }, function(err) {
         alert('something failed while accessing database.\n' + err.message);
     });
+
+    db.transaction(function(tx) {
+        Account.total(tx, function(tx, accounts) {
+            $inventoryBody = $('#inventory-tab tbody');
+            $.each(accounts, function(i, account) {
+                $inventoryBody.append([
+                    '<tr>',
+                    '  <td>' + account.item + '</td>',
+                    '  <td>' + account.type + '</td>',
+                    '  <td>' + account.amount + '</td>',
+                    '</tr>',
+                ].join('\n'));
+            });
+        }, function(err) {
+            alert('something failed while accessing Accounts.\n' + err.message);
+        });
+    }, function(err) {
+        alert('something failed while accessing Accounts.\n' + err.message);
+    });
 });
