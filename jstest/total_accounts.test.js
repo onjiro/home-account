@@ -22,5 +22,20 @@ describe('TotalAccounts', function() {
             expect(actual.amount).to.be(100);
         });
     });
+
+    describe('#makeInventory', function() {
+        var target;
+        beforeEach(function() {
+            target = new TotalAccounts({
+                item: 'account item',
+                type: 'debit',
+                amount: 100
+            });
+        });
+
+        it('should be a function', function() {
+            expect(target.makeInventory).to.be.a(Function);
+        });
+    });
 });
 
