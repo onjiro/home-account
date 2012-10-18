@@ -127,7 +127,11 @@ $(function() {
             $inventoryBody = $('#inventory-tab tbody');
             $.each(accounts, function(i, account) {
                 $inventoryBody.append([
-                    '<tr>',
+                    '<tr',
+                    '  data-item="' + account.item + '"',
+                    '  data-type="' + account.type + '"',
+                    '  data-amount="' + account.amount + '"',
+                    '>',
                     '  <td>' + account.item + '</td>',
                     '  <td>' + account.type + '</td>',
                     '  <td>' + account.amount + '</td>',
