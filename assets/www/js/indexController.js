@@ -144,4 +144,9 @@ $(function() {
     }, function(err) {
         alert('something failed while accessing Accounts.\n' + err.message);
     });
+
+    // 棚卸時、選択された科目を科目欄に入力する
+    $(document).on('click', '#inventory-tab tbody > tr', function(e) {
+        $('#inventory-entry [name="item"]').val($(this).data('item'));
+    });
 });
