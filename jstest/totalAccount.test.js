@@ -1,6 +1,6 @@
 var expect = require('expect.js')
 , sinon = require('sinon')
-, TotalAccount = require('../assets/www/js/total_accounts.js').TotalAccount;
+, TotalAccount = require('../assets/www/js/totalAccount.js').TotalAccount;
 
 describe('TotalAccount', function() {
     describe('#initialize', function() {
