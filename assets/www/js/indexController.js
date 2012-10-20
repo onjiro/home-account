@@ -49,8 +49,7 @@ $(function() {
                     this.remove();
                 }
             );
-            var $newRow = $(formatToTableRow(accountTransaction));
-            $historyBody.prepend($newRow.hide().fadeIn());
+            historyView.prepend(accountTransaction);
             _this.reset();
         });
         return false;
@@ -59,6 +58,7 @@ $(function() {
     // 支出履歴の表示
     var $history = $('#history');
     var $historyBody = $history.children('table').children('tbody');
+    var historyView = new TransactionHistoryView($historyBody);
     var format = function(date) {
         return date.getFullYear()
             + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -159,9 +159,8 @@ $(function() {
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
-                var $newRow = $(formatToTableRow(newTransaction))
-                , $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
-                $historyBody.prepend($newRow.hide().fadeIn());
+                var $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
+                historyView.prepend(newTransaction);
                 if ($updateRow.length === 0) {
                     $updateRow = $('#inventory-tab tbody')
                         .append('<tr></tr>')
