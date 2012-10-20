@@ -1,6 +1,8 @@
 $(function() {
     // bootstrap の Alert div のテンプレート
-    var $alertDiv = $('<div class="alert alert-success"></div>');
+    var $alertDiv = $('<div class="alert alert-success"></div>')
+    , $history = $('#history')
+    , historyView = new TransactionHistoryView($history.find('table > tbody'));
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
@@ -54,10 +56,6 @@ $(function() {
         });
         return false;
     });
-    
-    // 支出履歴の表示
-    var $history = $('#history');
-    var historyView = new TransactionHistoryView($history.find('table > tbody'));
 
     // 支出の削除
     var $histories = $('tbody > tr', $history);
