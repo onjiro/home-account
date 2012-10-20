@@ -20,6 +20,10 @@ describe('TransactionHistoryView', function() {
         it('should be a function', function() {
             expect(TransactionHistoryView).be.a(Function);
         });
+        it('should encupsulate argument `$parent`', function() {
+            expect(target.$parent).not.to.be.ok();
+            expect(target.$_parent).not.to.be.ok();
+        });
     });
 
     describe('#prepend', function() {

@@ -2,8 +2,9 @@ this.TransactionHistoryView = (function(global) {
     /**
      * @parameter $parent TransactionHistory の追加対象 jQuery エレメント
      */
-    var TransactionHistoryView = function($parent) {
-        this.$parent = $parent;
+    var $_parent
+    , TransactionHistoryView = function($parent) {
+        $_parent = $parent;
     }
     , _this = TransactionHistoryView
     , format = function(date) {
@@ -46,7 +47,7 @@ this.TransactionHistoryView = (function(global) {
      * @parameter transaction 追加対象Transactionインスタンス
      */
     _this.prototype.prepend = function(transaction) {
-        this.$parent.prepend(formatToTableRow(transaction))
+        $_parent.prepend(formatToTableRow(transaction))
             .children(':first-child')
             .hide()
             .fadeIn();
@@ -57,7 +58,7 @@ this.TransactionHistoryView = (function(global) {
      * @parameter transaction 追加対象Transactionインスタンス
      */
     _this.prototype.append = function(transaction) {
-        this.$parent.append(formatToTableRow(transaction))
+        $_parent.append(formatToTableRow(transaction))
             .children(':last-child');
     }
     return TransactionHistoryView;
