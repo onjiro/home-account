@@ -36,7 +36,9 @@ this.TotalAccounts = (function(global){
                         type: (type === 'credit') ? 'debit': 'credit'
                     })
                 ]
-            }).save(tx, success, err);
+            }).save(tx, function(tx, rowId, transaction) {
+                if (success) {success(tx, _this, transaction)}
+            }, err);
         }, err);
     }
 

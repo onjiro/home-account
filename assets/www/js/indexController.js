@@ -158,9 +158,18 @@ $(function() {
                 amount: $('[name="amount"]', _this).val(),
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
-            }).makeInventory(tx, function(tx, rowId, newTransaction) {
-                var $newRow = $(formatToTableRow(newTransaction));
+            }).makeInventory(tx, function(tx, total, newTransaction) {
+                var $newRow = $(formatToTableRow(newTransaction))
                 $historyBody.prepend($newRow.hide().fadeIn());
+                $('#inventory-tab tbody [data-item="' + total.item + '"]')
+                    .data('type', total.type)
+                    .data('amount', total.amount)
+                    .empty()
+                    .append([
+                        '<td>' + total.item + '</td>',
+                        '<td>' + total.type + '</td>',
+                        '<td>' + total.amount + '</td>'
+                    ].join(''));
                 _this.reset();
             }, function(err) {
                 alert('something failed while make an inventory.\n' + err.message);
