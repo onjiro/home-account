@@ -1,6 +1,8 @@
 $(function() {
     // bootstrap の Alert div のテンプレート
-    var $alertDiv = $('<div class="alert alert-success"></div>');
+    var $alertDiv = $('<div class="alert alert-success"></div>')
+    , $history = $('#history')
+    , historyView = new TransactionHistoryView($history.find('table > tbody'));
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
@@ -49,49 +51,12 @@ $(function() {
                     this.remove();
                 }
             );
-            var $newRow = $(formatToTableRow(accountTransaction));
-            $historyBody.prepend($newRow.hide().fadeIn());
+            historyView.prepend(accountTransaction, {fade: true});
             _this.reset();
         });
         return false;
     });
-    
-    // 支出履歴の表示
-    var $history = $('#history');
-    var $historyBody = $history.children('table').children('tbody');
-    var format = function(date) {
-        return date.getFullYear()
-            + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
-            + '/' + ('0' + date.getDate()).slice(-2)
-            + ' ' + ('0' + date.getHours()).slice(-2)
-            + ':' + ('0' + date.getMinutes()).slice(-2);
-    };
-    var formatToTableRow = function(transaction) {
-        var item = '', amount = 0, creditItems = [];
-        var accounts = transaction.accounts;
-        for (var i = 0; i < accounts.length; i++) {
-            switch (accounts[i].type) {
-            case 'debit':
-                item += (item === '') ? '': ', ';
-                item += accounts[i].item;
-                amount += accounts[i].amount;
-                break;
-            case 'credit':
-                creditItems.push(accounts[i].item);
-                break
-            }
-        }
-        return [
-            '<tr data-transaction-id="' + transaction.rowid + '">',
-            '  <td>' + format(transaction.date) + '</td>',
-            '  <td>' + item + '</td>',
-            '  <td><span class="label">' + creditItems + '</span></td>',
-            '  <td style="text-align: right;">' + amount + '</td>',
-            '  <td>' + transaction.details + '</td>',
-            '</tr>'
-        ].join('\n');
-    };
-    
+
     // 支出の削除
     var $histories = $('tbody > tr', $history);
     $histories.live('click', function(event) {
@@ -113,7 +78,7 @@ $(function() {
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
             $.each(transactions.reverse(), function(i, transaction) {
-                $historyBody.append(formatToTableRow(transaction));
+                historyView.append(transaction);
             });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
@@ -159,9 +124,8 @@ $(function() {
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
-                var $newRow = $(formatToTableRow(newTransaction))
-                , $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
-                $historyBody.prepend($newRow.hide().fadeIn());
+                var $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
+                historyView.prepend(newTransaction, {fade: true});
                 if ($updateRow.length === 0) {
                     $updateRow = $('#inventory-tab tbody')
                         .append('<tr></tr>')
