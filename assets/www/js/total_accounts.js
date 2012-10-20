@@ -42,7 +42,6 @@ this.TotalAccounts = (function(global){
 
     /**
      * 指定した科目の勘定の合計を取得します。
-     * TODO TotalAccounts のインスタンスを返すように変更する
      * @param tx DatabaseTransaction
      */
     TotalAccounts.select = function(item, tx, success, err) {
@@ -77,7 +76,7 @@ this.TotalAccounts = (function(global){
                 var credit = pair['credit'] || { amount: 0 }
                 , debit = pair['debit'] || { amount: 0 }
                 , amount = debit.amount - credit.amount;
-                return new Account({
+                return new TotalAccounts({
                     item: credit.item || debit.item,
                     type: (amount < 0) ? 'credit': 'debit',
                     amount: Math.abs(amount),
