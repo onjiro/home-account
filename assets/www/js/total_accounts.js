@@ -1,5 +1,5 @@
-this.TotalAccounts = (function(global){
-    var TotalAccounts = function(values) {
+this.TotalAccount = (function(global){
+    var TotalAccount = function(values) {
         values = values || {};
         this.item = values.item;
         this.type = values.type || 'credit';
@@ -10,9 +10,9 @@ this.TotalAccounts = (function(global){
      * 棚卸登録を行います。
      * @param tx DatabaseTransaction
      */
-    TotalAccounts.prototype.makeInventory = function(tx, success, err) {
+    TotalAccount.prototype.makeInventory = function(tx, success, err) {
         var _this = this;
-        TotalAccounts.select(this.item, tx, function(tx, current) {
+        TotalAccount.select(this.item, tx, function(tx, current) {
             var now = new Date()
             , amount = (_this.type === current.type)
                 ? _this.amount - current.amount
@@ -46,7 +46,7 @@ this.TotalAccounts = (function(global){
      * 指定した科目の勘定の合計を取得します。
      * @param tx DatabaseTransaction
      */
-    TotalAccounts.select = function(item, tx, success, err) {
+    TotalAccount.select = function(item, tx, success, err) {
         // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
         tx.executeSql([
             'SELECT',
@@ -78,14 +78,14 @@ this.TotalAccounts = (function(global){
                 var credit = pair['credit'] || { amount: 0 }
                 , debit = pair['debit'] || { amount: 0 }
                 , amount = debit.amount - credit.amount;
-                return new TotalAccounts({
+                return new TotalAccount({
                     item: credit.item || debit.item,
                     type: (amount < 0) ? 'credit': 'debit',
                     amount: Math.abs(amount),
                 });
             });
             if (totals.length === 0) {
-                totals.push(new TotalAccounts({
+                totals.push(new TotalAccount({
                     item: item,
                     type: 'debit',
                     amount: 0
@@ -94,5 +94,5 @@ this.TotalAccounts = (function(global){
             if (success) { success(tx, totals[0]); };
         }, err);
     }
-    return TotalAccounts;
+    return TotalAccount;
 })(this);
