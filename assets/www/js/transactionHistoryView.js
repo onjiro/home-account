@@ -6,7 +6,7 @@ this.TransactionHistoryView = (function() {
     /**
      * 表示する要素を追加します。
      */
-    _this.prototype.append = function() {
+    _this.prototype.prepend = function() {
         // TODO
     }
     return TransactionHistoryView;

@@ -13,9 +13,9 @@ describe('TransactionHistoryView', function() {
         });
     });
 
-    describe('#append', function() {
+    describe('#prepend', function() {
         it('should be a function', function() {
-            expect(target.append).be.a(Function);
+            expect(target.prepend).be.a(Function);
         });
     });
 });
