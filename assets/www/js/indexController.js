@@ -157,7 +157,7 @@ $(function() {
             new TotalAccounts({
                 amount: $('[name="amount"]', _this).val(),
                 item:   $('[name="item"]', _this).val(),
-                type:   $('[name="account-type"]', _this).val()
+                type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, rowId, newTransaction) {
                 var $newRow = $(formatToTableRow(newTransaction));
                 $historyBody.prepend($newRow.hide().fadeIn());
