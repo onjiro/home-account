@@ -1,18 +1,18 @@
 var expect = require('expect.js')
 , sinon = require('sinon')
-, TotalAccounts = require('../assets/www/js/total_accounts.js').TotalAccounts;
+, TotalAccount = require('../assets/www/js/totalAccount.js').TotalAccount;
 
-describe('TotalAccounts', function() {
+describe('TotalAccount', function() {
     describe('#initialize', function() {
         it('should have default values', function() {
-            var actual = new TotalAccounts();
+            var actual = new TotalAccount();
             expect(actual.item).to.be(undefined);
             expect(actual.type).to.be('credit');
             expect(actual.amount).to.be(0);
         });
 
         it('should accepts initial values', function() {
-            var actual = new TotalAccounts({
+            var actual = new TotalAccount({
                 item: 'account item',
                 type: 'debit',
                 amount: 100
@@ -26,7 +26,7 @@ describe('TotalAccounts', function() {
     describe('#makeInventory', function() {
         var target;
         beforeEach(function() {
-            target = new TotalAccounts({
+            target = new TotalAccount({
                 item: 'account item',
                 type: 'debit',
                 amount: 100
@@ -41,7 +41,7 @@ describe('TotalAccounts', function() {
     describe('::select', function() {
         var target;
         it('should be a function', function() {
-            expect(TotalAccounts.select).to.be.a(Function);
+            expect(TotalAccount.select).to.be.a(Function);
         });
     });
 });

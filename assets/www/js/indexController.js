@@ -119,7 +119,7 @@ $(function() {
     $(document).on('submit', '#inventory-entry', function(e) {
         var _this = this;
         db.transaction(function(tx) {
-            new TotalAccounts({
+            new TotalAccount({
                 amount: $('[name="amount"]', _this).val(),
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
