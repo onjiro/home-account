@@ -113,7 +113,7 @@ $(function() {
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
             $.each(transactions.reverse(), function(i, transaction) {
-                $historyBody.append(formatToTableRow(transaction));
+                historyView.append(transaction);
             });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
