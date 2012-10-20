@@ -149,4 +149,21 @@ $(function() {
     $(document).on('click', '#inventory-tab tbody > tr', function(e) {
         $('#inventory-entry [name="item"]').val($(this).data('item'));
     });
+
+    // 棚卸登録
+    $(document).on('submit', '#inventory-entry', function(e) {
+        var _this = this;
+        db.transaction(function(tx) {
+            new TotalAccounts({
+                amount: $('[name="amount"]', _this).val(),
+                item:   $('[name="item"]', _this).val(),
+                type:   $('[name="account-type"]', _this).val()
+            }).makeInventory(tx, function(tx) {
+                _this.reset();
+            }, function(err) {
+                alert('something failed while make an inventory.\n' + err.message);
+            });
+        });
+        return false;
+    });
 });
