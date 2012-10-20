@@ -26,13 +26,13 @@ this.TotalAccounts = (function(global){
                     new Account({
                         date: now,
                         item: _this.item,
-                        amount: amount,
+                        amount: Math.abs(amount),
                         type: type
                     }),
                     new Account({
                         date: now,
                         item: '棚卸差額',
-                        amount: amount,
+                        amount: Math.abs(amount),
                         type: (type === 'credit') ? 'debit': 'credit'
                     })
                 ]
