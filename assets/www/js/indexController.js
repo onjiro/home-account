@@ -127,7 +127,11 @@ $(function() {
             $inventoryBody = $('#inventory-tab tbody');
             $.each(accounts, function(i, account) {
                 $inventoryBody.append([
-                    '<tr>',
+                    '<tr',
+                    '  data-item="' + account.item + '"',
+                    '  data-type="' + account.type + '"',
+                    '  data-amount="' + account.amount + '"',
+                    '>',
                     '  <td>' + account.item + '</td>',
                     '  <td>' + account.type + '</td>',
                     '  <td>' + account.amount + '</td>',
@@ -139,5 +143,44 @@ $(function() {
         });
     }, function(err) {
         alert('something failed while accessing Accounts.\n' + err.message);
+    });
+
+    // 棚卸時、選択された科目を科目欄に入力する
+    $(document).on('click', '#inventory-tab tbody > tr', function(e) {
+        $('#inventory-entry [name="item"]').val($(this).data('item'));
+    });
+
+    // 棚卸登録
+    $(document).on('submit', '#inventory-entry', function(e) {
+        var _this = this;
+        db.transaction(function(tx) {
+            new TotalAccounts({
+                amount: $('[name="amount"]', _this).val(),
+                item:   $('[name="item"]', _this).val(),
+                type:   $('[name="account-type"]:checked', _this).val()
+            }).makeInventory(tx, function(tx, total, newTransaction) {
+                var $newRow = $(formatToTableRow(newTransaction))
+                , $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
+                $historyBody.prepend($newRow.hide().fadeIn());
+                if ($updateRow.length === 0) {
+                    $updateRow = $('#inventory-tab tbody')
+                        .append('<tr></tr>')
+                        .children(':last-child');
+                }
+                $updateRow
+                    .data('type', total.type)
+                    .data('amount', total.amount)
+                    .empty()
+                    .append([
+                        '<td>' + total.item + '</td>',
+                        '<td>' + total.type + '</td>',
+                        '<td>' + total.amount + '</td>'
+                    ].join(''));
+                _this.reset();
+            }, function(err) {
+                alert('something failed while make an inventory.\n' + err.message);
+            });
+        });
+        return false;
     });
 });

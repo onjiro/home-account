@@ -10,6 +10,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/account.js"></script>
     <script src="js/transaction.js"></script>
+    <script src="js/total_accounts.js"></script>
     <script src="js/migrator.js"></script>
     <script src="js/initialize.js"></script>
     <script src="js/indexTabController.js"></script>
@@ -129,6 +130,40 @@
               <tbody>
               </tbody>
             </table>
+          <form id="inventory-entry" class="form-horizontal" method="post">
+            <legend>棚卸</legend>
+            <div class="control-group">
+              <label class="control-label">現在の額</label>
+              <div class="controls">
+                <div class="input-prepend input-append">
+                  <span class="add-on">&yen;</span><input name="amount" type="number" placeholder="1000" required/><span class="add-on">.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">科目</label>
+              <div class="controls">
+                <input name="item" type="text" placeholder="食費" required/>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">貸方借方</label>
+              <div class="controls">
+                <input name="account-type" type="radio" value="debit" checked/>借方
+                <input name="account-type" type="radio" value="credit"/>貸方
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="icon-ok icon-white"></i>決定
+              </button>
+              <button type="reset" class="btn">
+                <i class="icon-remove"></i>リセット
+              </button>
+            </div>
+          </form>
         </div>
       </div>
 

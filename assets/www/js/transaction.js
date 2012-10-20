@@ -24,7 +24,7 @@ this.Transaction = (function(global) {
                     _this.accounts[i].transactionId = resultSet.insertId;
                     _this.accounts[i].save(tx, null, onError);
                 }
-                if (onSuccess) { onSuccess(tx, resultSet.insertId); };
+                if (onSuccess) { onSuccess(tx, resultSet.insertId, _this); };
             },
             onError
         );
