@@ -59,39 +59,7 @@ $(function() {
     var $history = $('#history');
     var $historyBody = $history.children('table').children('tbody');
     var historyView = new TransactionHistoryView($historyBody);
-    var format = function(date) {
-        return date.getFullYear()
-            + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
-            + '/' + ('0' + date.getDate()).slice(-2)
-            + ' ' + ('0' + date.getHours()).slice(-2)
-            + ':' + ('0' + date.getMinutes()).slice(-2);
-    };
-    var formatToTableRow = function(transaction) {
-        var item = '', amount = 0, creditItems = [];
-        var accounts = transaction.accounts;
-        for (var i = 0; i < accounts.length; i++) {
-            switch (accounts[i].type) {
-            case 'debit':
-                item += (item === '') ? '': ', ';
-                item += accounts[i].item;
-                amount += accounts[i].amount;
-                break;
-            case 'credit':
-                creditItems.push(accounts[i].item);
-                break
-            }
-        }
-        return [
-            '<tr data-transaction-id="' + transaction.rowid + '">',
-            '  <td>' + format(transaction.date) + '</td>',
-            '  <td>' + item + '</td>',
-            '  <td><span class="label">' + creditItems + '</span></td>',
-            '  <td style="text-align: right;">' + amount + '</td>',
-            '  <td>' + transaction.details + '</td>',
-            '</tr>'
-        ].join('\n');
-    };
-    
+
     // 支出の削除
     var $histories = $('tbody > tr', $history);
     $histories.live('click', function(event) {
