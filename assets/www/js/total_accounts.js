@@ -84,6 +84,13 @@ this.TotalAccounts = (function(global){
                     amount: Math.abs(amount),
                 });
             });
+            if (totals.length === 0) {
+                totals.push(new TotalAccounts({
+                    item: item,
+                    type: 'debit',
+                    amount: 0
+                }));
+            }
             if (success) { success(tx, totals[0]); };
         }, err);
     }

@@ -160,8 +160,14 @@ $(function() {
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
                 var $newRow = $(formatToTableRow(newTransaction))
+                , $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
                 $historyBody.prepend($newRow.hide().fadeIn());
-                $('#inventory-tab tbody [data-item="' + total.item + '"]')
+                if ($updateRow.length === 0) {
+                    $updateRow = $('#inventory-tab tbody')
+                        .append('<tr></tr>')
+                        .children(':last-child');
+                }
+                $updateRow
                     .data('type', total.type)
                     .data('amount', total.amount)
                     .empty()
