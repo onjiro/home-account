@@ -15,15 +15,15 @@ this.TransactionHistoryView = (function(global) {
             + ':' + ('0' + date.getMinutes()).slice(-2);
     }
     , formatToTableRow = function(transaction) {
-        var item = ''
+        var i
+        , items = []
         , amount = 0
         , creditItems = []
         , accounts = transaction.accounts;
         for (var i = 0; i < accounts.length; i++) {
             switch (accounts[i].type) {
             case 'debit':
-                item += (item === '') ? '': ', ';
-                item += accounts[i].item;
+                items.push(accounts[i].item);
                 amount += accounts[i].amount;
                 break;
             case 'credit':
@@ -34,7 +34,7 @@ this.TransactionHistoryView = (function(global) {
         return [
             '<tr data-transaction-id="' + transaction.rowid + '">',
             '  <td>' + format(transaction.date) + '</td>',
-            '  <td>' + item + '</td>',
+            '  <td>' + items.join(', ') + '</td>',
             '  <td><span class="label">' + creditItems + '</span></td>',
             '  <td style="text-align: right;">' + amount + '</td>',
             '  <td>' + transaction.details + '</td>',
