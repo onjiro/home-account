@@ -158,7 +158,9 @@ $(function() {
                 amount: $('[name="amount"]', _this).val(),
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]', _this).val()
-            }).makeInventory(tx, function(tx) {
+            }).makeInventory(tx, function(tx, rowId, newTransaction) {
+                var $newRow = $(formatToTableRow(newTransaction));
+                $historyBody.prepend($newRow.hide().fadeIn());
                 _this.reset();
             }, function(err) {
                 alert('something failed while make an inventory.\n' + err.message);
