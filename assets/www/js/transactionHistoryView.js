@@ -51,5 +51,14 @@ this.TransactionHistoryView = (function(global) {
             .hide()
             .fadeIn();
     }
+
+    /**
+     * 表示する要素を$parentの最後に追加します。
+     * @parameter transaction 追加対象Transactionインスタンス
+     */
+    _this.prototype.append = function(transaction) {
+        this.$parent.append(formatToTableRow(transaction))
+            .children(':last-child');
+    }
     return TransactionHistoryView;
 })(this);
