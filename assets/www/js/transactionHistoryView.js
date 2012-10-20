@@ -43,23 +43,31 @@ this.TransactionHistoryView = (function(global) {
     };
 
     /**
-     * 表示する要素を追加します。
+     * 表示する要素を$parentの最初に追加します。
      * @parameter transaction 追加対象Transactionインスタンス
+     * @option オプションの指定. fade: フェードイン効果を追加
      */
-    _this.prototype.prepend = function(transaction) {
+    _this.prototype.prepend = function(transaction, option) {
         $_parent.prepend(formatToTableRow(transaction))
-            .children(':first-child')
-            .hide()
-            .fadeIn();
+        if (option && option.fade) {
+            $_parent.children(':first-child')
+                .hide()
+                .fadeIn();
+        }
     }
 
     /**
      * 表示する要素を$parentの最後に追加します。
      * @parameter transaction 追加対象Transactionインスタンス
+     * @option オプションの指定. fade: フェードイン効果を追加
      */
-    _this.prototype.append = function(transaction) {
+    _this.prototype.append = function(transaction, option) {
         $_parent.append(formatToTableRow(transaction))
-            .children(':last-child');
+        if (option && option.fade) {
+            $_parent.children(':last-child')
+                .hide()
+                .fadeIn();
+        }
     }
     return TransactionHistoryView;
 })(this);

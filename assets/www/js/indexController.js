@@ -51,7 +51,7 @@ $(function() {
                     this.remove();
                 }
             );
-            historyView.prepend(accountTransaction);
+            historyView.prepend(accountTransaction, {fade: true});
             _this.reset();
         });
         return false;
@@ -125,7 +125,7 @@ $(function() {
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
                 var $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
-                historyView.prepend(newTransaction);
+                historyView.prepend(newTransaction, {fade: true});
                 if ($updateRow.length === 0) {
                     $updateRow = $('#inventory-tab tbody')
                         .append('<tr></tr>')
