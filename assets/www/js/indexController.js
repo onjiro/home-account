@@ -57,8 +57,7 @@ $(function() {
     
     // 支出履歴の表示
     var $history = $('#history');
-    var $historyBody = $history.children('table').children('tbody');
-    var historyView = new TransactionHistoryView($historyBody);
+    var historyView = new TransactionHistoryView($history.find('table > tbody'));
 
     // 支出の削除
     var $histories = $('tbody > tr', $history);
