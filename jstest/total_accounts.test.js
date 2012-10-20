@@ -37,5 +37,12 @@ describe('TotalAccounts', function() {
             expect(target.makeInventory).to.be.a(Function);
         });
     });
+
+    describe('::select', function() {
+        var target;
+        it('should be a function', function() {
+            expect(TotalAccounts.select).to.be.a(Function);
+        });
+    });
 });
 
