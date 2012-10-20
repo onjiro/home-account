@@ -42,6 +42,7 @@ this.TotalAccounts = (function(global){
 
     /**
      * 指定した科目の勘定の合計を取得します。
+     * TODO TotalAccounts のインスタンスを返すように変更する
      * @param tx DatabaseTransaction
      */
     TotalAccounts.select = function(item, tx, success, err) {
