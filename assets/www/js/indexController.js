@@ -88,7 +88,7 @@ $(function() {
     });
 
     db.transaction(function(tx) {
-        Account.total(tx, function(tx, accounts) {
+        TotalAccount.select(null, tx, function(tx, accounts) {
             $inventoryBody = $('#inventory-tab tbody');
             $.each(accounts, function(i, account) {
                 $inventoryBody.append([
@@ -104,7 +104,7 @@ $(function() {
                 ].join('\n'));
             });
         }, function(err) {
-            alert('something failed while accessing Accounts.\n' + err.message);
+            alert('something failed on query TotalAccounts.\n' + err.message);
         });
     }, function(err) {
         alert('something failed while accessing Accounts.\n' + err.message);

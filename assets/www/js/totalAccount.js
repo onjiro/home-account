@@ -12,8 +12,9 @@ this.TotalAccount = (function(global){
      */
     TotalAccount.prototype.makeInventory = function(tx, success, err) {
         var _this = this;
-        TotalAccount.select(this.item, tx, function(tx, current) {
+        TotalAccount.select(this.item, tx, function(tx, accounts) {
             var now = new Date()
+            , current = accounts[0]
             , amount = (_this.type === current.type)
                 ? _this.amount - current.amount
                 : _this.amount + current.amount
@@ -45,9 +46,16 @@ this.TotalAccount = (function(global){
     /**
      * 指定した科目の勘定の合計を取得します。
      * @param tx DatabaseTransaction
+     * @param success 成功時のコールバック関数
+     * @param err 失敗時のコールバック関数、オプション
      */
     TotalAccount.select = function(item, tx, success, err) {
         // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
+        var whereSection = "", queryParams = [];
+        if (item) {
+            whereSection += "WHERE item = ?";
+            queryParams.push(item);
+        }
         tx.executeSql([
             'SELECT',
             '  item,',
@@ -55,14 +63,11 @@ this.TotalAccount = (function(global){
             '  sum(amount) as amount',
             'FROM',
             '  Accounts',
-            'WHERE',
-            '  item = ?',
+            whereSection,
             'GROUP BY',
             '  item,',
             '  type'
-        ].join(' '), [
-            item
-        ], function(tx, resultSet) {
+        ].join(' '), queryParams, function(tx, resultSet) {
             var totalPairs = {}, totals = [], i;
             for(i = 0; i < resultSet.rows.length; i++) {
                 var newone = resultSet.rows.item(i);
@@ -91,7 +96,7 @@ this.TotalAccount = (function(global){
                     amount: 0
                 }));
             }
-            if (success) { success(tx, totals[0]); };
+            if (success) { success(tx, totals); };
         }, err);
     }
     return TotalAccount;
