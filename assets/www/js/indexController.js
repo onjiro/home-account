@@ -110,9 +110,10 @@ $(function() {
         alert('something failed while accessing Accounts.\n' + err.message);
     });
 
-    // 棚卸時、選択された科目を科目欄に入力する
+    // 棚卸時、選択された科目を科目欄に入力し、フォームに移動する
     $(document).on('click', '#inventory-tab tbody > tr', function(e) {
         $('#inventory-entry [name="item"]').val($(this).data('item'));
+        document.location = '#inventory-entry';
     });
 
     // 棚卸登録
