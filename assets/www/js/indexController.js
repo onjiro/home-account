@@ -97,7 +97,7 @@ $(function() {
                     '  data-type="' + account.type + '"',
                     '  data-amount="' + account.amount + '"',
                     '>',
-                    '  <td>' + account.item + '</td>',
+                    '  <td><a href="#inventory-entry">' + account.item + '</a></td>',
                     '  <td>' + account.type + '</td>',
                     '  <td>' + account.amount + '</td>',
                     '</tr>',
@@ -110,10 +110,9 @@ $(function() {
         alert('something failed while accessing Accounts.\n' + err.message);
     });
 
-    // 棚卸時、選択された科目を科目欄に入力し、フォームに移動する
-    $(document).on('click', '#inventory-tab tbody > tr', function(e) {
-        $('#inventory-entry [name="item"]').val($(this).data('item'));
-        document.location = '#inventory-entry';
+    // 棚卸時、選択された科目を科目欄に入力qし、フォームに移動する
+    $(document).on('click', '#inventory-tab tbody a', function(e) {
+        $('#inventory-entry [name="item"]').val($(this).parent().parent().data('item'));
     });
 
     // 棚卸登録
