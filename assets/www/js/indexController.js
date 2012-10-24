@@ -112,7 +112,7 @@ $(function() {
 
     // 棚卸時、選択された科目を科目欄に入力qし、フォームに移動する
     $(document).on('click', '#inventory-tab tbody a', function(e) {
-        $('#inventory-entry [name="item"]').val($(this).parent().parent().data('item'));
+        $('#inventory-entry [name="item"]').val($(this).closest('tr').data('item'));
     });
 
     // 棚卸登録
