@@ -99,5 +99,49 @@ this.TotalAccount = (function(global){
             if (success) { success(tx, totals); };
         }, err);
     }
+
+    /**
+     * 指定した科目の勘定の合計を取得します。
+     * @param tx DatabaseTransaction
+     * @param success 成功時のコールバック関数
+     * @param err 失敗時のコールバック関数、オプション
+     */
+    TotalAccount.selectImproved = function(item, tx, success, err) {
+        // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
+        var whereSection = "", queryParams = [];
+        if (item) {
+            whereSection += "WHERE item = ?";
+            queryParams.push(item);
+        }
+        tx.executeSql([
+            'SELECT',
+            '  item,',
+            '  SUM(CASE type WHEN \'debit\' THEN amount ELSE 0 END) AS debitAmount,',
+            '  SUM(CASE type WHEN \'credit\' THEN amount ELSE 0 END) AS creditAmount',
+            'FROM',
+            '  Accounts',
+            whereSection,
+            'GROUP BY',
+            '  item'
+        ].join(' '), queryParams, function(tx, resultSet) {
+            var totals = [], i;
+            for(i = 0; i < resultSet.rows.length; i++) {
+                var one = resultSet.rows.item(i);
+                totals.push(new TotalAccount({
+                    item: one.item,
+                    type: (one.debitAmount < one.creditAmount) ? 'credit': 'debit',
+                    amount: Math.abs(one.debitAmount - one.creditAmount)
+                }));
+            }
+            if (totals.length === 0 && item) {
+                totals.push(new TotalAccount({
+                    item: item,
+                    type: 'debit',
+                    amount: 0
+                }));
+            }
+            if (success) { success(tx, totals); };
+        }, err);
+    }
     return TotalAccount;
 })(this);
