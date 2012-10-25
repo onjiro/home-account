@@ -59,37 +59,24 @@ this.TotalAccount = (function(global){
         tx.executeSql([
             'SELECT',
             '  item,',
-            '  type,',
-            '  sum(amount) as amount',
+            '  SUM(CASE type WHEN \'debit\' THEN amount ELSE 0 END) AS debitAmount,',
+            '  SUM(CASE type WHEN \'credit\' THEN amount ELSE 0 END) AS creditAmount',
             'FROM',
             '  Accounts',
             whereSection,
             'GROUP BY',
-            '  item,',
-            '  type'
+            '  item'
         ].join(' '), queryParams, function(tx, resultSet) {
-            var totalPairs = {}, totals = [], i;
+            var totals = [], i;
             for(i = 0; i < resultSet.rows.length; i++) {
-                var newone = resultSet.rows.item(i);
-                totalPairs[newone.item] = totalPairs[newone.item] || {};
-                totalPairs[newone.item][newone.type] = newone;
+                var one = resultSet.rows.item(i);
+                totals.push(new TotalAccount({
+                    item: one.item,
+                    type: (one.debitAmount < one.creditAmount) ? 'credit': 'debit',
+                    amount: Math.abs(one.debitAmount - one.creditAmount)
+                }));
             }
-            // Hash を Array に移し替える
-            for (item in totalPairs) {
-                totals.push(totalPairs[item]);
-            }
-            // map で各科目を合算する
-            totals = $.map(totals, function(pair, i) {
-                var credit = pair['credit'] || { amount: 0 }
-                , debit = pair['debit'] || { amount: 0 }
-                , amount = debit.amount - credit.amount;
-                return new TotalAccount({
-                    item: credit.item || debit.item,
-                    type: (amount < 0) ? 'credit': 'debit',
-                    amount: Math.abs(amount),
-                });
-            });
-            if (totals.length === 0) {
+            if (totals.length === 0 && item) {
                 totals.push(new TotalAccount({
                     item: item,
                     type: 'debit',
