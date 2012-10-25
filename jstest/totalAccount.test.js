@@ -38,13 +38,6 @@ describe('TotalAccount', function() {
         });
     });
 
-    describe('::select', function() {
-        var target;
-        it('should be a function', function() {
-            expect(TotalAccount.select).to.be.a(Function);
-        });
-    });
-
     describe('::selectImproved', function() {
         var target;
         it('should be a function', function() {

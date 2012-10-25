@@ -49,63 +49,6 @@ this.TotalAccount = (function(global){
      * @param success 成功時のコールバック関数
      * @param err 失敗時のコールバック関数、オプション
      */
-    TotalAccount.select = function(item, tx, success, err) {
-        // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
-        var whereSection = "", queryParams = [];
-        if (item) {
-            whereSection += "WHERE item = ?";
-            queryParams.push(item);
-        }
-        tx.executeSql([
-            'SELECT',
-            '  item,',
-            '  type,',
-            '  sum(amount) as amount',
-            'FROM',
-            '  Accounts',
-            whereSection,
-            'GROUP BY',
-            '  item,',
-            '  type'
-        ].join(' '), queryParams, function(tx, resultSet) {
-            var totalPairs = {}, totals = [], i;
-            for(i = 0; i < resultSet.rows.length; i++) {
-                var newone = resultSet.rows.item(i);
-                totalPairs[newone.item] = totalPairs[newone.item] || {};
-                totalPairs[newone.item][newone.type] = newone;
-            }
-            // Hash を Array に移し替える
-            for (item in totalPairs) {
-                totals.push(totalPairs[item]);
-            }
-            // map で各科目を合算する
-            totals = $.map(totals, function(pair, i) {
-                var credit = pair['credit'] || { amount: 0 }
-                , debit = pair['debit'] || { amount: 0 }
-                , amount = debit.amount - credit.amount;
-                return new TotalAccount({
-                    item: credit.item || debit.item,
-                    type: (amount < 0) ? 'credit': 'debit',
-                    amount: Math.abs(amount),
-                });
-            });
-            if (totals.length === 0) {
-                totals.push(new TotalAccount({
-                    item: item,
-                    type: 'debit',
-                    amount: 0
-                }));
-            }
-            if (success) { success(tx, totals); };
-        }, err);
-    }
-
-    /**
-     * 指定した科目の勘定の合計を取得します。
-     * @param tx DatabaseTransaction
-     * @param success 成功時のコールバック関数
-     * @param err 失敗時のコールバック関数、オプション
-     */
     TotalAccount.selectImproved = function(item, tx, success, err) {
         // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
         var whereSection = "", queryParams = [];
