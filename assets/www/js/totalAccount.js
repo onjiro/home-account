@@ -12,7 +12,7 @@ this.TotalAccount = (function(global){
      */
     TotalAccount.prototype.makeInventory = function(tx, success, err) {
         var _this = this;
-        TotalAccount.select(this.item, tx, function(tx, accounts) {
+        TotalAccount.selectImproved(this.item, tx, function(tx, accounts) {
             var now = new Date()
             , current = accounts[0]
             , amount = (_this.type === current.type)
