@@ -38,10 +38,10 @@ describe('TotalAccount', function() {
         });
     });
 
-    describe('::selectImproved', function() {
+    describe('::select', function() {
         var target;
         it('should be a function', function() {
-            expect(TotalAccount.selectImproved).to.be.a(Function);
+            expect(TotalAccount.select).to.be.a(Function);
         });
     });
 });
