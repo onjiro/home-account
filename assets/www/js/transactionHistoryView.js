@@ -19,7 +19,7 @@ this.TransactionHistoryView = (function(global) {
         , items = []
         , amount = 0
         , creditItems = []
-        , accounts = transaction.accounts;
+        , accounts = transaction.get('accounts');
         for (var i = 0; i < accounts.length; i++) {
             switch (accounts[i].type) {
             case 'debit':
@@ -32,12 +32,12 @@ this.TransactionHistoryView = (function(global) {
             }
         }
         return [
-            '<tr data-transaction-id="' + transaction.rowid + '">',
-            '  <td>' + format(transaction.date) + '</td>',
+            '<tr data-transaction-id="' + transaction.get('rowid') + '">',
+            '  <td>' + format(transaction.get('date')) + '</td>',
             '  <td>' + items.join(', ') + '</td>',
             '  <td><span class="label">' + creditItems + '</span></td>',
             '  <td style="text-align: right;">' + amount + '</td>',
-            '  <td>' + transaction.details + '</td>',
+            '  <td>' + transaction.get('details') + '</td>',
             '</tr>'
         ].join('\n');
     };

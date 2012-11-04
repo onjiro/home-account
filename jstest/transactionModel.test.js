@@ -1,6 +1,6 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
-var Transaction = require('../assets/www/js/transaction.js').Transaction;
+var expect = require('expect.js')
+, sinon = require('sinon')
+, Transaction = require('../assets/www/js/transactionModel.js').Transaction;
 
 describe('Transaction', function() {
     var target;
@@ -15,9 +15,9 @@ describe('Transaction', function() {
         });
         
         it('should have default values', function() {
-            expect(target.date).to.be.a(Date);
-            expect(target.accounts).to.be.empty();
-            expect(target.details).to.be("");
+            expect(target.get('date')).to.be.a(Date);
+            expect(target.get('accounts')).to.be.empty();
+            expect(target.get('details')).to.be("");
         });
         
         it('should accepts initial values', function() {
@@ -29,9 +29,9 @@ describe('Transaction', function() {
             
             var target = new Transaction(values);
             
-            expect(target.date.getTime()).to.be(values.date.getTime());
-            expect(target.accounts).to.be(values.accounts);
-            expect(target.details).to.be(values.details);
+            expect(target.get('date').getTime()).to.be(values.date.getTime());
+            expect(target.get('accounts')).to.be(values.accounts);
+            expect(target.get('details')).to.be(values.details);
         });
     });
     
