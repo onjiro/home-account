@@ -10,10 +10,12 @@ this.Transaction = (function(global) {
         // properties
         initialize: function(values) {
             values = values || {};
-            this.rowid    = values.rowid;
-            this.date     = (values.date) ? new Date(values.date): new Date();
-            this.accounts = values.accounts || [];
-            this.details  = values.details  || "";
+            this.set({
+                rowid    : values.rowid,
+                date     : (values.date) ? new Date(values.date): new Date(),
+                accounts : values.accounts || [],
+                details  : values.details  || ""
+            });
         },
 
         save: function(tx, onSuccess, onError) {
@@ -21,13 +23,13 @@ this.Transaction = (function(global) {
             // Transactions テーブルに格納
             tx.executeSql(
                 'INSERT INTO Transactions (date, details) VALUES (?, ?)',
-                [this.date, this.details],
+                [this.get('date'), this.get('details')],
                 function(tx, resultSet) {
-                    _this.rowid = resultSet.insertId;
+                    _this.set('rowid', resultSet.insertId);
                     // accounts はそれぞれ Accounts テーブルに格納
-                    for (var i = 0; i < _this.accounts.length; i++) {
-                        _this.accounts[i].transactionId = resultSet.insertId;
-                        _this.accounts[i].save(tx, null, onError);
+                    for (var i = 0; i < _this.get('accounts').length; i++) {
+                        _this.get('accounts')[i].transactionId = resultSet.insertId;
+                        _this.get('accounts')[i].save(tx, null, onError);
                     }
                     if (onSuccess) { onSuccess(tx, resultSet.insertId, _this); };
                 },
@@ -36,7 +38,7 @@ this.Transaction = (function(global) {
         },
 
         remove: function(tx, onSuccess, onError) {
-            var rowid = this.rowid;
+            var rowid = this.get('rowid');
             tx.executeSql(
                 'DELETE FROM Transactions where rowid = ?',
                 [rowid],
@@ -73,12 +75,12 @@ this.Transaction = (function(global) {
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     var current = new Transaction(resultSet.rows.item(i));
                     var lastOne = (results.length === 0) ? null: results[results.length - 1];
-                    if (!lastOne || current.date.getTime() !== lastOne.date.getTime()) {
+                    if (!lastOne || current.get('date').getTime() !== lastOne.get('date').getTime()) {
                         results.push(current);
                     } else {
                         current = lastOne;
                     }
-                    current.accounts.push(new Account(resultSet.rows.item(i)));
+                    current.get('accounts').push(new Account(resultSet.rows.item(i)));
                 };
                 onSuccess(tx, results);
             }, onError);
