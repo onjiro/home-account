@@ -1,9 +1,11 @@
-// テスト用に依存モジュールを読み込む
-if (this.window === undefined) {
-    var Backbone = require('backbone');
-    this.Account = require('./account.js').Account;
-}
 this.Transaction = (function(global) {
+    // 依存モジュールを読み込む
+    var Backbone = global.Backbone, Account = global.Account;
+    if (typeof require !== 'undefined') {
+        if (!Backbone) Backbone = require('backbone');
+        if (!Account) Account = require('./account.js').Account;
+    }
+
     var Transaction = Backbone.Model.extend({
         // properties
         initialize: function(values) {
@@ -76,7 +78,7 @@ this.Transaction = (function(global) {
                     } else {
                         current = lastOne;
                     }
-                    current.accounts.push(new global.Account(resultSet.rows.item(i)));
+                    current.accounts.push(new Account(resultSet.rows.item(i)));
                 };
                 onSuccess(tx, results);
             }, onError);
