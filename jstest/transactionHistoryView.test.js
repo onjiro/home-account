@@ -1,7 +1,7 @@
 var expect = require('expect.js')
 , sinon = require('sinon')
 , Account = require('../assets/www/js/account.js').Account
-, Transaction = require('../assets/www/js/transaction.js').Transaction
+, Transaction = require('../assets/www/js/transactionModel.js').Transaction
 , TransactionHistoryView = require('../assets/www/js/transactionHistoryView.js').TransactionHistoryView;
 
 describe('TransactionHistoryView', function() {
