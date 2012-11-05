@@ -1,12 +1,16 @@
-var expect = require('expect.js')
-, sinon = require('sinon')
-, Account = require('../assets/www/js/account.js').Account
-, Transaction = require('../assets/www/js/transactionModel.js').Transaction
-, TransactionHistoryView = require('../assets/www/js/transactionHistoryView.js').TransactionHistoryView;
+var require = this.require;
+if (require) {
+    var expect = require('expect.js')
+    , sinon = require('sinon')
+    , Account = require('../assets/www/js/account.js').Account
+    , Transaction = require('../assets/www/js/transactionModel.js').Transaction
+    , TransactionHistoryView = require('../assets/www/js/transactionHistoryView.js').TransactionHistoryView;
+}
 
 describe('TransactionHistoryView', function() {
     var target, $parent;
     beforeEach(function() {
+        target = new TransactionHistoryView($parent),
         $parent = {
             prepend: sinon.spy.create(function() { return this }),
             append: sinon.spy.create(function() { return this }),
@@ -14,8 +18,8 @@ describe('TransactionHistoryView', function() {
             hide: sinon.spy.create(function() { return this }),
             fadeIn: sinon.spy.create(function() { return this })
         };
-        target = new TransactionHistoryView($parent);
     });
+
     describe('#initialize', function() {
         it('should be a function', function() {
             expect(TransactionHistoryView).be.a(Function);
