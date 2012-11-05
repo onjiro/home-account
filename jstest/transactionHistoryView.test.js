@@ -8,14 +8,14 @@ if (require) {
 }
 
 describe('TransactionHistoryView', function() {
-    var target = new TransactionHistoryView($parent),
-    $parent = {
+    var $parent = {
         prepend: sinon.spy.create(function() { return this }),
         append: sinon.spy.create(function() { return this }),
         children: sinon.spy.create(function() { return this }),
         hide: sinon.spy.create(function() { return this }),
         fadeIn: sinon.spy.create(function() { return this })
-    };
+    },
+    target = new TransactionHistoryView($parent);
 
     describe('#initialize', function() {
         it('should be a function', function() {
