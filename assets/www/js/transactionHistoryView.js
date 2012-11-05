@@ -1,8 +1,16 @@
 this.TransactionHistoryView = (function(global) {
+    // 依存モジュールを読み込む
+    var Backbone = global.Backbone, Transaction = global.Transaction;
+    if (typeof require !== 'undefined') {
+        if (!Backbone) Backbone = require('backbone');
+        if (!Transaction) Transaction = require('./transactionModel.js').Transaction;
+    }
+
     /**
      * @parameter $parent TransactionHistory の追加対象 jQuery エレメント
      */
     var $_parent
+    , transactions = new Backbone.Collection
     , TransactionHistoryView = function($parent) {
         $_parent = $parent;
     }
@@ -48,6 +56,7 @@ this.TransactionHistoryView = (function(global) {
      * @option オプションの指定. fade: フェードイン効果を追加
      */
     _this.prototype.prepend = function(transaction, option) {
+        transactions.unshift(transaction);
         $_parent.prepend(formatToTableRow(transaction))
         if (option && option.fade) {
             $_parent.children(':first-child')
@@ -62,6 +71,7 @@ this.TransactionHistoryView = (function(global) {
      * @option オプションの指定. fade: フェードイン効果を追加
      */
     _this.prototype.append = function(transaction, option) {
+        transactions.add(transaction);
         $_parent.append(formatToTableRow(transaction))
         if (option && option.fade) {
             $_parent.children(':last-child')
