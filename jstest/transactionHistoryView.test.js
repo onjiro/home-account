@@ -10,7 +10,6 @@ if (require) {
 describe('TransactionHistoryView', function() {
     var target, $parent;
     beforeEach(function() {
-        target = new TransactionHistoryView($parent),
         $parent = {
             prepend: sinon.spy.create(function() { return this }),
             append: sinon.spy.create(function() { return this }),
@@ -18,6 +17,7 @@ describe('TransactionHistoryView', function() {
             hide: sinon.spy.create(function() { return this }),
             fadeIn: sinon.spy.create(function() { return this })
         };
+        target = new TransactionHistoryView($parent);
     });
 
     describe('#initialize', function() {
