@@ -19,7 +19,12 @@
     <script src="../node_modules/sinon/lib/sinon.js"></script>
     <script src="../node_modules/sinon/lib/sinon/spy.js"></script>
     <script src="../node_modules/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
+    <script>
+      mocha.setup({
+      ui: 'bdd',
+      ignoreLeaks: true
+      });
+    </script>
     <!-- Test scripts -->
     <script src="transactionHistoryView.test.js"></script>
     <script>
