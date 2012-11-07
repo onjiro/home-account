@@ -12,9 +12,24 @@ this.TransactionHistoryView = (function(global) {
     var $_parent
     , transactions = new Backbone.Collection
     , BackbonedView = Backbone.View.extend({
+        initialize: function() {
+            this.collection.on('add', this.add, this, {fade: true});
+        },
+        add: function(model, collections, options) {
+            $added = (options.index === 0) ?
+                this.$el.prepend(formatToTableRow(model)).children(':first-child'):
+                this.$el.append(formatToTableRow(model)).children(':last-child');
+            if (options.fade) {
+                $added.hide().fadeIn();
+            }
+        }
     })
     , TransactionHistoryView = function($parent) {
         $_parent = $parent;
+        view = new BackbonedView({
+            el: '#history table > tbody',
+            collection: transactions
+        });
     }
     , _this = TransactionHistoryView
     , format = function(date) {
@@ -58,17 +73,11 @@ this.TransactionHistoryView = (function(global) {
      * @option オプションの指定. fade: フェードイン効果を追加
      */
     _this.prototype.prepend = function(transaction, option) {
-        transactions.unshift(transaction);
-        this._prepend(transaction, option);
+        transactions.unshift(transaction, option);
     }
 
-    _this.prototype._prepend = function(transaction, option) {
+    var _prepend = function(transaction, option) {
         $_parent.prepend(formatToTableRow(transaction))
-        if (option && option.fade) {
-            $_parent.children(':first-child')
-                .hide()
-                .fadeIn();
-        }
     }
 
     /**
@@ -77,17 +86,7 @@ this.TransactionHistoryView = (function(global) {
      * @option オプションの指定. fade: フェードイン効果を追加
      */
     _this.prototype.append = function(transaction, option) {
-        transactions.add(transaction);
-        this._append(transaction, option);
-    }
-
-    _this.prototype._append = function(transaction, option) {
-        $_parent.append(formatToTableRow(transaction))
-        if (option && option.fade) {
-            $_parent.children(':last-child')
-                .hide()
-                .fadeIn();
-        }
+        transactions.add(transaction, option);
     }
     return TransactionHistoryView;
 })(this);
