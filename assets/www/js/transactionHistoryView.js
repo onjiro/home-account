@@ -11,6 +11,8 @@ this.TransactionHistoryView = (function(global) {
      */
     var $_parent
     , transactions = new Backbone.Collection
+    , BackbonedView = Backbone.View.extend({
+    })
     , TransactionHistoryView = function($parent) {
         $_parent = $parent;
     }
@@ -57,6 +59,10 @@ this.TransactionHistoryView = (function(global) {
      */
     _this.prototype.prepend = function(transaction, option) {
         transactions.unshift(transaction);
+        this._prepend(transaction, option);
+    }
+
+    _this.prototype._prepend = function(transaction, option) {
         $_parent.prepend(formatToTableRow(transaction))
         if (option && option.fade) {
             $_parent.children(':first-child')
@@ -72,6 +78,10 @@ this.TransactionHistoryView = (function(global) {
      */
     _this.prototype.append = function(transaction, option) {
         transactions.add(transaction);
+        this._append(transaction, option);
+    }
+
+    _this.prototype._append = function(transaction, option) {
         $_parent.append(formatToTableRow(transaction))
         if (option && option.fade) {
             $_parent.children(':last-child')
