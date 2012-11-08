@@ -2,7 +2,10 @@ $(function() {
     // bootstrap の Alert div のテンプレート
     var $alertDiv = $('<div class="alert alert-success"></div>')
     , $history = $('#history')
-    , historyView = new TransactionHistoryView($history.find('table > tbody'));
+    , historyView = new TransactionHistoryView({
+        el: '#history table > tbody',
+        collection: new Backbone.Collection()
+    });
     
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){

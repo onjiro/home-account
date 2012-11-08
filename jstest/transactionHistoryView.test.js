@@ -10,8 +10,9 @@ if (require) {
 describe('TransactionHistoryView', function() {
     var target, $parent;
     beforeEach(function() {
-        $parent = {};
-        target = new TransactionHistoryView($parent);
+        target = new TransactionHistoryView({
+            collection: new Backbone.Collection()
+        });
     });
 
     describe('#initialize', function() {

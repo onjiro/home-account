@@ -6,14 +6,7 @@ this.TransactionHistoryView = (function(global) {
         if (!Transaction) Transaction = require('./transactionModel.js').Transaction;
     }
 
-    /**
-     * @parameter $parent TransactionHistory の追加対象 jQuery エレメント
-     */
-    var $_parent
-    , transactions = new Backbone.Collection
-    , TransactionHistoryView = Backbone.View.extend({
-        el: '#history table > tbody',
-        collection: transactions,
+    var TransactionHistoryView = Backbone.View.extend({
         initialize: function() {
             this.collection.on('add', this.add, this);
         },
