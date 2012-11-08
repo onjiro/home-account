@@ -24,19 +24,4 @@ describe('TransactionHistoryView', function() {
             expect(target.$_parent).not.to.be.ok();
         });
     });
-
-    describe('#prepend', function() {
-        it('should be a function', function() {
-            expect(target.prepend).be.a(Function);
-        });
-        it('should call `$parent.prepend` once');
-        it('should prepend new dom element to $parent');
-    });
-    describe('#append', function() {
-        it('should be a function', function() {
-            expect(target.append).be.a(Function);
-        });
-        it('should call `$parent.append` once');
-        it('should append new dom element to $parent');
-    });
 });
