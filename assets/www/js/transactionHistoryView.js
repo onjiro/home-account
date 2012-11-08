@@ -12,6 +12,8 @@ this.TransactionHistoryView = (function(global) {
     var $_parent
     , transactions = new Backbone.Collection
     , BackbonedView = Backbone.View.extend({
+        el: '#history table > tbody',
+        collection: transactions,
         initialize: function() {
             this.collection.on('add', this.add, this);
         },
@@ -43,10 +45,7 @@ this.TransactionHistoryView = (function(global) {
     , view
     , TransactionHistoryView = function($parent) {
         $_parent = $parent;
-        view = new BackbonedView({
-            el: '#history table > tbody',
-            collection: transactions
-        });
+        view = new BackbonedView();
     }
     , _this = TransactionHistoryView
     , format = function(date) {
