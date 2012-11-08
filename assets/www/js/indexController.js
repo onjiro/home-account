@@ -2,9 +2,10 @@ $(function() {
     // bootstrap の Alert div のテンプレート
     var $alertDiv = $('<div class="alert alert-success"></div>')
     , $history = $('#history')
+    , currentTransactions = new Backbone.Collection()
     , historyView = new TransactionHistoryView({
         el: '#history table > tbody',
-        collection: new Backbone.Collection()
+        collection: currentTransactions
     });
     
     // submit 時に勘定と反対勘定を同時に登録する
@@ -54,7 +55,7 @@ $(function() {
                     this.remove();
                 }
             );
-            historyView.prepend(accountTransaction, {newest: true});
+            currentTransactions.add(accountTransaction, {at: 0, newest: true});
             _this.reset();
         });
         return false;
@@ -81,7 +82,7 @@ $(function() {
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
             $.each(transactions.reverse(), function(i, transaction) {
-                historyView.append(transaction);
+                currentTransactions.add(transaction);
             });
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
@@ -128,7 +129,7 @@ $(function() {
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
                 var $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
-                historyView.prepend(newTransaction, {fade: true});
+                currentTransactions.add(newTransaction, {at: 0, newest: true});
                 if ($updateRow.length === 0) {
                     $updateRow = $('#inventory-tab tbody')
                         .append('<tr></tr>')
