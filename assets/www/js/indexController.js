@@ -51,7 +51,7 @@ $(function() {
                     this.remove();
                 }
             );
-            historyView.prepend(accountTransaction, {fade: true});
+            historyView.prepend(accountTransaction, {newest: true});
             _this.reset();
         });
         return false;
