@@ -11,7 +11,7 @@ this.TransactionHistoryView = (function(global) {
      */
     var $_parent
     , transactions = new Backbone.Collection
-    , BackbonedView = Backbone.View.extend({
+    , TransactionHistoryView = Backbone.View.extend({
         el: '#history table > tbody',
         collection: transactions,
         initialize: function() {
@@ -42,12 +42,6 @@ this.TransactionHistoryView = (function(global) {
             this.collection.add(transaction, option);
         }
     })
-    , view
-    , TransactionHistoryView = function($parent) {
-        $_parent = $parent;
-        view = new BackbonedView();
-    }
-    , _this = TransactionHistoryView
     , format = function(date) {
         return date.getFullYear()
             + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -83,22 +77,5 @@ this.TransactionHistoryView = (function(global) {
         ].join('\n');
     };
 
-    /**
-     * 表示する要素を$parentの最初に追加します。
-     * @parameter transaction 追加対象Transactionインスタンス
-     * @option オプションの指定. fade: フェードイン効果を追加
-     */
-    _this.prototype.prepend = function(transaction, option) {
-        view.prepend(transaction, option);
-    }
-
-    /**
-     * 表示する要素を$parentの最後に追加します。
-     * @parameter transaction 追加対象Transactionインスタンス
-     * @option オプションの指定. fade: フェードイン効果を追加
-     */
-    _this.prototype.append = function(transaction, option) {
-        view.append(transaction, option);
-    }
     return TransactionHistoryView;
 })(this);
