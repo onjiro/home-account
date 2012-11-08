@@ -22,8 +22,25 @@ this.TransactionHistoryView = (function(global) {
             if (options.newest) {
                 $added.hide().fadeIn();
             }
+        },
+        /**
+         * 表示する要素を$parentの最初に追加します。
+         * @parameter transaction 追加対象Transactionインスタンス
+         * @option オプションの指定. fade: フェードイン効果を追加
+         */
+        prepend: function(transaction, option) {
+            this.collection.unshift(transaction, option);
+        },
+        /**
+         * 表示する要素を$parentの最後に追加します。
+         * @parameter transaction 追加対象Transactionインスタンス
+         * @option オプションの指定. fade: フェードイン効果を追加
+         */
+        append: function(transaction, option) {
+            this.collection.add(transaction, option);
         }
     })
+    , view
     , TransactionHistoryView = function($parent) {
         $_parent = $parent;
         view = new BackbonedView({
@@ -73,7 +90,7 @@ this.TransactionHistoryView = (function(global) {
      * @option オプションの指定. fade: フェードイン効果を追加
      */
     _this.prototype.prepend = function(transaction, option) {
-        transactions.unshift(transaction, option);
+        view.prepend(transaction, option);
     }
 
     /**
@@ -82,7 +99,7 @@ this.TransactionHistoryView = (function(global) {
      * @option オプションの指定. fade: フェードイン効果を追加
      */
     _this.prototype.append = function(transaction, option) {
-        transactions.add(transaction, option);
+        view.append(transaction, option);
     }
     return TransactionHistoryView;
 })(this);
