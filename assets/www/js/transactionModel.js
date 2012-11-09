@@ -75,7 +75,7 @@ this.Transaction = (function(global) {
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     var current = new Transaction(resultSet.rows.item(i));
                     var lastOne = (results.length === 0) ? null: results[results.length - 1];
-                    if (!lastOne || current.get('date').getTime() !== lastOne.get('date').getTime()) {
+                    if (!lastOne || current.get('rowid') !== lastOne.get('rowid')) {
                         results.push(current);
                     } else {
                         current = lastOne;
