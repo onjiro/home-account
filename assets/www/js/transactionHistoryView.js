@@ -41,7 +41,7 @@ this.TransactionHistoryView = (function(global) {
         }
         return [
             '<tr data-transaction-id="' + transaction.get('rowid') + '">',
-            '  <td>' + format(transaction.get('date')) + '</td>',
+            '  <td><span class="label label-info">' + format(transaction.get('date')) + '</span></td>',
             '  <td>' + items.join(', ') + '</td>',
             '  <td><span class="label">' + creditItems + '</span></td>',
             '  <td style="text-align: right;">' + amount + '</td>',
