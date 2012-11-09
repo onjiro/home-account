@@ -49,7 +49,6 @@ this.TransactionHistoryView = (function(global) {
             '  <td>' + items.join(', ') + '</td>',
             '  <td><span class="label">' + creditItems + '</span></td>',
             '  <td style="text-align: right;">' + amount + '</td>',
-            '  <td>' + transaction.get('details') + '</td>',
             '</tr>'
         ].join('\n');
     };
