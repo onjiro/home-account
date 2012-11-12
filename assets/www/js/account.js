@@ -19,7 +19,7 @@ this.Account = (function(global) {
             ') VALUES (?, ?, ?, ?, ?)'
         ].join(' '), [
             this.transactionId,
-            this.date,
+            this.date.getTime(),
             this.item,
             this.amount,
             this.type
