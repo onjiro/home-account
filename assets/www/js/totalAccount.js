@@ -12,7 +12,7 @@ this.TotalAccount = (function(global){
      */
     TotalAccount.prototype.makeInventory = function(tx, success, err) {
         var _this = this;
-        TotalAccount.select(this.item, tx, function(tx, accounts) {
+        TotalAccount.select({item: this.item}, tx, function(tx, accounts) {
             var now = new Date()
             , current = accounts[0]
             , amount = (_this.type === current.type)
@@ -49,12 +49,12 @@ this.TotalAccount = (function(global){
      * @param success 成功時のコールバック関数
      * @param err 失敗時のコールバック関数、オプション
      */
-    TotalAccount.select = function(item, tx, success, err) {
+    TotalAccount.select = function(option, tx, success, err) {
         // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
         var whereSection = "", queryParams = [];
-        if (item) {
+        if (option && option.item) {
             whereSection += "WHERE item = ?";
-            queryParams.push(item);
+            queryParams.push(option.item);
         }
         tx.executeSql([
             'SELECT',
