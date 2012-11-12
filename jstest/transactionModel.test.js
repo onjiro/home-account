@@ -1,6 +1,8 @@
-var expect = require('expect.js')
-, sinon = require('sinon')
-, Transaction = require('../assets/www/js/transactionModel.js').Transaction;
+if (this.require) {
+    var expect = require('expect.js')
+    , sinon = require('sinon')
+    , Transaction = require('../assets/www/js/transactionModel.js').Transaction;
+}
 
 describe('Transaction', function() {
     var target;
@@ -32,6 +34,14 @@ describe('Transaction', function() {
             expect(target.get('date').getTime()).to.be(values.date.getTime());
             expect(target.get('accounts')).to.be(values.accounts);
             expect(target.get('details')).to.be(values.details);
+        });
+
+        it('should accepts date in millisecond', function() {
+            var target = new Transaction({
+                date    : new Date('2012-04-01').getTime(),
+            });
+
+            expect(target.get('date').getTime()).to.be(new Date('2012-04-01').getTime());
         });
     });
     

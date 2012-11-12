@@ -23,7 +23,7 @@ this.Transaction = (function(global) {
             // Transactions テーブルに格納
             tx.executeSql(
                 'INSERT INTO Transactions (date, details) VALUES (?, ?)',
-                [this.get('date'), this.get('details')],
+                [this.get('date').getTime(), this.get('details')],
                 function(tx, resultSet) {
                     _this.set('rowid', resultSet.insertId);
                     // accounts はそれぞれ Accounts テーブルに格納

@@ -11,10 +11,9 @@ this.TotalAccount = (function(global){
      * @param tx DatabaseTransaction
      */
     TotalAccount.prototype.makeInventory = function(tx, success, err) {
-        var _this = this;
-        TotalAccount.select(this.item, tx, function(tx, accounts) {
-            var now = new Date()
-            , current = accounts[0]
+        var _this = this, now = new Date();
+        TotalAccount.select({item: _this.item, date: now}, tx, function(tx, accounts) {
+            var current = accounts[0]
             , amount = (_this.type === current.type)
                 ? _this.amount - current.amount
                 : _this.amount + current.amount
@@ -49,12 +48,15 @@ this.TotalAccount = (function(global){
      * @param success 成功時のコールバック関数
      * @param err 失敗時のコールバック関数、オプション
      */
-    TotalAccount.select = function(item, tx, success, err) {
-        // TODO 本当は"現在の日付以前"を条件に追加したいが、それには date の保存形式の変更が必要
-        var whereSection = "", queryParams = [];
-        if (item) {
-            whereSection += "WHERE item = ?";
-            queryParams.push(item);
+    TotalAccount.select = function(option, tx, success, err) {
+        var whereSection = [], queryParams = [];
+        if (option && option.item) {
+            whereSection.push('item = ?');
+            queryParams.push(option.item);
+        }
+        if (option && option.date) {
+            whereSection.push('date < ?');
+            queryParams.push(new Date(option.date).getTime());
         }
         tx.executeSql([
             'SELECT',
@@ -63,7 +65,9 @@ this.TotalAccount = (function(global){
             '  SUM(CASE type WHEN \'credit\' THEN amount ELSE 0 END) AS creditAmount',
             'FROM',
             '  Accounts',
-            whereSection,
+            (whereSection.length > 0) ?
+                'WHERE ' + whereSection.join(' and '):
+                '',
             'GROUP BY',
             '  item'
         ].join(' '), queryParams, function(tx, resultSet) {
@@ -76,7 +80,7 @@ this.TotalAccount = (function(global){
                     amount: Math.abs(one.debitAmount - one.creditAmount)
                 }));
             }
-            if (totals.length === 0 && item) {
+            if (totals.length === 0 && option && option.item) {
                 totals.push(new TotalAccount({
                     item: item,
                     type: 'debit',
