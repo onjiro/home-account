@@ -1,6 +1,8 @@
-var expect = require('expect.js')
-, sinon = require('sinon')
-, Transaction = require('../assets/www/js/transactionModel.js').Transaction;
+if (this.require) {
+    var expect = require('expect.js')
+    , sinon = require('sinon')
+    , Transaction = require('../assets/www/js/transactionModel.js').Transaction;
+}
 
 describe('Transaction', function() {
     var target;
