@@ -52,9 +52,23 @@ $(function() {
                 var i, item;
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     item = resultSet.rows.item(i)
-                    console.log('gige');
                     tx.executeSql(
                         'UPDATE Transactions SET date = ?  WHERE rowid = ?',
+                        [new Date(item.date).getTime(), item.rowid]
+                    );
+                }
+            }
+        );
+    });
+    m.migration(7, function(tx) {
+        tx.executeSql(
+            'SELECT rowid, date FROM Accounts', [],
+            function(tx, resultSet) {
+                var i, item;
+                for (var i = 0; i < resultSet.rows.length; i++) {
+                    item = resultSet.rows.item(i)
+                    tx.executeSql(
+                        'UPDATE Accounts SET date = ?  WHERE rowid = ?',
                         [new Date(item.date).getTime(), item.rowid]
                     );
                 }
