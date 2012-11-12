@@ -1,6 +1,8 @@
-var expect = require('expect.js');
-var sinon = require('sinon');
-var Account = require('../assets/www/js/account.js').Account;
+if (this.require) {
+    var expect = require('expect.js')
+    , sinon = require('sinon')
+    , Account = require('../assets/www/js/account.js').Account;
+}
 
 describe('Account', function() {
     var target, txMock;
@@ -42,6 +44,12 @@ describe('Account', function() {
             expect(target.amount).to.be(3000);
             expect(target.date).to.be.a(Date);
             expect(target.type).to.be('debit');
+        });
+        it('should accepts date in millisecond', function() {
+            var target = new Account({
+                date    : new Date('2012-04-01').getTime(),
+            });
+            expect(target.date.getTime()).to.be(new Date('2012-04-01').getTime());
         });
     });
     
