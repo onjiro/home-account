@@ -35,6 +35,14 @@ describe('Transaction', function() {
             expect(target.get('accounts')).to.be(values.accounts);
             expect(target.get('details')).to.be(values.details);
         });
+
+        it('should accepts date in millisecond', function() {
+            var target = new Transaction({
+                date    : new Date('2012-04-01').getTime(),
+            });
+
+            expect(target.get('date').getTime()).to.be(new Date('2012-04-01').getTime());
+        });
     });
     
     describe('#save', function() {
