@@ -99,7 +99,7 @@ $(function() {
     });
 
     db.transaction(function(tx) {
-        TotalAccount.select(null, tx, function(tx, accounts) {
+        TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
             $inventoryBody = $('#inventory-tab tbody');
             $.each(accounts, function(i, account) {
                 $inventoryBody.append([
