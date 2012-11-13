@@ -107,7 +107,7 @@ $(function() {
     db.transaction(function(tx) {
         TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
             $.each(accounts, function(i, account) {
-                totalAccounts.add(new TotalAccount(account));
+                totalAccounts.add(account);
             });
         }, function(err) {
             alert('something failed on query TotalAccounts.\n' + err.message);
@@ -130,7 +130,7 @@ $(function() {
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
-                var $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
+                var $updateRow = $('#inventory-tab tbody [data-item="' + total.get('item') + '"]');
                 currentTransactions.add(newTransaction, {at: 0, newest: true});
                 if ($updateRow.length === 0) {
                     $updateRow = $('#inventory-tab tbody')
@@ -138,13 +138,13 @@ $(function() {
                         .children(':last-child');
                 }
                 $updateRow
-                    .data('type', total.type)
-                    .data('amount', total.amount)
+                    .data('type', total.get('type'))
+                    .data('amount', total.get('amount'))
                     .empty()
                     .append([
-                        '<td>' + total.item + '</td>',
-                        '<td>' + total.type + '</td>',
-                        '<td>' + total.amount + '</td>'
+                        '<td>' + total.get('item') + '</td>',
+                        '<td>' + total.get('type') + '</td>',
+                        '<td>' + total.get('amount') + '</td>'
                     ].join(''));
                 _this.reset();
             }, function(err) {

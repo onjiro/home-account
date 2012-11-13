@@ -8,9 +8,9 @@ describe('TotalAccount', function() {
     describe('#initialize', function() {
         it('should have default values', function() {
             var actual = new TotalAccount();
-            expect(actual.item).to.be(undefined);
-            expect(actual.type).to.be('credit');
-            expect(actual.amount).to.be(0);
+            expect(actual.get('item')).to.be(undefined);
+            expect(actual.get('type')).to.be('credit');
+            expect(actual.get('amount')).to.be(0);
         });
 
         it('should accepts initial values', function() {
@@ -19,9 +19,9 @@ describe('TotalAccount', function() {
                 type: 'debit',
                 amount: 100
             });
-            expect(actual.item).to.be('account item');
-            expect(actual.type).to.be('debit');
-            expect(actual.amount).to.be(100);
+            expect(actual.get('item')).to.be('account item');
+            expect(actual.get('type')).to.be('debit');
+            expect(actual.get('amount')).to.be(100);
         });
     });
 

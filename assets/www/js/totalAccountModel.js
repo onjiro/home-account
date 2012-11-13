@@ -12,9 +12,11 @@ this.TotalAccount = (function(global){
         // properties below
         initialize: function(values) {
             values = values || {};
-            this.item = values.item;
-            this.type = values.type || 'credit';
-            this.amount = (values.amount) ? parseInt(values.amount): 0;
+            this.set({
+                item  : values.item,
+                type  : values.type || 'credit',
+                amount: (values.amount) ? parseInt(values.amount): 0
+            });
         },
 
         /**
@@ -25,23 +27,23 @@ this.TotalAccount = (function(global){
             var _this = this
             , now = new Date()
             , queryParameter = {
-                item: _this.item,
+                item: _this.get('item'),
                 date: now
             };
             TotalAccount.select(queryParameter, tx, function(tx, accounts) {
                 var current = accounts[0]
-                , amount = (_this.type === current.type)
-                    ? _this.amount - current.amount
-                    : _this.amount + current.amount
+                , amount = (_this.get('type') === current.type)
+                    ? _this.get('amount') - current.amount
+                    : _this.get('amount') + current.amount
                 , type = (amount < 0)
-                    ? ((_this.type === 'credit') ? 'debit': 'credit')
-                : _this.type;
+                    ? ((_this.get('type') === 'credit') ? 'debit': 'credit')
+                : _this.get('type');
                 new Transaction({
                     date: now,
                     accounts: [
                         new Account({
                             date: now,
-                            item: _this.item,
+                            item: _this.get('item'),
                             amount: Math.abs(amount),
                             type: type
                         }),

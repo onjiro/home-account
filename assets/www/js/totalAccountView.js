@@ -6,13 +6,13 @@ this.TotalAccountView = (function(global) {
         add: function(model, collections, options) {
             this.$el.append(
                 '<tr' +
-                    '  data-item="' + model.item + '"' +
-                    '  data-type="' + model.type + '"' +
-                    '  data-amount="' + model.amount + '"' +
+                    '  data-item="' + model.get('item') + '"' +
+                    '  data-type="' + model.get('type') + '"' +
+                    '  data-amount="' + model.get('amount') + '"' +
                     '>' +
-                    '  <td><a href="#inventory-entry">' + model.item + '</a></td>' +
-                    '  <td>' + model.type + '</td>' +
-                    '  <td>' + model.amount + '</td>' +
+                    '  <td><a href="#inventory-entry">' + model.get('item') + '</a></td>' +
+                    '  <td>' + model.get('type') + '</td>' +
+                    '  <td>' + model.get('amount') + '</td>' +
                     '</tr>'
             );
         }
