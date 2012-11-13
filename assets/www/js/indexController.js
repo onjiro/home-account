@@ -13,6 +13,11 @@ $(function() {
     , historyView = new TransactionHistoryView({
         el: '#history table > tbody',
         collection: currentTransactions
+    })
+    , totalAccounts = new Backbone.Collection()
+    , totalAccountView = new TotalAccountView({
+        el: '#inventory-tab table tbody',
+        collection: totalAccounts
     });
     
     // submit 時に勘定と反対勘定を同時に登録する
