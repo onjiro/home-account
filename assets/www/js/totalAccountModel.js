@@ -32,9 +32,9 @@ this.TotalAccount = (function(global){
             };
             TotalAccount.select(queryParameter, tx, function(tx, accounts) {
                 var current = accounts[0]
-                , amount = (_this.get('type') === current.type)
-                    ? _this.get('amount') - current.amount
-                    : _this.get('amount') + current.amount
+                , amount = (_this.get('type') === current.get('type'))
+                    ? _this.get('amount') - current.get('amount')
+                    : _this.get('amount') + current.get('amount')
                 , type = (amount < 0)
                     ? ((_this.get('type') === 'credit') ? 'debit': 'credit')
                 : _this.get('type');

@@ -130,22 +130,16 @@ $(function() {
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
-                var $updateRow = $('#inventory-tab tbody [data-item="' + total.get('item') + '"]');
+                var updateAccounts = totalAccounts.where({
+                    item: total.get('item')
+                });
+                $.each(updateAccounts, function(i, account) {
+                    account.set({
+                        amount: total.get('amount'),
+                        type  : total.get('type')
+                    });
+                });
                 currentTransactions.add(newTransaction, {at: 0, newest: true});
-                if ($updateRow.length === 0) {
-                    $updateRow = $('#inventory-tab tbody')
-                        .append('<tr></tr>')
-                        .children(':last-child');
-                }
-                $updateRow
-                    .data('type', total.get('type'))
-                    .data('amount', total.get('amount'))
-                    .empty()
-                    .append([
-                        '<td>' + total.get('item') + '</td>',
-                        '<td>' + total.get('type') + '</td>',
-                        '<td>' + total.get('amount') + '</td>'
-                    ].join(''));
                 _this.reset();
             }, function(err) {
                 alert('something failed while make an inventory.\n' + err.message);
