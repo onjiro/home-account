@@ -103,21 +103,11 @@ $(function() {
         alert('something failed while accessing database.\n' + err.message);
     });
 
+    // 初期ロード時に TotalAccount を読み込む
     db.transaction(function(tx) {
         TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
-            $inventoryBody = $('#inventory-tab tbody');
             $.each(accounts, function(i, account) {
-                $inventoryBody.append([
-                    '<tr',
-                    '  data-item="' + account.item + '"',
-                    '  data-type="' + account.type + '"',
-                    '  data-amount="' + account.amount + '"',
-                    '>',
-                    '  <td><a href="#inventory-entry">' + account.item + '</a></td>',
-                    '  <td>' + account.type + '</td>',
-                    '  <td>' + account.amount + '</td>',
-                    '</tr>',
-                ].join('\n'));
+                totalAccounts.add(new TotalAccount(account));
             });
         }, function(err) {
             alert('something failed on query TotalAccounts.\n' + err.message);
