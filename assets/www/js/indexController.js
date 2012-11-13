@@ -106,9 +106,7 @@ $(function() {
     // 初期ロード時に TotalAccount を読み込む
     db.transaction(function(tx) {
         TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
-            $.each(accounts, function(i, account) {
-                totalAccounts.add(account);
-            });
+            totalAccounts.add(accounts);
         }, function(err) {
             alert('something failed on query TotalAccounts.\n' + err.message);
         });
@@ -139,6 +137,9 @@ $(function() {
                         type  : total.get('type')
                     });
                 });
+                if (updateAccounts.length === 0) {
+                    totalAccounts.add(total);
+                }
                 currentTransactions.add(newTransaction, {at: 0, newest: true});
                 _this.reset();
             }, function(err) {
