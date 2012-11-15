@@ -13,8 +13,13 @@ $(function() {
     , historyView = new TransactionHistoryView({
         el: '#history table > tbody',
         collection: currentTransactions
+    })
+    , totalAccounts = new Backbone.Collection()
+    , totalAccountView = new TotalAccountView({
+        el: '#inventory-tab table tbody',
+        collection: totalAccounts
     });
-    
+
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
         var _this = this;
@@ -98,21 +103,18 @@ $(function() {
         alert('something failed while accessing database.\n' + err.message);
     });
 
+    // 初期ロード時に TotalAccount を読み込む
     db.transaction(function(tx) {
         TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
-            $inventoryBody = $('#inventory-tab tbody');
-            $.each(accounts, function(i, account) {
-                $inventoryBody.append([
-                    '<tr',
-                    '  data-item="' + account.item + '"',
-                    '  data-type="' + account.type + '"',
-                    '  data-amount="' + account.amount + '"',
-                    '>',
-                    '  <td><a href="#inventory-entry">' + account.item + '</a></td>',
-                    '  <td>' + account.type + '</td>',
-                    '  <td>' + account.amount + '</td>',
-                    '</tr>',
-                ].join('\n'));
+            totalAccounts.add(accounts);
+            
+            // backboned model 間の依存 listen 関係を定義
+            currentTransactions.on('add change remove', function(model, collection, option) {
+                db.transaction(function(tx) {
+                    TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
+                        totalAccounts.reset(accounts);
+                    });
+                });
             });
         }, function(err) {
             alert('something failed on query TotalAccounts.\n' + err.message);
@@ -128,30 +130,15 @@ $(function() {
 
     // 棚卸登録
     $(document).on('submit', '#inventory-entry', function(e) {
-        var _this = this;
+        var form = this;
         db.transaction(function(tx) {
             new TotalAccount({
-                amount: $('[name="amount"]', _this).val(),
-                item:   $('[name="item"]', _this).val(),
-                type:   $('[name="account-type"]:checked', _this).val()
+                amount: $('[name="amount"]', form).val(),
+                item:   $('[name="item"]', form).val(),
+                type:   $('[name="account-type"]:checked', form).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
-                var $updateRow = $('#inventory-tab tbody [data-item="' + total.item + '"]');
                 currentTransactions.add(newTransaction, {at: 0, newest: true});
-                if ($updateRow.length === 0) {
-                    $updateRow = $('#inventory-tab tbody')
-                        .append('<tr></tr>')
-                        .children(':last-child');
-                }
-                $updateRow
-                    .data('type', total.type)
-                    .data('amount', total.amount)
-                    .empty()
-                    .append([
-                        '<td>' + total.item + '</td>',
-                        '<td>' + total.type + '</td>',
-                        '<td>' + total.amount + '</td>'
-                    ].join(''));
-                _this.reset();
+                form.reset();
             }, function(err) {
                 alert('something failed while make an inventory.\n' + err.message);
             });
