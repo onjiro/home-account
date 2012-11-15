@@ -130,15 +130,15 @@ $(function() {
 
     // 棚卸登録
     $(document).on('submit', '#inventory-entry', function(e) {
-        var _this = this;
+        var form = this;
         db.transaction(function(tx) {
             new TotalAccount({
-                amount: $('[name="amount"]', _this).val(),
-                item:   $('[name="item"]', _this).val(),
-                type:   $('[name="account-type"]:checked', _this).val()
+                amount: $('[name="amount"]', form).val(),
+                item:   $('[name="item"]', form).val(),
+                type:   $('[name="account-type"]:checked', form).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
                 currentTransactions.add(newTransaction, {at: 0, newest: true});
-                _this.reset();
+                form.reset();
             }, function(err) {
                 alert('something failed while make an inventory.\n' + err.message);
             });
