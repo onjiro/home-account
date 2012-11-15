@@ -3,6 +3,7 @@ this.TotalAccountView = (function(global) {
         initialize: function() {
             this.collection.on('add', this.add, this);
             this.collection.on('change', this.update, this);
+            this.collection.on('reset', this.render, this);
         },
         add: function(model, collections, options) {
             this.$el.append(
@@ -28,6 +29,13 @@ this.TotalAccountView = (function(global) {
                         '<td>' + model.get('type') + '</td>' +
                         '<td>' + model.get('amount') + '</td>'
                 );
+        },
+        render: function(collections, options) {
+            var _this = this;
+            this.$el.empty();
+            this.collection.forEach(function(model) {
+                this.add(model, collections, options);
+            }, this);
         }
     });
     return TotalAccountView;

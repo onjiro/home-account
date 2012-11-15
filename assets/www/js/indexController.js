@@ -19,7 +19,7 @@ $(function() {
         el: '#inventory-tab table tbody',
         collection: totalAccounts
     });
-    
+
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
         var _this = this;
@@ -107,6 +107,15 @@ $(function() {
     db.transaction(function(tx) {
         TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
             totalAccounts.add(accounts);
+            
+            // backboned model 間の依存 listen 関係を定義
+            currentTransactions.on('add change remove', function(model, collection, option) {
+                db.transaction(function(tx) {
+                    TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
+                        totalAccounts.reset(accounts);
+                    });
+                });
+            });
         }, function(err) {
             alert('something failed on query TotalAccounts.\n' + err.message);
         });
@@ -128,18 +137,6 @@ $(function() {
                 item:   $('[name="item"]', _this).val(),
                 type:   $('[name="account-type"]:checked', _this).val()
             }).makeInventory(tx, function(tx, total, newTransaction) {
-                var updateAccounts = totalAccounts.where({
-                    item: total.get('item')
-                });
-                $.each(updateAccounts, function(i, account) {
-                    account.set({
-                        amount: total.get('amount'),
-                        type  : total.get('type')
-                    });
-                });
-                if (updateAccounts.length === 0) {
-                    totalAccounts.add(total);
-                }
                 currentTransactions.add(newTransaction, {at: 0, newest: true});
                 _this.reset();
             }, function(err) {
