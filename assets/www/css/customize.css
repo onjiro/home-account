@@ -5,3 +5,18 @@
     padding:    3em 0;
     text-indent: 1.66em
 }
+
+/* 履歴を選択していることを明示 */
+#history tbody td:hover:before {
+    content   : "";
+    display   : block;
+    position  : absolute; /* .container が基準となる */
+    width     : 100%;
+    height    : 1.8em;
+    z-index   : 1;
+    margin-top: -0.2em;
+    left      : 0;
+    border-color: rgba(82, 168, 236, 0.8);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    box-shadow        : inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6)
+}
