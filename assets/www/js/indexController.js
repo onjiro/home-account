@@ -15,7 +15,8 @@ $(function() {
 
     $(document)
         .on('touchstart mouseover', '#history tbody td', function(e){
-            $(this).addClass('hover');
+            var $this = $(this).addClass('hover');
+            setTimeout(function() { $this.removeClass('hover'); }, 1000);
         }).on('touchend mouseout',  '#history tbody td', function(e){
             $(this).removeClass('hover');
         });
