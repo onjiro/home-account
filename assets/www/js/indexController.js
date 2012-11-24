@@ -13,6 +13,13 @@ $(function() {
         collection: totalAccounts
     });
 
+    $(document)
+        .on('touchstart mouseover', '#history tbody td', function(e){
+            $(this).addClass('hover');
+        }).on('touchend mouseout',  '#history tbody td', function(e){
+            $(this).removeClass('hover');
+        });
+
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
         var _this = this;

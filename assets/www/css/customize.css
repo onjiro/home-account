@@ -7,7 +7,7 @@
 }
 
 /* 履歴を選択していることを明示 */
-#history tbody td:hover:before {
+#history tbody td.hover:before {
     content   : "";
     display   : block;
     position  : absolute; /* .container が基準となる */
