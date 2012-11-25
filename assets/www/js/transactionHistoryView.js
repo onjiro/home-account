@@ -40,15 +40,15 @@ this.TransactionHistoryView = (function(global) {
                 break;
             }
         }
-        return _.template(
-            '<tr data-model-cid="<%= cid %>">'
-                +   '<td><span class="label label-info"><%= date %></span></td>'
-                +   '<td><%= items.join(", ") %></td>'
-                +   '<td><span class="label"><%= creditItems %></span></td>'
-                +   '<td style="text-align: right;"><%= amount %></td>'
-                + '</tr>'
-            , data);
-    };
+        return _.template(ROW_TEMPLATE, data);
+    }
+    , ROW_TEMPLATE = ''
+        + '<tr data-model-cid="<%= cid %>">'
+        +   '<td><span class="label label-info"><%= date %></span></td>'
+        +   '<td><%= items.join(", ") %></td>'
+        +   '<td><span class="label"><%= creditItems %></span></td>'
+        +   '<td style="text-align: right;"><%= amount %></td>'
+        + '</tr>';
 
     return TransactionHistoryView;
 })(this);
