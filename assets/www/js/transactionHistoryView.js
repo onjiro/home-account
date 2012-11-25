@@ -19,14 +19,11 @@ this.TransactionHistoryView = (function(global) {
             }
         }
     })
-    , format = function(date) {
-        return (date.getMonth() + 1) + '/' + date.getDate();
-    }
     , formatToTableRow = function(transaction) {
         var i
         , data = {
             cid        : transaction.cid,
-            date       : format(transaction.get('date')),
+            date       : _.template('<%= getMonth() %>/<%= getDate() %>', transaction.get('date')),
             items      : [],
             amount     : 0,
             creditItems: [],
