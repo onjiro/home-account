@@ -82,9 +82,7 @@ $(function() {
             return;
         }
         db.transaction(function(tx) {
-            new Transaction({
-                rowid: $this.data('transaction-id')
-            }).remove(tx, function(tx) {
+            currentTransactions.getByCid($this.data('model-cid')).remove(tx, function(tx) {
                 $this.fadeOut(function() { $this.detach() });
             }, function(err) {
                 alert('something failed while removing transactions.\n' + err.message);
