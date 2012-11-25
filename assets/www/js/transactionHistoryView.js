@@ -1,11 +1,4 @@
 this.TransactionHistoryView = (function(global) {
-    // 依存モジュールを読み込む
-    var Backbone = global.Backbone, Transaction = global.Transaction;
-    if (typeof require !== 'undefined') {
-        if (!Backbone) Backbone = require('backbone');
-        if (!Transaction) Transaction = require('./transactionModel.js').Transaction;
-    }
-
     var TransactionHistoryView = Backbone.View.extend({
         initialize: function() {
             this.collection.on('add', this.add, this);
