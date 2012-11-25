@@ -19,35 +19,36 @@ this.TransactionHistoryView = (function(global) {
             }
         }
     })
-    , format = function(date) {
-        return (date.getMonth() + 1) + '/' + date.getDate();
-    }
     , formatToTableRow = function(transaction) {
         var i
-        , items = []
-        , amount = 0
-        , creditItems = []
+        , data = {
+            cid        : transaction.cid,
+            date       : _.template('<%= getMonth() %>/<%= getDate() %>', transaction.get('date')),
+            items      : [],
+            amount     : 0,
+            creditItems: [],
+        }
         , accounts = transaction.get('accounts');
         for (var i = 0; i < accounts.length; i++) {
             switch (accounts[i].type) {
             case 'debit':
-                items.push(accounts[i].item);
-                amount += accounts[i].amount;
+                data.items.push(accounts[i].item);
+                data.amount += accounts[i].amount;
                 break;
             case 'credit':
-                creditItems.push(accounts[i].item);
+                data.creditItems.push(accounts[i].item);
                 break;
             }
         }
-        return [
-            '<tr data-model-cid="'+ transaction.cid +'">',
-            '  <td><span class="label label-info">' + format(transaction.get('date')) + '</span></td>',
-            '  <td>' + items.join(', ') + '</td>',
-            '  <td><span class="label">' + creditItems + '</span></td>',
-            '  <td style="text-align: right;">' + amount + '</td>',
-            '</tr>'
-        ].join('\n');
-    };
+        return _.template(ROW_TEMPLATE, data);
+    }
+    , ROW_TEMPLATE = ''
+        + '<tr data-model-cid="<%= cid %>">'
+        +   '<td><span class="label label-info"><%= date %></span></td>'
+        +   '<td><%= items.join(", ") %></td>'
+        +   '<td><span class="label"><%= creditItems %></span></td>'
+        +   '<td style="text-align: right;"><%= amount %></td>'
+        + '</tr>';
 
     return TransactionHistoryView;
 })(this);
