@@ -20,26 +20,24 @@ this.TransactionHistoryView = (function(global) {
         }
     })
     , formatToTableRow = function(transaction) {
-        var i
-        , data = {
+        var data = {
             cid        : transaction.cid,
             date       : _.template('<%= getMonth() %>/<%= getDate() %>', transaction.get('date')),
             items      : [],
             amount     : 0,
             creditItems: [],
-        }
-        , accounts = transaction.get('accounts');
-        for (var i = 0; i < accounts.length; i++) {
-            switch (accounts[i].type) {
+        };
+        _.each(transaction.get('accounts'), function(account) {
+            switch (account.type) {
             case 'debit':
-                data.items.push(accounts[i].item);
-                data.amount += accounts[i].amount;
+                data.items.push(account.item);
+                data.amount += account.amount;
                 break;
             case 'credit':
-                data.creditItems.push(accounts[i].item);
+                data.creditItems.push(account.item);
                 break;
             }
-        }
+        });
         return _.template(ROW_TEMPLATE, data);
     }
     , ROW_TEMPLATE = ''
