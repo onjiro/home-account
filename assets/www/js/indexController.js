@@ -58,14 +58,11 @@ $(function() {
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
-            $history.prepend(
-                $(alertTemplate({
-                    message: "ok to save!!"
-                })).delay(1000).fadeOut(),
-                function() {
-                    this.remove();
-                }
-            );
+            var $alert = $(alertTemplate({
+                message: "ok to save!!"
+            })).delay(1000).fadeOut();
+
+            $history.prepend($alert, function() { this.remove(); });
             currentTransactions.add(accountTransaction, {at: 0, newest: true});
             _this.reset();
         });
