@@ -1,6 +1,6 @@
 $(function() {
     // bootstrap の Alert div のテンプレート
-    var $alertDiv = $('<div class="popup alert alert-success"></div>')
+    var alertTemplate = _.template($('#alert-template').html())
     , $history = $('#history')
     , currentTransactions = new Backbone.Collection()
     , historyView = new TransactionHistoryView({
@@ -58,16 +58,11 @@ $(function() {
         }, function(err) {
             alert('something failed while accessing database.\n' + err.message);
         }, function() {
-            $history.prepend(
-                $alertDiv
-                    .clone()
-                    .append("ok to save!!")
-                    .delay(1000)
-                    .fadeOut(),
-                function() {
-                    this.remove();
-                }
-            );
+            var $alert = $(alertTemplate({
+                message: "ok to save!!"
+            })).delay(1000).fadeOut();
+
+            $history.prepend($alert, function() { this.remove(); });
             currentTransactions.add(accountTransaction, {at: 0, newest: true});
             _this.reset();
         });
