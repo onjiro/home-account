@@ -1,6 +1,6 @@
 $(function() {
     // bootstrap の Alert div のテンプレート
-    var $alertDiv = $('<div class="popup alert alert-success"></div>')
+    var $alertDiv = $($('#alert-template').html())
     , $history = $('#history')
     , currentTransactions = new Backbone.Collection()
     , historyView = new TransactionHistoryView({
