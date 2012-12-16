@@ -2,17 +2,19 @@ this.TransactionHistoryView = (function(global) {
     var TransactionHistoryView = Backbone.View.extend({
         initialize: function() {
             this.collection.on('add', this.add, this);
+
+            this.template = _.template($('#history-template').html());
         },
         add: function(model, collections, options) {
             $added = (options.index === 0) ?
-                this.$el.prepend(formatToTableRow(model)).children(':first-child'):
-                this.$el.append(formatToTableRow(model)).children(':last-child');
+                this.$el.prepend(formatToTableRow(model, this.template)).children(':first-child'):
+                this.$el.append(formatToTableRow(model, this.template)).children(':last-child');
             if (options.newest) {
                 $added.hide().fadeIn();
             }
         }
     })
-    , formatToTableRow = function(transaction) {
+    , formatToTableRow = function(transaction, template) {
         var data = {
             cid        : transaction.cid,
             date       : _.template('<%= getMonth() %>/<%= getDate() %>', transaction.get('date')),
@@ -31,15 +33,8 @@ this.TransactionHistoryView = (function(global) {
                 break;
             }
         });
-        return _.template(ROW_TEMPLATE, data);
+        return template(data);
     }
-    , ROW_TEMPLATE = ''
-        + '<tr data-model-cid="<%= cid %>">'
-        +   '<td><span class="label label-info"><%= date %></span></td>'
-        +   '<td><%= items.join(", ") %></td>'
-        +   '<td><span class="label"><%= creditItems %></span></td>'
-        +   '<td style="text-align: right;"><%= amount %></td>'
-        + '</tr>';
 
     return TransactionHistoryView;
 })(this);
