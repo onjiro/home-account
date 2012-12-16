@@ -17,7 +17,7 @@ this.TransactionHistoryView = (function(global) {
     , formatToTableRow = function(transaction, template) {
         var data = {
             cid        : transaction.cid,
-            date       : _.template('<%= getMonth() %>/<%= getDate() %>', transaction.get('date')),
+            date       : transaction.get('date'),
             items      : [],
             amount     : 0,
             creditItems: [],
