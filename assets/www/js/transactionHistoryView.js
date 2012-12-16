@@ -15,25 +15,16 @@ this.TransactionHistoryView = (function(global) {
         }
     })
     , formatToTableRow = function(transaction, template) {
-        var data = {
+        var accounts = transaction.get('accounts')
+        , debitAccounts  = _.where(accounts, {type: 'debit'})
+        , creditAccounts = _.where(accounts, {type: 'credit'});
+        return template({
             cid        : transaction.cid,
             date       : transaction.get('date'),
-            items      : [],
-            amount     : 0,
-            creditItems: [],
-        };
-        _.each(transaction.get('accounts'), function(account) {
-            switch (account.type) {
-            case 'debit':
-                data.items.push(account.item);
-                data.amount += account.amount;
-                break;
-            case 'credit':
-                data.creditItems.push(account.item);
-                break;
-            }
+            items      : _.map(debitAccounts, function(account) { return account.item }),
+            amount     : _.reduce(debitAccounts, function(memo, item) { return memo + item.amount }, 0),
+            creditItems: _.map(creditAccounts, function(account) { return account.item }),
         });
-        return template(data);
     }
 
     return TransactionHistoryView;
