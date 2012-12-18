@@ -6,9 +6,7 @@ this.TransactionHistoryView = (function(global) {
                 var modelCid = $(e.currentTarget).data('model-cid')
                 , target = this.collection.getByCid(modelCid)
                 , collection = this.collection;
-                if (!window.confirm('指定の履歴を削除します。')) {
-                    return;
-                }
+                if (!window.confirm('指定の履歴を削除します。')) return;
                 // todo ここはdbと連携可能にすれば、`target.destroy()`のみの記載になる
                 db.transaction(function(tx) {
                     target.remove(tx, function(tx) {
@@ -20,7 +18,7 @@ this.TransactionHistoryView = (function(global) {
             },
         },
         initialize: function() {
-            this.collection.on('add', this.add, this);
+            this.collection.on('add'   , this.add     , this);
             this.collection.on('remove', this.onRemove, this);
 
             this.template = _.template($('#history-template').html());
