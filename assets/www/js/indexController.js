@@ -26,24 +26,25 @@ $(function() {
             details: null
         };
         // 勘定を登録する
-        // account は購入した品目側、通常は資産増加のため、借方（左側）の増加
-        // opposite は支払い方法、通常は資産減少のため、貸方（右側）の増加
-        var account = new Account({
-            date: entries.date,
-            item: entries.item,
-            amount: entries.amount,
-            type: 'debit'
-        });
-        var opposite = new Account({
-            date: entries.date,
-            item: entries.oppositeItem,
-            amount: entries.amount,
-            type: 'credit'
-        });
         var accountTransaction = new Transaction({
             date: entries.date,
             details: entries.details,
-            accounts: [account, opposite]
+            accounts: [
+                // 購入した品目側、通常は資産増加のため、借方（左側）の増加
+                new Account({
+                    date: entries.date,
+                    item: entries.item,
+                    amount: entries.amount,
+                    type: 'debit'
+                }),
+                // 支払い方法、通常は資産減少のため、貸方（右側）の増加
+                new Account({
+                    date: entries.date,
+                    item: entries.oppositeItem,
+                    amount: entries.amount,
+                    type: 'credit'
+                }),
+            ]
         });
         db.transaction(function(tx) {
             accountTransaction.save(tx);
