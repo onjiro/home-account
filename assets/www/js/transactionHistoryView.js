@@ -3,16 +3,16 @@ this.TransactionHistoryView = (function(global) {
         events: {
             // 支出の削除
             "click tr": function(e) {
-                var $this = $(e.currentTarget)
-                , currentTransactions = this.collection;
+                var modelCid = $(e.currentTarget).data('model-cid')
+                , target = this.collection.getByCid(modelCid)
+                , collection = this.collection;
                 if (!window.confirm('指定の履歴を削除します。')) {
                     return;
                 }
                 // todo ここはdbと連携可能にすれば、`target.destroy()`のみの記載になる
                 db.transaction(function(tx) {
-                    var target = currentTransactions.getByCid($this.data('model-cid'));
                     target.remove(tx, function(tx) {
-                        currentTransactions.remove(target);
+                        collection.remove(target);
                     }, function(err) {
                         alert('something failed while removing transactions.\n' + err.message);
                     });
