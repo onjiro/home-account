@@ -8,6 +8,7 @@ this.TransactionHistoryView = (function(global) {
                 if (!window.confirm('指定の履歴を削除します。')) {
                     return;
                 }
+                // todo ここはdbと連携可能にすれば、`target.destroy()`のみの記載になる
                 db.transaction(function(tx) {
                     var target = currentTransactions.getByCid($this.data('model-cid'));
                     target.remove(tx, function(tx) {
