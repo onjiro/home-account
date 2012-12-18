@@ -1,5 +1,22 @@
 this.TransactionHistoryView = (function(global) {
     var TransactionHistoryView = Backbone.View.extend({
+        events: {
+            // 支出の削除
+            "click tr": function(e) {
+                var $this = $(e.currentTarget)
+                , currentTransactions = this.collection;
+                if (!window.confirm('指定の履歴を削除します。')) {
+                    return;
+                }
+                db.transaction(function(tx) {
+                    currentTransactions.getByCid($this.data('model-cid')).remove(tx, function(tx) {
+                        $this.fadeOut(function() { $this.detach() });
+                    }, function(err) {
+                        alert('something failed while removing transactions.\n' + err.message);
+                    });
+                });
+            },
+        },
         initialize: function() {
             this.collection.on('add', this.add, this);
 

@@ -69,22 +69,6 @@ $(function() {
         return false;
     });
 
-    // 支出の削除
-    var $histories = $('tbody > tr', $history);
-    $histories.live('click', function(event) {
-        var $this = $(this);
-        if (!window.confirm('指定の履歴を削除します。')) {
-            return;
-        }
-        db.transaction(function(tx) {
-            currentTransactions.getByCid($this.data('model-cid')).remove(tx, function(tx) {
-                $this.fadeOut(function() { $this.detach() });
-            }, function(err) {
-                alert('something failed while removing transactions.\n' + err.message);
-            });
-        });
-    });
-    
     db.transaction(function(tx) {
         Transaction.find(tx, function(tx, transactions) {
             $.each(transactions.reverse(), function(i, transaction) {
