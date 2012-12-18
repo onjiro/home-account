@@ -16,12 +16,23 @@ this.TransactionHistoryView = (function(global) {
                     });
                 });
             },
+            "touchstart td": 'hover',
+            "mouseover td" : 'hover',
+            'touchend td'  : 'hout',
+            'mouseout td'  : 'hout',
         },
         initialize: function() {
             this.collection.on('add'   , this.add     , this);
             this.collection.on('remove', this.onRemove, this);
 
             this.template = _.template($('#history-template').html());
+        },
+        hover: function(e) {
+            var $target = $(e.currentTarget).addClass('hover');
+            setTimeout(function() { $target.removeClass('hover'); }, 1000);
+        },
+        hout: function(e) {
+            $(e.currentTarget).removeClass('hover');
         },
         add: function(model, collections, options) {
             $added = (options.index === 0) ?
