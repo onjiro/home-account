@@ -2,7 +2,24 @@ $(function() {
     // bootstrap の Alert div のテンプレート
     var alertTemplate = _.template($('#alert-template').html())
     , $history = $('#history')
-    , currentTransactions = new Backbone.Collection()
+    , currentTransactions = new (Backbone.Collection.extend({
+        model: Transaction,
+        sync: function(method, collections, option) {
+            switch (method) {
+            case 'read':
+                Transaction.find(option.tx, function(tx, transactions) {
+                    $.each(transactions.reverse(), function(i, transaction) {
+                        collections.add(transaction);
+                    });
+                }, function(err) {
+                    alert('something failed while accessing database.\n' + err.message);
+                });
+                break;
+            default:
+                throw new Error('not supported method called!!');
+            }
+        },
+    }))
     , historyView = new TransactionHistoryView({
         el: '#history table > tbody',
         collection: currentTransactions
@@ -62,14 +79,9 @@ $(function() {
         return false;
     });
 
+    // 初期ロード時に Transaction を読み込む
     db.transaction(function(tx) {
-        Transaction.find(tx, function(tx, transactions) {
-            $.each(transactions.reverse(), function(i, transaction) {
-                currentTransactions.add(transaction);
-            });
-        }, function(err) {
-            alert('something failed while accessing database.\n' + err.message);
-        });
+        currentTransactions.fetch({tx: tx});
     }, function(err) {
         alert('something failed while accessing database.\n' + err.message);
     });
