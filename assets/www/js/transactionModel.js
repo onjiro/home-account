@@ -11,7 +11,7 @@ this.Transaction = (function(global) {
         initialize: function(values) {
             values = values || {};
             this.set({
-                rowid    : values.rowid,
+                id       : values.rowid,
                 date     : (values.date) ? new Date(values.date): new Date(),
                 accounts : values.accounts || [],
                 details  : values.details  || ""
@@ -25,7 +25,7 @@ this.Transaction = (function(global) {
                 'INSERT INTO Transactions (date, details) VALUES (?, ?)',
                 [this.get('date').getTime(), this.get('details')],
                 function(tx, resultSet) {
-                    _this.set('rowid', resultSet.insertId);
+                    _this.set('id', resultSet.insertId);
                     // accounts はそれぞれ Accounts テーブルに格納
                     for (var i = 0; i < _this.get('accounts').length; i++) {
                         _this.get('accounts')[i].transactionId = resultSet.insertId;
@@ -38,7 +38,7 @@ this.Transaction = (function(global) {
         },
 
         remove: function(tx, onSuccess, onError) {
-            var rowid = this.get('rowid');
+            var rowid = this.get('id');
             tx.executeSql(
                 'DELETE FROM Transactions where rowid = ?',
                 [rowid],
@@ -75,7 +75,7 @@ this.Transaction = (function(global) {
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     var current = new Transaction(resultSet.rows.item(i));
                     var lastOne = (results.length === 0) ? null: results[results.length - 1];
-                    if (!lastOne || current.get('rowid') !== lastOne.get('rowid')) {
+                    if (!lastOne || current.get('id') !== lastOne.get('id')) {
                         results.push(current);
                     } else {
                         current = lastOne;
