@@ -3,11 +3,23 @@ $(function() {
     var alertTemplate = _.template($('#alert-template').html())
     , $history = $('#history')
     , currentTransactions = new (Backbone.Collection.extend({
+        db: db,
         model: Transaction,
         sync: function(method, collections, option) {
+            var sync = this.sync
+            , tx = (option || {}).tx;
+            if (!tx) {
+                db.transaction(function(tx) {
+                    sync.call(this, method, collections, _.defaults(option, {tx: tx}));
+                }, function(err) {
+                    alert('something failed while accessing database.\n' + err.message);
+                });
+                return;
+            }
+
             switch (method) {
             case 'read':
-                Transaction.find(option.tx, function(tx, transactions) {
+                Transaction.find(tx, function(tx, transactions) {
                     $.each(transactions.reverse(), function(i, transaction) {
                         collections.add(transaction);
                     });
@@ -80,11 +92,7 @@ $(function() {
     });
 
     // 初期ロード時に Transaction を読み込む
-    db.transaction(function(tx) {
-        currentTransactions.fetch({tx: tx});
-    }, function(err) {
-        alert('something failed while accessing database.\n' + err.message);
-    });
+    currentTransactions.fetch();
 
     // 初期ロード時に TotalAccount を読み込む
     db.transaction(function(tx) {
