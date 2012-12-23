@@ -3,11 +3,12 @@ var system = require('system')
 , runner;
 if (system.args.length < 2) { console.log('Usage: ' + system.args[0] + ' [TestScript...]'); phantom.exit(1); }
 
+// fill gap with node.js
 phantom.injectJs('./phantomjslib/bind.js');
+phantom.injectJs('./phantomjslib/util.js');
 
 // setup mocha
 phantom.injectJs('./node_modules/mocha/mocha.js');
-phantom.injectJs('./phantomjslib/util.js');
 phantom.injectJs('./phantomjslib/console.js');
 mocha.setup({
     ui: 'bdd',
