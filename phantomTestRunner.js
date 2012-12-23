@@ -8,12 +8,12 @@ phantom.injectJs('./phantomjslib/bind.js');
 phantom.injectJs('./phantomjslib/util.js');
 
 // setup mocha
-phantom.injectJs('./node_modules/mocha/mocha.js');
+phantom.injectJs('./phantomjslib/mocha-1.7.4/mocha.js');
 phantom.injectJs('./phantomjslib/console.js');
 mocha.setup({
     ui: 'bdd',
     ignoreLeaks: true,
-    reporter: mocha.reporters.Spec,
+    reporter: mocha.Spec,
 });
 
 // include test scripts
