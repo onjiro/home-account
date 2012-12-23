@@ -8,13 +8,7 @@ phantom.injectJs('./phantomjslib/bind.js');
 // setup mocha
 phantom.injectJs('./node_modules/mocha/mocha.js');
 phantom.injectJs('./phantomjslib/util.js');
-console._log = console.log;
-console.log = function() {console._log(format.apply(this, arguments))};
-console._error = console.error;
-console.error = function() {console._error(format.apply(this, arguments))};
-process.stdout.write = function() {
-    console.log.apply(this, arguments);
-};
+phantom.injectJs('./phantomjslib/console.js');
 mocha.setup({
     ui: 'bdd',
     ignoreLeaks: true,
