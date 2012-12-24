@@ -1,0 +1,1 @@
+script: ./casperjs caspertest/index.test.js
