@@ -6,10 +6,7 @@ this.TransactionHistoryView = (function(global) {
                 var modelCid = $(e.currentTarget).data('model-cid')
                 , target = this.collection.getByCid(modelCid);
                 if (!window.confirm('指定の履歴を削除します。')) return;
-                // todo ここはdbと連携可能にすれば、`target.destroy()`のみの記載になる
-                db.transaction(function(tx) {
-                    target.destroy({tx: tx});
-                });
+                target.destroy();
             },
             "touchstart td": 'hover',
             "mouseover td" : 'hover',

@@ -10,6 +10,7 @@ this.Transaction = (function(global) {
         // properties
         initialize: function(values) {
             values = values || {};
+            this.db = values.db;
             this.set({
                 id       : values.rowid,
                 date     : (values.date) ? new Date(values.date): new Date(),
@@ -56,7 +57,16 @@ this.Transaction = (function(global) {
          * モデルのDBへの書き込み・削除の際に呼ばれるメソッド
          */
         sync: function(method, model, option) {
-            var tx = (option || {}).tx;
+            var sync = this.sync
+            , tx = (option || {}).tx;
+            if (!tx) {
+                this.db.transaction(function(tx) {
+                    sync.call(model, method, model, _.defaults(option, {tx: tx}));
+                }, function(err) {
+                    alert('something failed while accessing database.\n');
+                });
+                return;
+            }
 
             switch(method) {
             case 'delete':
