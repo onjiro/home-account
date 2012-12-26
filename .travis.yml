@@ -1,1 +1,1 @@
-script: ./casperjs caspertest/index.test.js
+script: ./casperjs caspertest/index.test.coffee
