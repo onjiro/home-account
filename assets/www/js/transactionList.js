@@ -21,7 +21,7 @@ this.TransactionList = (function(global) {
             case 'read':
                 Transaction.find(tx, function(tx, transactions) {
                     $.each(transactions.reverse(), function(i, transaction) {
-                        collections.add(transaction);
+                        collections.add(_.defaults(transaction, {db: db}));
                     });
                 }, function(err) {
                     alert('something failed while accessing database.\n' + err.message);
