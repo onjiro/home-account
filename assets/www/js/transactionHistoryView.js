@@ -4,16 +4,11 @@ this.TransactionHistoryView = (function(global) {
             // 支出の削除
             "click tr": function(e) {
                 var modelCid = $(e.currentTarget).data('model-cid')
-                , target = this.collection.getByCid(modelCid)
-                , collection = this.collection;
+                , target = this.collection.getByCid(modelCid);
                 if (!window.confirm('指定の履歴を削除します。')) return;
                 // todo ここはdbと連携可能にすれば、`target.destroy()`のみの記載になる
                 db.transaction(function(tx) {
-                    target.remove(tx, function(tx) {
-                        collection.remove(target);
-                    }, function(err) {
-                        alert('something failed while removing transactions.\n' + err.message);
-                    });
+                    target.destroy({tx: tx});
                 });
             },
             "touchstart td": 'hover',

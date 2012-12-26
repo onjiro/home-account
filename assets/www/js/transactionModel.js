@@ -51,7 +51,22 @@ this.Transaction = (function(global) {
                 },
                 onError
             );
-        }
+        },
+        /**
+         * モデルのDBへの書き込み・削除の際に呼ばれるメソッド
+         */
+        sync: function(method, model, option) {
+            var tx = (option || {}).tx;
+
+            switch(method) {
+            case 'delete':
+                this.remove(tx, function(tx) {
+                }, function(err) {
+                    alert('something failed while removing transactions.\n' + err.message);
+                });
+                break;
+            }
+        },
     }, {
         // class properties
         find: function(tx, onSuccess, onError) {
