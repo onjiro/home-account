@@ -1,12 +1,11 @@
 this.TransactionHistoryView = (function(global) {
     var TransactionHistoryView = Backbone.View.extend({
         events: {
-            // 支出の削除
             "click tr": function(e) {
                 var modelCid = $(e.currentTarget).data('model-cid')
-                , target = this.collection.getByCid(modelCid);
-                if (!window.confirm('指定の履歴を削除します。')) return;
-                target.destroy();
+                new TransactionDetailView({
+                    model: this.collection.getByCid(modelCid),
+                });
             },
             "touchstart td": 'hover',
             "mouseover td" : 'hover',
