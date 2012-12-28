@@ -31,23 +31,10 @@ div.history-detail {
     z-index: 9999;
     background: rgba(0, 0, 0, 0.5);
 }
-.history-detail dl,
-.history-detail div {
+div.history-detail .container {
     background: #fff;
-    margin: 0 auto;
-    padding: 8px 10%;
+    margin: 64px auto 0;
+    padding: 48px 10%;
     width: 60%;
-}
-.history-detail dl:first-child {
-    margin-top: 64px;
-    padding-top: 48px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-.history-detail dl:last-child,
-.history-detail div:last-child {
-    margin-bottom: 64px;
-    padding-bottom: 48px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-radius: 8px;
 }
