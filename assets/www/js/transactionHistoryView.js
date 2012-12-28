@@ -3,8 +3,9 @@ this.TransactionHistoryView = (function(global) {
         events: {
             "click tr": function(e) {
                 var modelCid = $(e.currentTarget).data('model-cid')
-                , target = this.collection.getByCid(modelCid);
-                $('body').append(_.template($('#history-detail').html(), target.attributes));
+                new TransactionDetailView({
+                    model: this.collection.getByCid(modelCid),
+                });
             },
             "touchstart td": 'hover',
             "mouseover td" : 'hover',
