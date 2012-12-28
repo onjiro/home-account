@@ -3,6 +3,8 @@ url = './assets/www/index.html'
 
 casper.start url, ->
   @test.assertTitle 'Home Account'
-  @test.assertDoesntExist '#history tbody td'
+
+casper.waitWhileVisible '#history .loading', ->
+  @test.assertExist '#history table'
 
 casper.run()

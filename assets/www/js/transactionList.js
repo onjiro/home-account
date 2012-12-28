@@ -7,10 +7,11 @@ this.TransactionList = (function(global) {
         },
         sync: function(method, collections, option) {
             var sync = this.sync
-            , tx = (option || {}).tx;
+            , tx = (option || {}).tx
+            , _this = this;
             if (!tx) {
                 this.db.transaction(function(tx) {
-                    sync.call(this, method, collections, _.defaults(option, {tx: tx}));
+                    sync.call(_this, method, collections, _.defaults(option, {tx: tx}));
                 }, function(err) {
                     alert('something failed while accessing database.\n' + err.message);
                 });
@@ -20,6 +21,7 @@ this.TransactionList = (function(global) {
             switch (method) {
             case 'read':
                 Transaction.find(tx, function(tx, transactions) {
+                    _this.reset()
                     $.each(transactions.reverse(), function(i, transaction) {
                         collections.add(_.defaults(transaction, {db: db}));
                     });

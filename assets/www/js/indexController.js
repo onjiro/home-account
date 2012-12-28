@@ -9,6 +9,16 @@ $(function() {
         el: '#history table > tbody',
         collection: currentTransactions
     })
+    , appView = new (Backbone.View.extend({
+        el: document,
+        initialize: function() {
+            currentTransactions.on('reset', function() {
+                this.$('#history')
+                    .children('.loading').hide().end()
+                    .children('table').show();
+            }, this);
+        },
+    }))()
     , totalAccounts = new Backbone.Collection()
     , totalAccountView = new TotalAccountView({
         el: '#inventory-tab table tbody',
