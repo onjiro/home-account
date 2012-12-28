@@ -20,3 +20,32 @@
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
     box-shadow        : inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6)
 }
+
+/* 履歴詳細表示時はダイアログボックス風に表示 */
+div.history-detail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+}
+.history-detail dl {
+    background: #fff;
+    margin: 0 auto;
+    padding: 8px 10%;
+    width: 60%;
+}
+.history-detail dl:first-child {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.history-detail dl:last-child {
+    margin-bottom: 64px;
+    padding-bottom: 48px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
