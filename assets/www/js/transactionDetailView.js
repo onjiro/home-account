@@ -4,6 +4,11 @@ this.TransactionDetailView = (function(global){
             'click .history-detail': function(e) {
                 if (e.toElement.className === 'history-detail') this.remove();
             },
+            'click .remove': function(e) {
+                if (!window.confirm('履歴を削除します。')) return;
+                this.model.destroy();
+                this.remove();
+            },
         },
         initialize: function() {
             var template = _.template($('#history-detail').html());
