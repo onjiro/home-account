@@ -23,5 +23,10 @@ casper.waitWhileVisible '.container .popup', ->
   currentDataLength = @evaluate ->
     document.querySelector('#history tbody').children.length
   @test.assertEquals currentDataLength, dataLength + 1
+  today = new Date()
+  @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', today.getMonth() + '/' + today.getDate()
+  @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
+  @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '現金'
+  @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(4)', '120'
 
 casper.run()
