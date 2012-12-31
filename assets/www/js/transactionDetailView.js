@@ -24,8 +24,8 @@ this.TransactionDetailView = (function(global){
             this.$el
                 .detach()
                 .empty()
-                .append(this.template(this.model.attributes));
-            this.$body.append(this.el);
+                .append(this.template(this.model.attributes))
+                .appendTo(this.$body);
             this.followScroll();
         },
         followScroll: function() {
