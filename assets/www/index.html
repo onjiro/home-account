@@ -215,34 +215,32 @@
     </script>
 
     <script type="text/template" id="history-detail">
-      <div class="history-detail">
-        <div class="container">
-          <dl class="date">
-            <dt>日付</dt>
-            <dd><%= date.getFullYear() %>/<%= date.getMonth() + 1 %>/<%= date.getDate() %> <%= date.getHours() %>:<%= date.getMinutes() %></dd>
-          </dl>
-          <dl class="debit">
-            <dt>借方</dt>
-            <% _.chain(accounts).where({type: 'debit'}).each(function(account) { %>
-            <dd>
-              <span class="item"><%= account.item %></span>
-              <span class="amount"><%= account.amount %></span>
-            </dd>
-            <% }); %>
-          </dl>
-          <dl class="credit">
-            <dt>貸方</dt>
-            <% _.chain(accounts).where({type: 'credit'}).each(function(account) { %>
-            <dd>
-              <span class="item"><%= account.item %></span>
-              <span class="amount"><%= account.amount %></span>
-            </dd>
-            <% }); %>
-          </dl>
-          <button type="reset" class="remove btn btn-danger">
-            <i class="icon-remove icon-white"></i>削除
-          </button>
-        </div>
+      <div class="container">
+        <dl class="date">
+          <dt>日付</dt>
+          <dd><%= date.getFullYear() %>/<%= date.getMonth() + 1 %>/<%= date.getDate() %> <%= date.getHours() %>:<%= date.getMinutes() %></dd>
+        </dl>
+        <dl class="debit">
+          <dt>借方</dt>
+          <% _.chain(accounts).where({type: 'debit'}).each(function(account) { %>
+          <dd>
+            <span class="item"><%= account.item %></span>
+            <span class="amount"><%= account.amount %></span>
+          </dd>
+          <% }); %>
+        </dl>
+        <dl class="credit">
+          <dt>貸方</dt>
+          <% _.chain(accounts).where({type: 'credit'}).each(function(account) { %>
+          <dd>
+            <span class="item"><%= account.item %></span>
+            <span class="amount"><%= account.amount %></span>
+          </dd>
+          <% }); %>
+        </dl>
+        <button type="reset" class="remove btn btn-danger">
+          <i class="icon-remove icon-white"></i>削除
+        </button>
       </div>
     </script>
 

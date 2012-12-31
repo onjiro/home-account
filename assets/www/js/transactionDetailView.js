@@ -1,7 +1,9 @@
 this.TransactionDetailView = (function(global){
     return Backbone.View.extend({
+        tagName: 'div',
+        className: 'history-detail',
         events: {
-            'click .history-detail': function(e) {
+            'click': function(e) {
                 if (e.toElement.className === 'history-detail') this.remove();
             },
             'click .remove': function(e) {
