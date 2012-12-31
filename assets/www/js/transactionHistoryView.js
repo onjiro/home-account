@@ -39,14 +39,12 @@ this.TransactionHistoryView = (function(global) {
     })
     , formatToTableRow = function(transaction, template) {
         var accounts = transaction.get('accounts')
-        , debitAccounts  = _.where(accounts, {type: 'debit'})
-        , creditAccounts = _.where(accounts, {type: 'credit'});
+        , debitAccounts  = _.where(accounts, {type: 'debit'});
         return template({
             cid        : transaction.cid,
             date       : transaction.get('date'),
             items      : _.map(debitAccounts, function(account) { return account.item }),
             amount     : _.reduce(debitAccounts, function(memo, item) { return memo + item.amount }, 0),
-            creditItems: _.map(creditAccounts, function(account) { return account.item }),
         });
     }
 
