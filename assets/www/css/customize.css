@@ -23,7 +23,7 @@
 
 /* 履歴詳細表示時はダイアログボックス風に表示 */
 div.history-detail {
-    position: fixed;
+    position: absolute; /* jsと連携してFixed風にする。Android2.3対応 */
     top: 0;
     left: 0;
     width: 100%;

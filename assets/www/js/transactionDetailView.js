@@ -13,8 +13,15 @@ this.TransactionDetailView = (function(global){
             },
         },
         initialize: function() {
-            var template = _.template($('#history-detail').html());
+            var _this = this
+            , template = _.template($('#history-detail').html());
             $('body').append(this.$el.append(template(this.model.attributes)));
+            this.followScroll();
+
+            $(document).scroll(function(e) { _this.followScroll(); });
+        },
+        followScroll: function() {
+            this.$el.css({top: $('body').scrollTop()});
         },
     });
 })();
