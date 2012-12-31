@@ -9,13 +9,14 @@ this.TransactionDetailView = (function(global){
             'click .remove': function(e) {
                 if (!window.confirm('履歴を削除します。')) return;
                 this.model.destroy();
-                this.remove();
             },
         },
         initialize: function() {
             var _this = this;
             this.$body = $('body');
             this.template = _.template($('#history-detail').html());
+
+            this.model.on('destroy', function() { this.remove(); });
 
             this.render();
             $(document).scroll(function(e) { _this.followScroll(); });
