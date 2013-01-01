@@ -28,4 +28,5 @@ casper.waitWhileVisible '.container .popup', ->
   @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
   @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '120'
 
-casper.run()
+casper.run ->
+  @exit (if @test.getFailures().length then 1 else 0)
