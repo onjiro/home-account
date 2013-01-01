@@ -16,7 +16,7 @@ this.TransactionDetailView = (function(global){
             this.$body = $('body');
             this.template = _.template($('#history-detail').html());
 
-            this.model.on('destroy', function() { this.remove(); });
+            this.model.on('destroy', function() { this.remove(); }, this);
 
             this.render();
             $(document).scroll(function(e) { _this.followScroll(); });
