@@ -61,6 +61,8 @@ casper
 
   .then ->
     @test.assertExists '.history-detail'
+    @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getFullYear()}/#{firstCreatedDate.getMonth() + 1}/#{firstCreatedDate.getDate()}"
+    @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getHours()}:#{firstCreatedDate.getMinutes()}"
 
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
