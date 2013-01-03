@@ -1,8 +1,11 @@
 tables = ['Accounts', 'Transactions']
-exports.initialize = (dbName) ->
+exports.initializer = ->
   deleted = []
-  openDatabase(dbName, '', '', 300000).transaction (tx)->
-    for table in tables
-      do (table) ->
-        tx.executeSql "DELETE FROM #{table}", [], -> deleted.push table
-  return -> deleted.length == 2
+  return {
+    execute: (dbName) ->
+      openDatabase(dbName, '', '', 300000).transaction (tx)->
+        for table in tables
+          do (table) ->
+            tx.executeSql "DELETE FROM #{table}", [], -> deleted.push table
+    succeeded: -> deleted.length == 2
+  }

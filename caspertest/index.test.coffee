@@ -1,10 +1,11 @@
-databaseHelper = require('./jstestlibs/database.helper')
+dbinitializer = require('./jstestlibs/database.helper').initializer()
 casper = require('casper').create()
 url = './assets/www/index.html'
 
 casper.start()
-casper.open('')
-casper.waitFor databaseHelper.initialize('home-account')
+casper.open('').then ->
+  dbinitializer.execute('home-account')
+casper.waitFor dbinitializer.succeeded
 
 casper.open(url)
   .then ->
