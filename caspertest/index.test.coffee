@@ -15,6 +15,7 @@ casper.open(url)
   .waitWhileVisible '#history .loading', ->
     @test.assertExist '#history table'
 
+firstCreatedDate = null
 casper
   .then ->
     @fill 'form#account-entry',
@@ -22,12 +23,12 @@ casper
       'item'         : '食費'
       'opposite-item': '現金'
     @click 'form#account-entry button[type="submit"]'
+    firstCreatedDate = new Date()
 
   .waitForSelector('.container .popup')
   .waitWhileVisible '.container .popup', ->
     @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 1
-    today = new Date()
-    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '120'
 
@@ -50,6 +51,22 @@ casper
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
+
+casper
+  .then ->
+    @test.assertDoesntExist '.history-detail'
+
+  .then ->
+    @click '#history tbody tr:first-child'
+
+  .then ->
+    @test.assertExists '.history-detail'
+    @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getFullYear()}/#{firstCreatedDate.getMonth() + 1}/#{firstCreatedDate.getDate()}"
+    @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getHours()}:#{firstCreatedDate.getMinutes()}"
+    @test.assertSelectorHasText '.history-detail .debit' , '外食'
+    @test.assertSelectorHasText '.history-detail .debit' , '980'
+    @test.assertSelectorHasText '.history-detail .credit', 'Edy'
+    @test.assertSelectorHasText '.history-detail .credit', '980'
 
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
