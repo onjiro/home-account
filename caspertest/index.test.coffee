@@ -3,6 +3,7 @@ casper = require('casper').create()
 url = './assets/www/index.html'
 
 casper.start()
+casper.open('')
 casper.waitFor databaseHelper.initialize('home-account')
 
 casper.open(url)
