@@ -5,6 +5,7 @@ url = './assets/www/index.html'
 casper.start('')
   .then ->
     dbinitializer.execute('home-account')
+    @reload() # DBの更新が反映されないことへの回避策
   .waitFor dbinitializer.succeeded
 
 casper.open(url)
