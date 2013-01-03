@@ -51,5 +51,15 @@ casper
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
 
+casper
+  .then ->
+    @test.assertDoesntExist '.history-detail'
+
+  .then ->
+    @click '#history tbody tr:first-child'
+
+  .then ->
+    @test.assertExists '.history-detail'
+
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
