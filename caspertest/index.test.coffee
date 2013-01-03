@@ -10,6 +10,9 @@ casper.start('')
 
 casper.open(url)
   .then ->
+    @echo '自動的にロードが終わること', 'INFO'
+
+  .then ->
     @test.assertTitle 'Home Account'
 
   .waitWhileVisible '#history .loading', ->
@@ -17,6 +20,9 @@ casper.open(url)
 
 firstCreatedDate = null
 casper
+  .then ->
+    @echo 'Transactionを追加できること', 'INFO'
+
   .then ->
     @fill 'form#account-entry',
       'amount'       : 120
@@ -36,7 +42,11 @@ casper
     @test.assertField 'item'         , null
     @test.assertField 'opposite-item', null
 
+
 casper
+  .then ->
+    @echo '先頭に新しいTransactionが追加されること', 'INFO'
+
   .then ->
     @fill 'form#account-entry',
       'amount'       : 980
@@ -53,6 +63,9 @@ casper
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
 
 casper
+  .then ->
+    @echo '履歴からTransactionを選択したら詳細が表示されること', 'INFO'
+
   .then ->
     @test.assertDoesntExist '.history-detail'
 
