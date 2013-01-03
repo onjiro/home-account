@@ -5,8 +5,7 @@ url = './assets/www/index.html'
 casper.start()
 casper.waitFor databaseHelper.initialize('home-account')
 
-casper.open(url)
-casper.then ->
+casper.open(url).then ->
   @test.assertTitle 'Home Account'
 
 casper.waitWhileVisible '#history .loading', ->
