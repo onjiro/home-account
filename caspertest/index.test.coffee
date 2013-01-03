@@ -24,7 +24,6 @@ casper
     @click 'form#account-entry button[type="submit"]'
 
   .waitForSelector('.container .popup')
-
   .waitWhileVisible '.container .popup', ->
     @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 1
     today = new Date()
