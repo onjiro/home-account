@@ -2,8 +2,7 @@ dbinitializer = require('./jstestlibs/database.helper').initializer()
 casper = require('casper').create()
 url = './assets/www/index.html'
 
-casper.start()
-casper.open('').then ->
+casper.start('').then ->
   dbinitializer.execute('home-account')
 casper.waitFor dbinitializer.succeeded
 
