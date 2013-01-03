@@ -29,7 +29,6 @@ casper.then ->
 casper.waitForSelector '.container .popup'
 
 casper.waitWhileVisible '.container .popup', ->
-
   @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 1
   today = new Date()
   @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
