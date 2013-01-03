@@ -2,15 +2,14 @@ casper = require('casper').create()
 url = './assets/www/index.html'
 
 casper.start()
-casper.open('./dummy.html').then ->
-  deleted = []
-  db = openDatabase('home-account', '', 'home account', 300000)
-  for table in ['Accounts', 'Transactions']
-    do (table) ->
-      db.transaction (tx)->
-        tx.executeSql "DELETE FROM #{table}", [], -> deleted.push table
-  @waitFor -> deleted.length == 2
-  @reload() # DBへの操作が反映されないことへの回避策
+deleted = []
+db = openDatabase('home-account', '', 'home account', 300000)
+for table in ['Accounts', 'Transactions']
+  do (table) ->
+    db.transaction (tx)->
+      tx.executeSql "DELETE FROM #{table}", [], -> deleted.push table
+casper.waitFor -> deleted.length == 2
+casper.reload() # DBへの操作が反映されないことへの回避策
 
 casper.open(url)
 casper.then ->
