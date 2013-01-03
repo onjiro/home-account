@@ -1,14 +1,9 @@
+databaseHelper = require('./caspertest/database.helper')
 casper = require('casper').create()
 url = './assets/www/index.html'
 
 casper.start()
-deleted = []
-db = openDatabase('home-account', '', 'home account', 300000)
-for table in ['Accounts', 'Transactions']
-  do (table) ->
-    db.transaction (tx)->
-      tx.executeSql "DELETE FROM #{table}", [], -> deleted.push table
-casper.waitFor -> deleted.length == 2
+casper.waitFor databaseHelper.initialize('home-account')
 
 casper.open(url)
 casper.then ->
