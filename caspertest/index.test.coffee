@@ -1,4 +1,4 @@
-databaseHelper = require('./caspertest/database.helper')
+databaseHelper = require('./jstestlibs/database.helper')
 casper = require('casper').create()
 url = './assets/www/index.html'
 
