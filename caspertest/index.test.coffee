@@ -35,5 +35,21 @@ casper
     @test.assertField 'item'         , null
     @test.assertField 'opposite-item', null
 
+casper
+  .then ->
+    @fill 'form#account-entry',
+      'amount'       : 980
+      'item'         : '外食'
+      'opposite-item': 'Edy'
+    @click 'form#account-entry button[type="submit"]'
+
+  .waitForSelector('.container .popup')
+  .waitWhileVisible '.container .popup', ->
+    @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 2
+    today = new Date()
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
+
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
