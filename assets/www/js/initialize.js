@@ -106,5 +106,14 @@ $(function() {
             }
         });
     });
+    m.migration(11, function(tx) {
+        tx.executeSql('SELECT rowid, name from AccountItems', [], function(tx, resultSet) {
+            var i, item;
+            for (var i = 0; i < resultSet.rows.length; i++) {
+                item = resultSet.rows.item(i);
+                tx.executeSql('UPDATE Accounts SET itemId = ? where item = ?', [item.rowid, item.name]);
+            }
+        });
+    });
     m.doIt();
 });
