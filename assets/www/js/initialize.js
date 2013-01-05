@@ -97,5 +97,14 @@ $(function() {
             tx.executeSql('INSERT INTO AccountItemClassifications (name, side) VALUES (?, ?)', initialData);
         });
     });
+    m.migration(10, function(tx) {
+        tx.executeSql('SELECT DISTINCT(item) FROM Accounts', [], function(tx, resultSet) {
+            var i, itemName;
+            for (var i = 0; i < resultSet.rows.length; i++) {
+                itemName = resultSet.rows.item(i).item;
+                tx.executeSql('INSERT INTO AccountItems (name, classificationId) VALUES (?, ?)', [itemName, 1]);
+            }
+        });
+    });
     m.doIt();
 });
