@@ -75,5 +75,45 @@ $(function() {
             }
         );
     });
+    m.migration(8, function(tx) {
+        tx.executeSql('ALTER TABLE Accounts ADD COLUMN itemId INTEGER');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS AccountItems (name, classificationId)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS AccountItemClassifications (name, side)');
+    });
+    m.migration(9, function(tx) {
+        _.each([
+            ['流動資産'      , 'debit'],
+            ['固定資産'      , 'debit'],
+            ['繰延資産'      , 'debit'],
+            ['流動負債'      , 'credit'],
+            ['固定負債'      , 'credit'],
+            ['純資産'        , 'credit'],
+            ['収益'          , 'credit'],
+            ['費用'          , 'debit'],
+            ['固定資産評価損', 'debit'],
+            ['その他借方'    , 'debit'],
+            ['その他貸方'    , 'credit']
+        ], function(initialData) {
+            tx.executeSql('INSERT INTO AccountItemClassifications (name, side) VALUES (?, ?)', initialData);
+        });
+    });
+    m.migration(10, function(tx) {
+        tx.executeSql('SELECT DISTINCT(item) FROM Accounts', [], function(tx, resultSet) {
+            var i, itemName;
+            for (var i = 0; i < resultSet.rows.length; i++) {
+                itemName = resultSet.rows.item(i).item;
+                tx.executeSql('INSERT INTO AccountItems (name, classificationId) VALUES (?, ?)', [itemName, 1]);
+            }
+        });
+    });
+    m.migration(11, function(tx) {
+        tx.executeSql('SELECT rowid, name from AccountItems', [], function(tx, resultSet) {
+            var i, item;
+            for (var i = 0; i < resultSet.rows.length; i++) {
+                item = resultSet.rows.item(i);
+                tx.executeSql('UPDATE Accounts SET itemId = ? where item = ?', [item.rowid, item.name]);
+            }
+        });
+    });
     m.doIt();
 });

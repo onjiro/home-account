@@ -28,6 +28,7 @@ this.Transaction = (function(global) {
                 function(tx, resultSet) {
                     _this.set('id', resultSet.insertId);
                     // accounts はそれぞれ Accounts テーブルに格納
+                    // TODO 順にAccountを保存するように変更
                     for (var i = 0; i < _this.get('accounts').length; i++) {
                         _this.get('accounts')[i].transactionId = resultSet.insertId;
                         _this.get('accounts')[i].save(tx, null, onError);
@@ -86,12 +87,14 @@ this.Transaction = (function(global) {
                 '  Transactions.date as date,',
                 '  Transactions.details as details,',
                 '  Transactions.rowid as transactionId,',
-                '  Accounts.item as item,',
+                '  AccountItems.name as item,',
                 '  Accounts.amount as amount,',
                 '  Accounts.type as type',
                 'FROM',
                 '  Transactions INNER JOIN Accounts ',
                 '  ON Transactions.rowid = Accounts.transactionId',
+                '  INNER JOIN AccountItems',
+                '  ON Accounts.itemId = AccountItems.rowid',
                 'ORDER BY',
                 '  Transactions.rowid'
             ].join(' ');

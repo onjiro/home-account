@@ -8,24 +8,51 @@ this.Account = (function(global) {
         this.type = values.type || 'credit';
     }
 
-    Constructor.prototype.save = function(tx, onSuccess, onError) {
+    Constructor.prototype.doSave = function(tx, onSuccess, onError) {
         tx.executeSql([
             'INSERT INTO Accounts (',
             '  transactionId,',
             '  date,',
-            '  item,',
+            '  itemId,',
             '  amount,',
             '  type',
             ') VALUES (?, ?, ?, ?, ?)'
         ].join(' '), [
             this.transactionId,
             this.date.getTime(),
-            this.item,
+            this.itemId,
             this.amount,
             this.type
         ], function(tx, resultSet) {
             if (onSuccess) { onSuccess(tx, resultSet.insertId); };
         }, onError)
+    }
+
+    Constructor.prototype.save = function(tx, onSuccess, onError) {
+        var _this = this;
+        tx.executeSql(
+            'SELECT rowid FROM AccountItems WHERE name = ?',
+            [this.item],
+            function(tx, resultSet) {
+                if (resultSet.rows.length === 0) {
+                    _this.saveNewItem(tx, function(tx, resultSet) {
+                        _this.save(tx, onSuccess, onError);
+                    }, onError);
+                } else {
+                    _this.itemId = resultSet.rows.item(0).rowid;
+                    _this.doSave(tx, onSuccess, onError);
+                }
+            }
+        );
+    }
+
+    Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
+        tx.executeSql(
+            'INSERT INTO AccountItems (name, classificationId) VALUES (?, 1)',
+            [this.item],
+            onSuccess,
+            onError
+        );
     }
 
     return Constructor;
