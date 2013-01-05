@@ -13,15 +13,13 @@ this.Account = (function(global) {
             'INSERT INTO Accounts (',
             '  transactionId,',
             '  date,',
-            '  item,',
             '  itemId,',
             '  amount,',
             '  type',
-            ') VALUES (?, ?, ?, ?, ?, ?)'
+            ') VALUES (?, ?, ?, ?, ?)'
         ].join(' '), [
             this.transactionId,
             this.date.getTime(),
-            this.item,
             this.itemId,
             this.amount,
             this.type
