@@ -70,7 +70,7 @@ this.TotalAccount = (function(global){
         select: function(option, tx, success, err) {
             var whereSection = [], queryParams = [];
             if (option && option.item) {
-                whereSection.push('item = ?');
+                whereSection.push('AccountItems.name = ?');
                 queryParams.push(option.item);
             }
             if (option && option.date) {
@@ -79,16 +79,18 @@ this.TotalAccount = (function(global){
             }
             tx.executeSql([
                 'SELECT',
-                '  item,',
+                '  AccountItems.name as item,',
                 '  SUM(CASE type WHEN \'debit\' THEN amount ELSE 0 END) AS debitAmount,',
                 '  SUM(CASE type WHEN \'credit\' THEN amount ELSE 0 END) AS creditAmount',
                 'FROM',
                 '  Accounts',
+                '  INNER JOIN AccountItems',
+                '  ON Accounts.itemId = AccountItems.rowid',
                 (whereSection.length > 0) ?
                     'WHERE ' + whereSection.join(' and '):
                     '',
                 'GROUP BY',
-                '  item'
+                '  itemId'
             ].join(' '), queryParams, function(tx, resultSet) {
                 var totals = [], i;
                 for(i = 0; i < resultSet.rows.length; i++) {
