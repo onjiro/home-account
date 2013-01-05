@@ -75,5 +75,10 @@ $(function() {
             }
         );
     });
+    m.migration(8, function(tx) {
+        tx.executeSql('ALTER TABLE Accounts ADD COLUMN itemId INTEGER');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS AccountItems (name, classificationId)');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS AccountItemClassifications (name, side)');
+    });
     m.doIt();
 });
