@@ -80,5 +80,22 @@ $(function() {
         tx.executeSql('CREATE TABLE IF NOT EXISTS AccountItems (name, classificationId)');
         tx.executeSql('CREATE TABLE IF NOT EXISTS AccountItemClassifications (name, side)');
     });
+    m.migration(9, function(tx) {
+        _.each([
+            ['流動資産'      , 'debit'],
+            ['固定資産'      , 'debit'],
+            ['繰延資産'      , 'debit'],
+            ['流動負債'      , 'credit'],
+            ['固定負債'      , 'credit'],
+            ['純資産'        , 'credit'],
+            ['収益'          , 'credit'],
+            ['費用'          , 'debit'],
+            ['固定資産評価損', 'debit'],
+            ['その他借方'    , 'debit'],
+            ['その他貸方'    , 'credit']
+        ], function(initialData) {
+            tx.executeSql('INSERT INTO AccountItemClassifications (name, side) VALUES (?, ?)', initialData);
+        });
+    });
     m.doIt();
 });
