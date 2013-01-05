@@ -87,12 +87,14 @@ this.Transaction = (function(global) {
                 '  Transactions.date as date,',
                 '  Transactions.details as details,',
                 '  Transactions.rowid as transactionId,',
-                '  Accounts.item as item,',
+                '  AccountItems.name as item,',
                 '  Accounts.amount as amount,',
                 '  Accounts.type as type',
                 'FROM',
                 '  Transactions INNER JOIN Accounts ',
                 '  ON Transactions.rowid = Accounts.transactionId',
+                '  INNER JOIN AccountItems',
+                '  ON Accounts.itemId = AccountItems.rowid',
                 'ORDER BY',
                 '  Transactions.rowid'
             ].join(' ');
