@@ -49,10 +49,14 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
+        var item = this.item;
         tx.executeSql(
             'INSERT INTO AccountItems (name, classificationId) VALUES (?, 1)',
-            [this.item],
-            onSuccess,
+            [item],
+            function(tx, resultSet) {
+                Constructor.items.add(_.defaults(item, {id: resultSet.insertId}));
+                onSuccess(tx, resultSet);
+            },
             onError
         );
     }
