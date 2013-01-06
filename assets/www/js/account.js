@@ -32,7 +32,7 @@ this.Account = (function(global) {
         var _this = this,
         accountItems = Constructor.items.where({name: this.item});
         if (accountItems.length === 0) {
-            this.saveNewItem(tx, function(tx, resultSet) {
+            this.saveNewItem(tx, function(model) {
                 _this.save(tx, onSuccess, onError);
             }, onError);
         } else {
@@ -42,16 +42,13 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
-        var item = this.item;
-        tx.executeSql(
-            'INSERT INTO AccountItems (name, classificationId) VALUES (?, 1)',
-            [item],
-            function(tx, resultSet) {
-                Constructor.items.add(_.defaults({name: item}, {id: resultSet.insertId}));
-                onSuccess(tx, resultSet);
+        Constructor.items.create({name: this.item}, {
+            tx: tx,
+            success: function(model) {
+                onSuccess(model);
             },
-            onError
-        );
+            error: onError,
+        });
     }
 
     return Constructor;
