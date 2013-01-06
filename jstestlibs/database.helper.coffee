@@ -1,4 +1,7 @@
-tables = ['Accounts', 'Transactions']
+tables = [
+  'Accounts'
+  'Transactions'
+]
 exports.initializer = ->
   deleted = []
   return {
