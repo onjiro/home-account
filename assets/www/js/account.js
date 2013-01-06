@@ -30,8 +30,8 @@ this.Account = (function(global) {
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
         var _this = this,
-        accountItems = Constructor.items.where({name: this.item});
-        if (accountItems.length === 0) {
+        item = _.first(Constructor.items.where({name: this.item}));
+        if (!item) {
             Constructor.items.create({name: this.item}, {
                 tx: tx,
                 success: function(model) {
@@ -40,7 +40,7 @@ this.Account = (function(global) {
                 error: onError,
             });
         } else {
-            this.itemId = accountItems[0].get('id');
+            this.itemId = item.get('id');
             this.doSave(tx, onSuccess, onError);
         }
     }
