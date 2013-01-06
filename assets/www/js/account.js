@@ -30,20 +30,22 @@ this.Account = (function(global) {
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
         var _this = this;
-        tx.executeSql(
-            'SELECT rowid FROM AccountItems WHERE name = ?',
-            [this.item],
-            function(tx, resultSet) {
-                if (resultSet.rows.length === 0) {
+        new AccountItemList().fetch({
+            parse: false,
+            tx: tx,
+            success: function(collection) {
+                var accountItems = collection.where({name: _this.item});
+                if (accountItems.length === 0) {
                     _this.saveNewItem(tx, function(tx, resultSet) {
                         _this.save(tx, onSuccess, onError);
                     }, onError);
                 } else {
-                    _this.itemId = resultSet.rows.item(0).rowid;
+                    _this.itemId = accountItems[0].get('id');
                     _this.doSave(tx, onSuccess, onError);
                 }
-            }
-        );
+            },
+            error: onError,
+        });
     }
 
     Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
