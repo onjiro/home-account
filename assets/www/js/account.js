@@ -29,23 +29,15 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
-        var _this = this;
-        new AccountItemList().fetch({
-            parse: false,
-            tx: tx,
-            success: function(collection) {
-                var accountItems = collection.where({name: _this.item});
-                if (accountItems.length === 0) {
-                    _this.saveNewItem(tx, function(tx, resultSet) {
-                        _this.save(tx, onSuccess, onError);
-                    }, onError);
-                } else {
-                    _this.itemId = accountItems[0].get('id');
-                    _this.doSave(tx, onSuccess, onError);
-                }
-            },
-            error: onError,
-        });
+        var accountItems = Constructor.items.where({name: this.item});
+        if (accountItems.length === 0) {
+            this.saveNewItem(tx, function(tx, resultSet) {
+                this.save(tx, onSuccess, onError);
+            }, onError);
+        } else {
+            this.itemId = accountItems[0].get('id');
+            this.doSave(tx, onSuccess, onError);
+        }
     }
 
     Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
