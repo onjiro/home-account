@@ -8,7 +8,9 @@ this.Account = (function(global) {
         this.type = values.type || 'credit';
     }
 
-    Constructor.prototype.doSave = function(tx, onSuccess, onError) {
+    Constructor.prototype.doSave = function(attribute, options) {
+        var options = options || {},
+        tx = options.tx;
         tx.executeSql([
             'INSERT INTO Accounts (',
             '  transactionId,',
@@ -24,8 +26,8 @@ this.Account = (function(global) {
             this.amount,
             this.type
         ], function(tx, resultSet) {
-            if (onSuccess) { onSuccess(tx, resultSet.insertId); };
-        }, onError)
+            if (options.success) options.success(tx, resultSet.insertId);
+        }, options.error)
     }
 
     Constructor.prototype.save = function(attribute, options) {
@@ -44,7 +46,7 @@ this.Account = (function(global) {
             });
         } else {
             this.itemId = item.get('id');
-            this.doSave(tx, success, error);
+            this.doSave(attribute, options);
         }
     }
 
