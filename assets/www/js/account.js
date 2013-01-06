@@ -37,7 +37,10 @@ this.Account = (function(global) {
         // TODO ignore `attribute` now
         if (!item) {
             Constructor.items.create({name: this.item}, _.defaults({
-                success: function(model) { _this.save({}, options) },
+                success: function(model) {
+                    _this.itemId = model.get('id');
+                    _this.doSave(attribute, options);
+                },
             }, options));
         } else {
             this.itemId = item.get('id');
