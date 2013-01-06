@@ -31,7 +31,10 @@ this.Transaction = (function(global) {
                     // TODO 順にAccountを保存するように変更
                     for (var i = 0; i < _this.get('accounts').length; i++) {
                         _this.get('accounts')[i].transactionId = resultSet.insertId;
-                        _this.get('accounts')[i].save(tx, null, onError);
+                        _this.get('accounts')[i].save({}, {
+                            tx: tx,
+                            error: onError,
+                        });
                     }
                     if (onSuccess) { onSuccess(tx, resultSet.insertId, _this); };
                 },

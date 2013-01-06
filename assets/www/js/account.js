@@ -6,52 +6,39 @@ this.Account = (function(global) {
         this.amount = (values.amount) ? parseInt(values.amount): 0;
         this.date = new Date(values.date) || new Date();
         this.type = values.type || 'credit';
-    }
+    },
+    insertSql = ''
+        + 'INSERT INTO Accounts ('
+        +   'transactionId,'
+        +   'date,'
+        +   'itemId,'
+        +   'amount,'
+        +   'type'
+        + ') VALUES (?, ?, ?, ?, ?)';
 
-    Constructor.prototype.doSave = function(tx, onSuccess, onError) {
-        tx.executeSql([
-            'INSERT INTO Accounts (',
-            '  transactionId,',
-            '  date,',
-            '  itemId,',
-            '  amount,',
-            '  type',
-            ') VALUES (?, ?, ?, ?, ?)'
-        ].join(' '), [
-            this.transactionId,
-            this.date.getTime(),
-            this.itemId,
-            this.amount,
-            this.type
-        ], function(tx, resultSet) {
-            if (onSuccess) { onSuccess(tx, resultSet.insertId); };
-        }, onError)
-    }
-
-    Constructor.prototype.save = function(tx, onSuccess, onError) {
+    Constructor.prototype.save = function(attribute, options) {
         var _this = this,
-        accountItems = Constructor.items.where({name: this.item});
-        if (accountItems.length === 0) {
-            this.saveNewItem(tx, function(tx, resultSet) {
-                _this.save(tx, onSuccess, onError);
-            }, onError);
+        options = options || {},
+        doSave = function(accountItem) {
+            _this.itemId = accountItem.get('id');
+            options.tx.executeSql(insertSql, [
+                _this.transactionId,
+                _this.date.getTime(),
+                _this.itemId,
+                _this.amount,
+                _this.type
+            ], function(tx, rs) {
+                if (options.success) options.success(tx, rs.insertId)
+            }, options.error);
+        },
+        item = _.first(Constructor.items.where({name: this.item}));
+        // TODO ignore `attribute` now
+        if (item) {
+            doSave(item);
         } else {
-            this.itemId = accountItems[0].get('id');
-            this.doSave(tx, onSuccess, onError);
+            options.success = doSave;
+            Constructor.items.create({ name: this.item }, options);
         }
-    }
-
-    Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
-        var item = this.item;
-        tx.executeSql(
-            'INSERT INTO AccountItems (name, classificationId) VALUES (?, 1)',
-            [item],
-            function(tx, resultSet) {
-                Constructor.items.add(_.defaults({name: item}, {id: resultSet.insertId}));
-                onSuccess(tx, resultSet);
-            },
-            onError
-        );
     }
 
     return Constructor;
