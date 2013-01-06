@@ -33,18 +33,18 @@ this.Account = (function(global) {
     Constructor.prototype.save = function(attribute, options) {
         var _this = this,
         options = options || {},
+        callie = function(accountItem) {
+            _this.itemId = accountItem.get('id');
+            _this.doSave(attribute, options);
+        },
         item = _.first(Constructor.items.where({name: this.item}));
         // TODO ignore `attribute` now
         if (!item) {
             Constructor.items.create({name: this.item}, _.defaults({
-                success: function(model) {
-                    _this.itemId = model.get('id');
-                    _this.doSave(attribute, options);
-                },
+                success: callie,
             }, options));
         } else {
-            this.itemId = item.get('id');
-            this.doSave(attribute, options);
+            callie(item);
         }
     }
 
