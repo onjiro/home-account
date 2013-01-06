@@ -29,28 +29,26 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
-        var _this = this;
-        tx.executeSql(
-            'SELECT rowid FROM AccountItems WHERE name = ?',
-            [this.item],
-            function(tx, resultSet) {
-                if (resultSet.rows.length === 0) {
-                    _this.saveNewItem(tx, function(tx, resultSet) {
-                        _this.save(tx, onSuccess, onError);
-                    }, onError);
-                } else {
-                    _this.itemId = resultSet.rows.item(0).rowid;
-                    _this.doSave(tx, onSuccess, onError);
-                }
-            }
-        );
+        var accountItems = Constructor.items.where({name: this.item});
+        if (accountItems.length === 0) {
+            this.saveNewItem(tx, function(tx, resultSet) {
+                this.save(tx, onSuccess, onError);
+            }, onError);
+        } else {
+            this.itemId = accountItems[0].get('id');
+            this.doSave(tx, onSuccess, onError);
+        }
     }
 
     Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
+        var item = this.item;
         tx.executeSql(
             'INSERT INTO AccountItems (name, classificationId) VALUES (?, 1)',
-            [this.item],
-            onSuccess,
+            [item],
+            function(tx, resultSet) {
+                Constructor.items.add(_.defaults(item, {id: resultSet.insertId}));
+                onSuccess(tx, resultSet);
+            },
             onError
         );
     }
