@@ -29,19 +29,30 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
+        this._save({}, {
+            tx: tx,
+            success: onSuccess,
+            error: onError,
+        });
+    }
+
+    Constructor.prototype._save = function(attribute, options) {
         var _this = this,
+        options = options || {},
+        tx = options.tx,
+        success = options.success,
+        error = options.error,
         item = _.first(Constructor.items.where({name: this.item}));
+        // TODO ignore `attribute` now
         if (!item) {
             Constructor.items.create({name: this.item}, {
                 tx: tx,
-                success: function(model) {
-                    _this.save(tx, onSuccess, onError);
-                },
-                error: onError,
+                success: function(model) { _this._save({}, options) },
+                error: error,
             });
         } else {
             this.itemId = item.get('id');
-            this.doSave(tx, onSuccess, onError);
+            this.doSave(tx, success, error);
         }
     }
 
