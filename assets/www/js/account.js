@@ -34,12 +34,16 @@ this.Account = (function(global) {
         },
         item = _.first(Constructor.items.where({name: this.item}));
         // TODO ignore `attribute` now
-        if (!item) {
-            Constructor.items.create({name: this.item}, _.defaults({
-                success: doSave,
-            }, options));
-        } else {
+        if (item) {
             doSave(item);
+        } else {
+            Constructor.items.create({
+                name: this.item
+            }, {
+                tx:      options.tx,
+                success: doSave,
+                error:   options.error
+            });
         }
     }
 
