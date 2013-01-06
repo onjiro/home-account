@@ -29,10 +29,11 @@ this.Account = (function(global) {
     }
 
     Constructor.prototype.save = function(tx, onSuccess, onError) {
-        var accountItems = Constructor.items.where({name: this.item});
+        var _this = this,
+        accountItems = Constructor.items.where({name: this.item});
         if (accountItems.length === 0) {
             this.saveNewItem(tx, function(tx, resultSet) {
-                this.save(tx, onSuccess, onError);
+                _this.save(tx, onSuccess, onError);
             }, onError);
         } else {
             this.itemId = accountItems[0].get('id');
@@ -46,7 +47,7 @@ this.Account = (function(global) {
             'INSERT INTO AccountItems (name, classificationId) VALUES (?, 1)',
             [item],
             function(tx, resultSet) {
-                Constructor.items.add(_.defaults(item, {id: resultSet.insertId}));
+                Constructor.items.add(_.defaults({name: item}, {id: resultSet.insertId}));
                 onSuccess(tx, resultSet);
             },
             onError

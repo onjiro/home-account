@@ -1,5 +1,7 @@
 tables = [
   'Accounts'
+  'AccountItems'
+  'AccountItemClassifications'
   'Transactions'
 ]
 exports.initializer = ->
@@ -10,5 +12,5 @@ exports.initializer = ->
         for table in tables
           do (table) ->
             tx.executeSql "DELETE FROM #{table}", [], -> deleted.push table
-    succeeded: -> deleted.length == 2
+    succeeded: -> deleted.length == tables.length
   }
