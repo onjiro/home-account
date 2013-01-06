@@ -1,5 +1,6 @@
 this.AccountItemList = (function(global) {
     return Backbone.Collection.extend({
+        model: AccountItem,
         /**
          * @override Backbone.Colleciton#sync
          */
@@ -9,7 +10,7 @@ this.AccountItemList = (function(global) {
             success = function(tx, resultSet) {
                 var i, arr = [];
                 for (i = 0; i < resultSet.rows.length; i++) {
-                    arr.push(new Backbone.Model(resultSet.rows.item(i)));
+                    arr.push(new collection.model(resultSet.rows.item(i)));
                 }
                 if (options.success) options.success(arr);
                 collection.trigger('sync', collection, resultSet, options);
