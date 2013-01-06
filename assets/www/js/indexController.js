@@ -68,6 +68,12 @@ $(function() {
         return false;
     });
 
+    // 初期ロード時に AccountItems を読み込む
+    Account.items = new AccountItemList();
+    db.transaction(function(tx) {
+        Account.items.fetch({tx: tx});
+    });
+
     // 初期ロード時に Transaction を読み込む
     currentTransactions.fetch();
 
