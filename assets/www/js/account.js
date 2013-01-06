@@ -19,7 +19,6 @@ this.Account = (function(global) {
     Constructor.prototype.save = function(attribute, options) {
         var _this = this,
         options = options || {},
-        success = options.success,
         doSave = function(accountItem) {
             _this.itemId = accountItem.get('id');
             options.tx.executeSql(insertSql, [
@@ -29,7 +28,7 @@ this.Account = (function(global) {
                 _this.amount,
                 _this.type
             ], function(tx, rs) {
-                if (success) success(tx, rs.insertId)
+                if (options.success) options.success(tx, rs.insertId)
             }, options.error);
         },
         item = _.first(Constructor.items.where({name: this.item}));
@@ -37,13 +36,8 @@ this.Account = (function(global) {
         if (item) {
             doSave(item);
         } else {
-            Constructor.items.create({
-                name: this.item
-            }, {
-                tx:      options.tx,
-                success: doSave,
-                error:   options.error
-            });
+            options.success = doSave;
+            Constructor.items.create({ name: this.item }, options);
         }
     }
 
