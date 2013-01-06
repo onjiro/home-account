@@ -28,15 +28,7 @@ this.Account = (function(global) {
         }, onError)
     }
 
-    Constructor.prototype.save = function(tx, onSuccess, onError) {
-        this._save({}, {
-            tx: tx,
-            success: onSuccess,
-            error: onError,
-        });
-    }
-
-    Constructor.prototype._save = function(attribute, options) {
+    Constructor.prototype.save = function(attribute, options) {
         var _this = this,
         options = options || {},
         tx = options.tx,
@@ -47,7 +39,7 @@ this.Account = (function(global) {
         if (!item) {
             Constructor.items.create({name: this.item}, {
                 tx: tx,
-                success: function(model) { _this._save({}, options) },
+                success: function(model) { _this.save({}, options) },
                 error: error,
             });
         } else {
