@@ -36,8 +36,11 @@ this.Account = (function(global) {
         if (item) {
             doSave(item);
         } else {
-            options.success = doSave;
-            Constructor.items.create({ name: this.item }, options);
+            Constructor.items.create({ name: this.item }, {
+                tx:      options.tx,
+                success: doSave,
+                error:   options.error,
+            });
         }
     }
 
