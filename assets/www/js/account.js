@@ -32,23 +32,17 @@ this.Account = (function(global) {
         var _this = this,
         accountItems = Constructor.items.where({name: this.item});
         if (accountItems.length === 0) {
-            this.saveNewItem(tx, function(model) {
-                _this.save(tx, onSuccess, onError);
-            }, onError);
+            Constructor.items.create({name: this.item}, {
+                tx: tx,
+                success: function(model) {
+                    _this.save(tx, onSuccess, onError);
+                },
+                error: onError,
+            });
         } else {
             this.itemId = accountItems[0].get('id');
             this.doSave(tx, onSuccess, onError);
         }
-    }
-
-    Constructor.prototype.saveNewItem = function(tx, onSuccess, onError) {
-        Constructor.items.create({name: this.item}, {
-            tx: tx,
-            success: function(model) {
-                onSuccess(model);
-            },
-            error: onError,
-        });
     }
 
     return Constructor;
