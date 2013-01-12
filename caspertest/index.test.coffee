@@ -81,5 +81,16 @@ casper
     @test.assertSelectorHasText '.history-detail .credit', 'Edy'
     @test.assertSelectorHasText '.history-detail .credit', '980'
 
+casper
+  .then ->
+    @echo '詳細画面で欄外を選択したら詳細が閉じられること', 'INFO'
+
+  .then ->
+    @test.assertExists '.history-detail'
+
+  .then ->
+    @click '.history-detail'
+    @test.assertDoesntExist '.history-detail'
+
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
