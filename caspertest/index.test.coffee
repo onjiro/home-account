@@ -97,6 +97,7 @@ casper
     @echo '履歴からTransactionを選択したら詳細が表示されること', 'INFO'
 
   .then ->
+    @reload() # todo reloadしないとうまく動かない。原因を確認して修正
     @test.assertDoesntExist '.history-detail'
 
   .then ->
@@ -110,6 +111,25 @@ casper
     @test.assertSelectorHasText '.history-detail .debit' , '980'
     @test.assertSelectorHasText '.history-detail .credit', 'Edy'
     @test.assertSelectorHasText '.history-detail .credit', '980'
+
+casper
+  .then ->
+    @echo '詳細画面で削除ボタンをクリックしたらTransactionが削除されること', 'INFO'
+
+    # window.confirm() に対して trueを返す
+    @setFilter 'page.confirm', (msg) => true
+
+  .then ->
+    @test.assertExists '.history-detail'
+
+  .then ->
+    @click '.history-detail .remove'
+
+  .waitWhileSelector '#history tbody tr:nth-child(2)', ->
+    @test.assertDoesntExist '.history-detail'
+    @test.assertEvalEquals (-> $('#history tbody tr').length ), 1
+    @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(2)', '外食'
+    @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(3)', '980'
 
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
