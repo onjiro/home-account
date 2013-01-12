@@ -92,5 +92,24 @@ casper
     @click '.history-detail'
     @test.assertDoesntExist '.history-detail'
 
+casper
+  .then ->
+    @echo '履歴からTransactionを選択したら詳細が表示されること', 'INFO'
+
+  .then ->
+    @test.assertDoesntExist '.history-detail'
+
+  .then ->
+    @click '#history tbody tr:first-child'
+
+  .then ->
+    @test.assertExists '.history-detail'
+    @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getFullYear()}/#{firstCreatedDate.getMonth() + 1}/#{firstCreatedDate.getDate()}"
+    @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getHours()}:#{firstCreatedDate.getMinutes()}"
+    @test.assertSelectorHasText '.history-detail .debit' , '外食'
+    @test.assertSelectorHasText '.history-detail .debit' , '980'
+    @test.assertSelectorHasText '.history-detail .credit', 'Edy'
+    @test.assertSelectorHasText '.history-detail .credit', '980'
+
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
