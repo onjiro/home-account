@@ -1,6 +1,6 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
 casper = require('casper').create()
-url = './assets/www/index.html'
+url = 
 
 casper.start('')
   .then ->
@@ -8,12 +8,13 @@ casper.start('')
     @reload() # DBの更新が反映されないことへの回避策
   .waitFor dbinitializer.succeeded
 
-casper.open(url)
-  .then ->
-    @echo '自動的にロードが終わること', 'INFO'
-
+casper.open('./assets/www/index.html')
   .then ->
     @test.assertTitle 'Home Account'
+
+casper
+  .then ->
+    @test.comment '自動的にロードが終わること'
 
   .waitWhileVisible '#history .loading', ->
     @test.assertExist '#history table'
@@ -21,9 +22,8 @@ casper.open(url)
 firstCreatedDate = null
 casper
   .then ->
-    @echo 'Transactionを追加できること', 'INFO'
+    @test.comment '新しいTransactionが追加されること'
 
-  .then ->
     @fill 'form#account-entry',
       'amount'       : 120
       'item'         : '食費'
@@ -31,9 +31,8 @@ casper
     @click 'form#account-entry button[type="submit"]'
     firstCreatedDate = new Date()
 
-  .waitForSelector('.container .popup')
   .waitWhileVisible '.container .popup', ->
-    @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 1
+    @test.assertEvalEquals (-> $('#history tbody tr').length ), 1
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '120'
@@ -42,21 +41,18 @@ casper
     @test.assertField 'item'         , null
     @test.assertField 'opposite-item', null
 
-
 casper
   .then ->
-    @echo '先頭に新しいTransactionが追加されること', 'INFO'
+    @test.comment '新しいTransactionが先頭に追加されること'
 
-  .then ->
     @fill 'form#account-entry',
       'amount'       : 980
       'item'         : '外食'
       'opposite-item': 'Edy'
     @click 'form#account-entry button[type="submit"]'
 
-  .waitForSelector('.container .popup')
   .waitWhileVisible '.container .popup', ->
-    @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 2
+    @test.assertEvalEquals (-> $('#history tbody tr').length ), 2
     today = new Date()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
@@ -64,15 +60,18 @@ casper
 
 casper
   .then ->
-    @echo '履歴からTransactionを選択したら詳細が表示されること', 'INFO'
+    @test.comment '履歴からTransactionを選択したら詳細が表示されること'
 
-  .then ->
+    # todo reloadしないと削除がうまく動かない。原因を確認して修正 ==
+    @reload()
+  .waitWhileVisible '#history .loading', ->
+    @test.assertExist '#history table'
+    # ===============================================================
+
     @test.assertDoesntExist '.history-detail'
 
-  .then ->
     @click '#history tbody tr:first-child'
 
-  .then ->
     @test.assertExists '.history-detail'
     @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getFullYear()}/#{firstCreatedDate.getMonth() + 1}/#{firstCreatedDate.getDate()}"
     @test.assertSelectorHasText '.history-detail .date', "#{firstCreatedDate.getHours()}:#{firstCreatedDate.getMinutes()}"
@@ -83,14 +82,19 @@ casper
 
 casper
   .then ->
-    @echo '詳細画面で欄外を選択したら詳細が閉じられること', 'INFO'
+    @test.comment '詳細画面で削除ボタンをクリックしたらTransactionが削除されること', 'INFO'
 
-  .then ->
+    # window.confirm() に対して trueを返す
+    @setFilter 'page.confirm', (msg) => true
     @test.assertExists '.history-detail'
 
-  .then ->
-    @click '.history-detail'
+    @click '.history-detail .remove'
+
+  .waitWhileSelector '#history tbody tr:nth-child(2)', ->
     @test.assertDoesntExist '.history-detail'
+    @test.assertEvalEquals (-> $('#history tbody tr').length ), 1
+    @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(2)', '外食'
+    @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(3)', '980'
 
 casper.run ->
   @exit (if @test.getFailures().length then 1 else 0)
