@@ -60,3 +60,6 @@ casper
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
+
+casper.run ->
+  @test.done 13
