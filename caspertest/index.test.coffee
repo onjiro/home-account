@@ -1,5 +1,4 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
-casper = require('casper').create()
 url = './assets/www/index.html'
 
 casper.start('')
@@ -93,4 +92,4 @@ casper
     @test.assertDoesntExist '.history-detail'
 
 casper.run ->
-  @exit (if @test.getFailures().length then 1 else 0)
+  @test.done 23

@@ -1,5 +1,4 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
-casper = require('casper').create()
 url = 
 
 casper.start('')
@@ -97,4 +96,4 @@ casper
     @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(3)', '980'
 
 casper.run ->
-  @exit (if @test.getFailures().length then 1 else 0)
+  @test.done 27
