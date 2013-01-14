@@ -85,7 +85,6 @@ casper
 
     # window.confirm() に対して trueを返す
     @setFilter 'page.confirm', (msg) => true
-    @test.assertExists '.history-detail'
 
     @click '.history-detail .remove'
 
@@ -96,4 +95,4 @@ casper
     @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(3)', '980'
 
 casper.run ->
-  @test.done 27
+  @test.done 26
