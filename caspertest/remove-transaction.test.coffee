@@ -1,5 +1,4 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
-url = 
 
 casper.start('')
   .then ->
