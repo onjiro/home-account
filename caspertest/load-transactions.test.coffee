@@ -31,7 +31,7 @@ casper
   .waitForSelector('.container .popup')
   .waitWhileVisible '.container .popup', ->
     @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 1
-    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', "#{firstCreatedDate.getMonth() + 1}/#{firstCreatedDate.getDate()}"
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '120'
 
@@ -54,7 +54,7 @@ casper
   .waitWhileVisible '.container .popup', ->
     @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 2
     secondCreatedDate = new Date()
-    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (secondCreatedDate.getMonth() + 1) + '/' + secondCreatedDate.getDate()
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', "#{secondCreatedDate.getMonth() + 1}/#{secondCreatedDate.getDate()}"
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
 
@@ -66,10 +66,10 @@ casper
 
   .waitWhileVisible '#history .loading', ->
     @test.assertEvalEquals (-> $('#history tbody tr').length), 2
-    @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(1)', (secondCreatedDate.getMonth() + 1) + '/' + secondCreatedDate.getDate()
+    @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(1)', "#{secondCreatedDate.getMonth() + 1}/#{secondCreatedDate.getDate()}"
     @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(2)', '外食'
     @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(3)', '980'
-    @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
+    @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(1)', "#{firstCreatedDate.getMonth() + 1}/#{firstCreatedDate.getDate()}"
     @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(2)', '食費'
     @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(3)', '120'
 
