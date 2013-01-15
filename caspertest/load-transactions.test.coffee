@@ -39,7 +39,7 @@ casper
     @test.assertField 'item'         , null
     @test.assertField 'opposite-item', null
 
-
+secondCreatedDate = null
 casper
   .then ->
     @test.comment '先頭に新しいTransactionが追加されること'
@@ -53,10 +53,25 @@ casper
   .waitForSelector('.container .popup')
   .waitWhileVisible '.container .popup', ->
     @test.assertEvalEquals (-> document.querySelector('#history tbody').children.length), 2
-    today = new Date()
-    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (today.getMonth() + 1) + '/' + today.getDate()
+    secondCreatedDate = new Date()
+    @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (secondCreatedDate.getMonth() + 1) + '/' + secondCreatedDate.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '外食'
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(3)', '980'
 
+casper
+  .then ->
+    @test.comment 'リロードした場合、それ以前に追加したTransactionが表示されること'
+
+    @reload()
+
+  .waitWhileVisible '#history .loading', ->
+    @test.assertEvalEquals (-> $('#history tbody tr').length), 2
+    @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(1)', (secondCreatedDate.getMonth() + 1) + '/' + secondCreatedDate.getDate()
+    @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(2)', '外食'
+    @test.assertSelectorHasText '#history tbody tr:nth-child(1) td:nth-child(3)', '980'
+    @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
+    @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(2)', '食費'
+    @test.assertSelectorHasText '#history tbody tr:nth-child(2) td:nth-child(3)', '120'
+
 casper.run ->
-  @test.done 13
+  @test.done 20
