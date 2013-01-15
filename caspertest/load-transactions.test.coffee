@@ -1,5 +1,4 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
-url = './assets/www/index.html'
 
 casper.start('')
   .then ->
@@ -7,12 +6,12 @@ casper.start('')
     @reload() # DBの更新が反映されないことへの回避策
   .waitFor dbinitializer.succeeded
 
-casper.open(url)
-  .then ->
-    @echo '自動的にロードが終わること', 'INFO'
-
+casper.open('./assets/www/index.html')
   .then ->
     @test.assertTitle 'Home Account'
+
+  .then ->
+    @test.comment '自動的にロードが終わること'
 
   .waitWhileVisible '#history .loading', ->
     @test.assertExist '#history table'
@@ -20,9 +19,8 @@ casper.open(url)
 firstCreatedDate = null
 casper
   .then ->
-    @echo 'Transactionを追加できること', 'INFO'
+    @test.comment 'Transactionを追加できること'
 
-  .then ->
     @fill 'form#account-entry',
       'amount'       : 120
       'item'         : '食費'
@@ -44,9 +42,8 @@ casper
 
 casper
   .then ->
-    @echo '先頭に新しいTransactionが追加されること', 'INFO'
+    @test.comment '先頭に新しいTransactionが追加されること'
 
-  .then ->
     @fill 'form#account-entry',
       'amount'       : 980
       'item'         : '外食'
