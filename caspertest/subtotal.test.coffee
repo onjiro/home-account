@@ -23,6 +23,9 @@ casper
     @click 'a[href="#subtotal-tab"]'
 
     @test.assertVisible '#subtotal-tab'
+    @test.assertVisible '#subtotal-tab input[name="start"]'
+    @test.assertVisible '#subtotal-tab input[name="end"]'
+    @test.assertVisible '#subtotal-tab .subtotals'
 
 casper.run ->
-  @test.done 4
+  @test.done 7
