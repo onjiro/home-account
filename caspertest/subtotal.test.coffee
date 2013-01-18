@@ -27,5 +27,15 @@ casper
     @test.assertVisible '#subtotal-tab input[name="end"]'
     @test.assertVisible '#subtotal-tab .subtotals'
 
+casper
+  .then ->
+    @test.comment '開始日と終了日を入力すると集計結果が表示されること'
+
+    @fill 'form#subtotal-query',
+      'start'       : '3000/12/31'
+      'end'         : '2000/01/01'
+
+    @test.assertEvalEquals (->$('.subtotals tbody tr').length), 2
+
 casper.run ->
-  @test.done 7
+  @test.done 8
