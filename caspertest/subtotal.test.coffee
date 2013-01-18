@@ -52,8 +52,8 @@ casper
     @test.comment '開始日と終了日を入力すると集計結果が表示されること'
 
     @fill 'form#subtotal-query',
-      'start'       : '3000/12/31'
-      'end'         : '2000/01/01'
+      'start'       : '2000/01/01'
+      'end'         : '3000/12/31'
 
   .waitForSelector '.subtotals tbody tr', ->
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 3
