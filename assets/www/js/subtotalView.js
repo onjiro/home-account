@@ -11,6 +11,7 @@ var SubTotalView = (function(global) {
                         endDate:   new Date(end),
                     }, tx, function(tx, totals) {
                         var $tbody = _this.$el.find('tbody');
+                        $tbody.empty();
                         _.each(totals, function(subTotal){
                             $tbody.append(_this.template(subTotal.attributes));
                         });

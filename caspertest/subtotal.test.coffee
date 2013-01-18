@@ -58,5 +58,15 @@ casper
   .waitForSelector '.subtotals tbody tr', ->
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 3
 
+casper
+  .then ->
+    @test.comment '開始日と終了日を変更すると集計結果が変更されること'
+
+    @fill 'form#subtotal-query',
+      'end'         : '2000/01/02'
+
+  .waitWhileSelector '.subtotals tbody tr', ->
+    @test.assertEvalEquals (->$('.subtotals tbody tr').length), 0
+
 casper.run ->
-  @test.done 9
+  @test.done 10
