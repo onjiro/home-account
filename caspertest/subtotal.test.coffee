@@ -35,6 +35,7 @@ casper
       'start'       : '3000/12/31'
       'end'         : '2000/01/01'
 
+  .waitForSelector '.subtotals tbody tr', ->
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 2
 
 casper.run ->
