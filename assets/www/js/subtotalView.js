@@ -22,18 +22,20 @@ var SubTotalView = (function(global) {
             },
         },
         initialize: function() {
-            this.collection.on('reset', function(models, options) {
-                this.$tbody.empty();
-                _.each(models.models, function(subTotal){
-                    this.$tbody.append(this.template(subTotal.attributes));
-                }, this);
-                this.showSubTotals();
-            }, this);
+            this.collection.on('reset', this.render, this);
+
             this.template = _.template($('#sub-total-template').html());
             this.$tbody = this.$el.find('tbody');
         },
+        render: function() {
+            this.$tbody.empty();
+            _.each(this.collection.models, function(subTotal){
+                this.$tbody.append(this.template(subTotal.attributes));
+            }, this);
+            this.showSubTotals();
+        },
         showLoading: function() {
-            this.$el.find('.loading').show().siblings().not('input');
+            this.$el.find('.loading').show().siblings().not('input').hide();
         },
         showSubTotals: function() {
             this.$el.find('.subtotals').show().siblings().not('input').hide();
