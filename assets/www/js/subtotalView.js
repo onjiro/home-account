@@ -8,10 +8,7 @@ var SubTotalView = (function(global) {
                 , collection = this.collection;
                 if (!start || !end) return;
 
-                this.$el
-                    .find('.loading').show()
-                    .siblings().not('input');
-                this.$tbody.empty();
+                this.showLoading();
                 db.transaction(function(tx) {
                     TotalAccount.select({
                         startDate: new Date(start),
@@ -26,15 +23,20 @@ var SubTotalView = (function(global) {
         },
         initialize: function() {
             this.collection.on('reset', function(models, options) {
+                this.$tbody.empty();
                 _.each(models.models, function(subTotal){
                     this.$tbody.append(this.template(subTotal.attributes));
                 }, this);
-                this.$el
-                    .find('.subtotals').show()
-                    .siblings().not('input').hide();
+                this.showSubTotals();
             }, this);
             this.template = _.template($('#sub-total-template').html());
             this.$tbody = this.$el.find('tbody');
+        },
+        showLoading: function() {
+            this.$el.find('.loading').show().siblings().not('input');
+        },
+        showSubTotals: function() {
+            this.$el.find('.subtotals').show().siblings().not('input').hide();
         },
     });
 })(this);
