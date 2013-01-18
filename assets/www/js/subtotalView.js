@@ -2,9 +2,10 @@ var SubTotalView = (function(global) {
     return Backbone.View.extend({
         events: {
             'change input': function(e) {
-                var start, end, _this = this;
-                if (!(start = this.$el.find('input[name="start"]').val())) return;
-                if (!(end   = this.$el.find('input[name="end"]').val()))   return;
+                var start = this.$el.find('input[name="start"]').val()
+                ,     end = this.$el.find('input[name="end"]').val()
+                ,   _this = this;
+                if (!start || !end) return;
 
                 this.$el
                     .find('.loading').show()
