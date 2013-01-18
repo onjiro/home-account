@@ -4,13 +4,14 @@ var SubTotalView = (function(global) {
             'change input': function(e) {
                 var start = this.$el.find('input[name="start"]').val()
                 ,     end = this.$el.find('input[name="end"]').val()
+                ,  $tbody
                 ,   _this = this;
                 if (!start || !end) return;
 
                 this.$el
                     .find('.loading').show()
                     .siblings().not('input');
-                var $tbody = this.$el.find('tbody').empty();
+                ($tbody = this.$el.find('tbody')).empty();
                 db.transaction(function(tx) {
                     TotalAccount.select({
                         startDate: new Date(start),
