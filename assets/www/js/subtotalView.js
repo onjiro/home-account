@@ -6,24 +6,14 @@ var SubTotalView = (function(global) {
                 if (!(start = this.$el.find('input[name="start"]').val())) return;
                 if (!(end   = this.$el.find('input[name="end"]').val()))   return;
                 db.transaction(function(tx) {
-                    alert(TotalAccount);
                     TotalAccount.select({
                         startDate: new Date(start),
                         endDate:   new Date(end),
                     }, tx, function(tx, totals) {
-                        // todo ダミーデータ使用の取りやめ
-                        _this.$el
-                            .find('tbody')
-                            .append(_this.template({
-                                item: '食費',
-                                type: 'debit',
-                                amount: '980',
-                            }))
-                            .append(_this.template({
-                                item: '現金',
-                                type: 'credit',
-                                amount: '980',
-                            }));
+                        var $tbody = _this.$el.find('tbody');
+                        _.each(totals, function(subTotal){
+                            $tbody.append(_this.template(subTotal.attributes));
+                        });
                     });
                 }, function(err) {
                     alert('something failed on query TotalAccounts.\n' + err.message);

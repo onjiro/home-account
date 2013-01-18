@@ -17,6 +17,26 @@ casper.open(url)
 
 casper
   .then ->
+    @test.comment '集計されるTransactionの追加が成功すること'
+
+    @fill 'form#account-entry',
+      'amount'       : 120
+      'item'         : '食費'
+      'opposite-item': '現金'
+    @click 'form#account-entry button[type="submit"]'
+
+  .waitWhileVisible '.container .popup', ->
+    @fill 'form#account-entry',
+      'amount'       : 980
+      'item'         : '外食'
+      'opposite-item': '現金'
+    @click 'form#account-entry button[type="submit"]'
+
+  .waitWhileVisible '.container .popup', ->
+    @test.assertEvalEquals (-> $('#history tbody tr').length ), 2
+
+casper
+  .then ->
     @test.comment '"集計"をクリックするとタブが切り替わること'
     @test.assertNotVisible '#subtotal-tab'
 
@@ -36,7 +56,7 @@ casper
       'end'         : '2000/01/01'
 
   .waitForSelector '.subtotals tbody tr', ->
-    @test.assertEvalEquals (->$('.subtotals tbody tr').length), 2
+    @test.assertEvalEquals (->$('.subtotals tbody tr').length), 3
 
 casper.run ->
-  @test.done 8
+  @test.done 9
