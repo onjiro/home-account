@@ -77,6 +77,11 @@ this.TotalAccount = (function(global){
                 whereSection.push('date < ?');
                 queryParams.push(new Date(option.date).getTime());
             }
+            if (option && option.startDate && option.endDate) {
+                whereSection.push('date between ? and ?');
+                queryParams.push(new Date(option.startDate).getTime());
+                queryParams.push(new Date(option.endDate).getTime());
+            }
             tx.executeSql([
                 'SELECT',
                 '  AccountItems.name as item,',

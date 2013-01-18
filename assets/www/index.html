@@ -23,6 +23,7 @@
     <script src="js/transactionDetailView.js"></script>
     <script src="js/transactionHistoryView.js"></script>
     <script src="js/totalAccountView.js"></script>
+    <script src="js/subTotalView.js"></script>
     <script src="js/appView.js"></script>
     <script src="js/indexController.js"></script>
     <script src="cordova-1.9.0.js"></script>
@@ -42,6 +43,7 @@
             <li class="active"><a href="#entry-tab">支払</a></li>
             <li><a href="#withdraw-tab">引落</a></li>
             <li><a href="#inventory-tab">棚卸</a></li>
+            <li><a href="#subtotal-tab">集計</a></li>
           </ul>
         </div>
       </div>
@@ -175,6 +177,24 @@
             </div>
           </form>
         </div>
+
+        <div id="subtotal-tab" class="span12 tab-pane">
+          <form id="subtotal-query">
+            <input name="start" type="date"/>〜<input name="end"   type="date"/>
+            <div class="loading" style="display: none;"></div>
+            <table class="subtotals table table-striped table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>科目</th>
+                  <th>貸借</th>
+                  <th>金額</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </form>
+        </div>
       </div>
 
       <div class="row">
@@ -245,6 +265,14 @@
           <i class="icon-remove icon-white"></i>削除
         </button>
       </div>
+    </script>
+
+    <script type="text/template" id="sub-total-template">
+      <tr data-item="<%= item %>">
+        <td class="item"><%= item %></td>
+        <td class="type"><%= type %></td>
+        <td class="amount"><%= amount %></td>
+      </tr>
     </script>
 
   </body>

@@ -17,6 +17,9 @@ $(function() {
     , totalAccountView = new TotalAccountView({
         el: '#inventory-tab table tbody',
         collection: totalAccounts
+    })
+    , subtotalView = new SubTotalView({
+        el: '#subtotal-tab',
     });
 
     // submit 時に勘定と反対勘定を同時に登録する
