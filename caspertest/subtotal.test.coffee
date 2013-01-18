@@ -55,7 +55,7 @@ casper
       'start'       : '2000/01/01'
       'end'         : '3000/12/31'
 
-  .waitForSelector '.subtotals tbody tr', ->
+  .waitUntilVisible '.subtotals', ->
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 3
 
 casper
@@ -65,7 +65,7 @@ casper
     @fill 'form#subtotal-query',
       'end'         : '2000/01/02'
 
-  .waitWhileSelector '.subtotals tbody tr', ->
+  .waitUntilVisible '.subtotals', ->
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 0
 
 casper.run ->
