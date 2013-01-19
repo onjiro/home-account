@@ -28,6 +28,11 @@ var SubTotalView = (function(global) {
             this.$tbody = this.$el.find('tbody');
         },
         render: function() {
+            if (this.collection.isEmpty()) {
+                this.showEmptySubTotals();
+                return;
+            }
+
             this.$tbody.empty();
             _.each(this.collection.models, function(subTotal){
                 this.$tbody.append(this.template(subTotal.attributes));
@@ -36,6 +41,9 @@ var SubTotalView = (function(global) {
         },
         showLoading: function() {
             this.$el.find('.loading').show().siblings().not('input').hide();
+        },
+        showEmptySubTotals: function() {
+            this.$el.find('.empty-subtotals').show().siblings().not('input').hide();
         },
         showSubTotals: function() {
             this.$el.find('.subtotals').show().siblings().not('input').hide();
