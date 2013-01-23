@@ -6,6 +6,20 @@
     text-indent: 1.66em
 }
 
+@-webkit-keyframes rotate {
+    0%   { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+.loading {
+    background-image: url(ajax-loader.png);
+    width : 16px;
+    height: 16px;
+    -webkit-animation: rotate 0.4s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+}
+
 /* 履歴を選択していることを明示 */
 #history tbody td.hover:before {
     content   : "";
