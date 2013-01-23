@@ -15,7 +15,14 @@ var SubTotalView = (function(global) {
                 db.transaction(function(tx) {
                     TotalAccount.select({
                         startDate: new Date(start),
-                        endDate:   new Date(end),
+                        endDate:   (function() {
+                            var date = new Date(end);
+                            date.setHours(23);
+                            date.setMinutes(59);
+                            date.setSeconds(59);
+                            date.setMilliseconds(999);
+                            return date;
+                        })(),
                     }, tx, function(tx, totals) {
                         collection.reset(totals);
                     });
