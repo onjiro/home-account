@@ -6,7 +6,10 @@ var SubTotalView = (function(global) {
                 var    start = this.$el.find('input[name="start"]').val()
                 ,        end = this.$el.find('input[name="end"]').val()
                 , collection = this.collection;
-                if (!start || !end) return;
+                if (!start || !end) {
+                    this.showAssignMessage();
+                    return;
+                }
 
                 this.showLoading();
                 db.transaction(function(tx) {
@@ -38,6 +41,9 @@ var SubTotalView = (function(global) {
                 this.$tbody.append(this.template(subTotal.attributes));
             }, this);
             this.showSubTotals();
+        },
+        showAssignMessage: function() {
+            this.$el.find('.term-not-assigned').show().siblings().not('input').hide();
         },
         showLoading: function() {
             this.$el.find('.loading').show().siblings().not('input').hide();

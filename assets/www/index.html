@@ -181,11 +181,14 @@
         <div id="subtotal-tab" class="span12 tab-pane">
           <form id="subtotal-query">
             <input name="start" type="date"/>〜<input name="end"   type="date"/>
+            <div class="term-not-assigned">
+              集計する期間を入力してください。
+            </div>
             <div class="loading" style="display: none;"></div>
             <div class="empty-subtotals" style="display: none;">
               指定された期間の取引はありませんでした。
             </div>
-            <table class="subtotals table table-striped table-bordered table-condensed">
+            <table class="subtotals table table-striped table-bordered table-condensed" style="display: none;">
               <thead>
                 <tr>
                   <th>科目</th>

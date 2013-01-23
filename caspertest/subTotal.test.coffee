@@ -45,7 +45,7 @@ casper
     @test.assertVisible '#subtotal-tab'
     @test.assertVisible '#subtotal-tab input[name="start"]'
     @test.assertVisible '#subtotal-tab input[name="end"]'
-    @test.assertVisible '#subtotal-tab .subtotals'
+    @test.assertVisible '#subtotal-tab .term-not-assigned'
 
 casper
   .then ->
@@ -68,5 +68,15 @@ casper
   .waitUntilVisible '.empty-subtotals', ->
     @test.assertVisible '.empty-subtotals'
 
+casper
+  .then ->
+    @test.comment '期間を削除すると期間が入力されていない場合のメッセージが表示されること'
+
+    @fill 'form#subtotal-query',
+      'start': ''
+
+  .waitUntilVisible '.term-not-assigned', ->
+    @test.assertVisible '.term-not-assigned'
+
 casper.run ->
-  @test.done 10
+  @test.done 11
