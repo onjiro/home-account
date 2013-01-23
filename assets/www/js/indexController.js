@@ -22,6 +22,11 @@ $(function() {
         el: '#subtotal-tab',
     });
 
+    // datepickerの設定
+    $('input[type="date"]').datepicker({
+        dateFormat: 'yy/mm/dd',
+    });
+
     // submit 時に勘定と反対勘定を同時に登録する
     $('#account-entry, #account-withdraw').live('submit', function(event){
         var _this = this;
