@@ -6,7 +6,7 @@ Home accounting application for android.
 
 ## Testing
 
-Tests are written using [capybara/poltergeist]
+Tests are written using [poltergeist](https://github.com/jonleighton/poltergeist).
 You need ruby and bundler for testing.
 After install ruby, type below.
 
