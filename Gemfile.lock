@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/jonleighton/rspec-rerun.git
+  revision: 54ca8a6f12c5bec34429d2af3a2a23a46ad23f25
+  specs:
+    rspec-rerun (0.1.1)
+      rspec (>= 2.11.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -8,8 +15,9 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    childprocess (0.3.6)
+    childprocess (0.3.7)
       ffi (~> 1.0, >= 1.0.6)
+    diff-lcs (1.1.3)
     eventmachine (1.0.0)
     faye-websocket (0.4.6)
       eventmachine (>= 0.12.0)
@@ -27,6 +35,15 @@ GEM
     rack (1.5.0)
     rack-test (0.6.2)
       rack (>= 1.0)
+    rake (10.0.3)
+    rspec (2.12.0)
+      rspec-core (~> 2.12.0)
+      rspec-expectations (~> 2.12.0)
+      rspec-mocks (~> 2.12.0)
+    rspec-core (2.12.2)
+    rspec-expectations (2.12.1)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.12.1)
     rubyzip (0.9.9)
     selenium-webdriver (2.29.0)
       childprocess (>= 0.2.5)
@@ -42,3 +59,5 @@ PLATFORMS
 
 DEPENDENCIES
   poltergeist
+  rake
+  rspec-rerun!
