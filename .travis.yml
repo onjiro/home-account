@@ -5,9 +5,7 @@ before_script:
   - sudo ci/install_phantomjs
   - "export PATH=phantomjs/bin:$PATH"
   - phantomjs --version
-script:
-  ./casperjs test caspertest
-  bundle exec rspec -f d
+script: ./casperjs test caspertest; bundle exec rspec -f d
 rvm:
   - 1.9.3
 
