@@ -33,6 +33,8 @@ GEM
       http_parser.rb (~> 0.5.3)
       multi_json (~> 1.0)
     rack (1.5.0)
+    rack-protection (1.3.2)
+      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rake (10.0.3)
@@ -50,6 +52,11 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
+    sinatra (1.3.3)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    tilt (1.3.3)
     websocket (1.0.6)
     xpath (0.1.4)
       nokogiri (~> 1.3)
@@ -58,6 +65,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  capybara
   poltergeist
   rake
   rspec-rerun!
+  sinatra
