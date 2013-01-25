@@ -1,4 +1,5 @@
 $(function() {
+    Account.items = new AccountItemList();
     // bootstrap の Alert div のテンプレート
     var alertTemplate = _.template($('#alert-template').html())
     , $history = $('#history')
@@ -12,6 +13,7 @@ $(function() {
     , appView = new AppView({
         el: document,
         collection: currentTransactions,
+        accountItems: Account.items,
     })
     , totalAccounts = new Backbone.Collection()
     , totalAccountView = new TotalAccountView({
@@ -78,7 +80,6 @@ $(function() {
     });
 
     // 初期ロード時に AccountItems を読み込む
-    Account.items = new AccountItemList();
     db.transaction(function(tx) {
         Account.items.fetch({tx: tx});
     });
