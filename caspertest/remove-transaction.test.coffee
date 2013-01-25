@@ -1,4 +1,5 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
+noop = (->)
 
 casper.start('')
   .then ->
@@ -29,7 +30,8 @@ casper
     @click 'form#account-entry button[type="submit"]'
     firstCreatedDate = new Date()
 
-  .waitWhileVisible '.container .popup', ->
+  .waitWhileVisible('.container .popup', noop)
+  .wait 500, ->
     @test.assertEvalEquals (-> $('#history tbody tr').length ), 1
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
