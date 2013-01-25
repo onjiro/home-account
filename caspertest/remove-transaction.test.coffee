@@ -76,7 +76,7 @@ casper
 
 casper
   .then ->
-    @test.comment '詳細画面で削除ボタンをクリックしたらTransactionが削除されること', 'INFO'
+    @test.comment '詳細画面で削除ボタンをクリックしたらTransactionが削除されること'
 
     # window.confirm() に対して trueを返す
     @setFilter 'page.confirm', (msg) => true
