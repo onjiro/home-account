@@ -1,5 +1,6 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
 url = './assets/www/index.html'
+noop = (->)
 
 casper.start('')
   .then ->
@@ -55,7 +56,8 @@ casper
       'start': '3000/12/31'
       'end'  : '2000/01/01'
 
-  .waitUntilVisible '.subtotals', ->
+  .waitUntilVisible('.subtotals', noop)
+  .wait 500, ->
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 3
 
 casper.run ->
