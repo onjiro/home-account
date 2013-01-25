@@ -78,17 +78,11 @@ this.TotalAccount = (function(global){
                 queryParams.push(new Date(option.date).getTime());
             }
             if (option && option.startDate && option.endDate) {
-                var startTime = new Date(option.startDate).getTime()
-                , endTime = new Date(option.endDate).getTime();
-
                 whereSection.push('date between ? and ?');
-                if (startTime <= endTime) {
-                    queryParams.push(startTime);
-                    queryParams.push(endTime);
-                } else {
-                    queryParams.push(endTime);
-                    queryParams.push(startTime);
-                }
+                queryParams = queryParams.concat([
+                    new Date(option.startDate).getTime(),
+                    new Date(option.endDate).getTime(),
+                ].sort(function(a, b) { return a - b }));
             }
             tx.executeSql([
                 'SELECT',
