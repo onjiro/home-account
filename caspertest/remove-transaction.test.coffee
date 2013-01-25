@@ -62,12 +62,6 @@ casper
   .then ->
     @test.comment '履歴からTransactionを選択したら詳細が表示されること'
 
-    # todo reloadしないと削除がうまく動かない。原因を確認して修正 ==
-    @reload()
-  .waitWhileVisible '#history .loading', ->
-    @test.assertExist '#history table'
-    # ===============================================================
-
     @test.assertDoesntExist '.history-detail'
 
     @click '#history tbody tr:first-child'
@@ -96,4 +90,4 @@ casper
     @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(3)', '980'
 
 casper.run ->
-  @test.done 26
+  @test.done 25
