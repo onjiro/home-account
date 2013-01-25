@@ -78,13 +78,16 @@ this.TotalAccount = (function(global){
                 queryParams.push(new Date(option.date).getTime());
             }
             if (option && option.startDate && option.endDate) {
+                var startTime = new Date(option.startDate).getTime()
+                , endTime = new Date(option.endDate).getTime();
+
                 whereSection.push('date between ? and ?');
-                if (new Date(option.startDate).getTime() <= new Date(option.endDate).getTime()) {
-                    queryParams.push(new Date(option.startDate).getTime());
-                    queryParams.push(new Date(option.endDate).getTime());
+                if (startTime <= endTime) {
+                    queryParams.push(startTime);
+                    queryParams.push(endTime);
                 } else {
-                    queryParams.push(new Date(option.endDate).getTime());
-                    queryParams.push(new Date(option.startDate).getTime());
+                    queryParams.push(endTime);
+                    queryParams.push(startTime);
                 }
             }
             tx.executeSql([
