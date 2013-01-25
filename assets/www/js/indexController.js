@@ -58,7 +58,8 @@ $(function() {
                     amount: entries.amount,
                     type: 'credit'
                 }),
-            ]
+            ],
+            db: db,
         });
         db.transaction(function(tx) {
             accountTransaction.save(tx);
