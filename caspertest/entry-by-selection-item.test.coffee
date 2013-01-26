@@ -44,7 +44,6 @@ casper
       'amount'                    : 40
       'item-in-selection'         : '現金'
       'opposite-item-in-selection': '食費'
-    @capture 'hoge.png'
     @click 'form#account-entry button[type="submit"]'
     firstCreatedDate = new Date()
 
