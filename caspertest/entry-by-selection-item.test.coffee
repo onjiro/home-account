@@ -20,9 +20,11 @@ casper
   .then ->
     @test.comment '新しいAccountItemを持つTransactionを追加できること'
     @fill 'form#account-entry',
-      'amount'       : 120
-      'item'         : '食費'
-      'opposite-item': '現金'
+      'amount'                    : 120
+      'item-in-selection'         : '&lt;新規品目&gt;'
+      'item'                      : '食費'
+      'opposite-item-in-selection': '&lt;新規品目&gt;'
+      'opposite-item'             : '現金'
     @click 'form#account-entry button[type="submit"]'
     firstCreatedDate = new Date()
 

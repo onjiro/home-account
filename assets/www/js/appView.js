@@ -29,7 +29,8 @@ this.AppView = (function(global) {
         onSelectItem: function($selection) {
             $selection
                 .siblings('[name="item"], [name="opposite-item"]')
-                .val($selection.val());
+                .val($selection.val())
+                .toggle($selection.val() === '');
         },
     });
 })(this);
