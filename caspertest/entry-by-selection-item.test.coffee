@@ -34,14 +34,6 @@ casper
     @test.assertField 'item'         , null
     @test.assertField 'opposite-item', null
 
-# todo 現在、新規科目追加時にセレクトボックスへ反映していないためreloadをかける=
-casper
-  .then ->
-    @reload()
-  .waitWhileVisible '#history .loading', ->
-    @test.assertExist '#history table'
-# ==============================================================================
-
 firstCreatedDate = null
 casper
   .then ->
@@ -66,5 +58,5 @@ casper
     @test.assertField 'opposite-item', null
 
 casper.run ->
-  @test.done 14
+  @test.done 13
 
