@@ -49,6 +49,13 @@ casper
     @test.assertSelectorHasText '#account-item tbody td', '外食'
     @test.assertSelectorHasText '#account-item tbody td', '現金'
 
+casper
+  .then ->
+    @test.comment '勘定科目の分類が初期値である流動資産として表示されていること'
+    @test.assertSelectorHasText '#account-item tbody tr:nth-child(1)', '流動資産'
+    @test.assertSelectorHasText '#account-item tbody tr:nth-child(2)', '流動資産'
+    @test.assertSelectorHasText '#account-item tbody tr:nth-child(3)', '流動資産'
+
 casper.run ->
-  @test.done 8
+  @test.done 11
 

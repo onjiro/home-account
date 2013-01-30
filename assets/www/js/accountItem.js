@@ -5,6 +5,7 @@ this.AccountItem = (function(global) {
          */
         defaults: {
             name: 'no-name',
+            classification: '流動資産',
             classificationId: 1,
         },
         /**
