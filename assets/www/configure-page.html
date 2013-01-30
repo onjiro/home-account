@@ -17,6 +17,8 @@
     <script src="js/accountItemList.js"></script>
     <script src="js/migrator.js"></script>
     <script src="js/initialize.js"></script>
+    <script src="js/accountItemConfigureView.js"></script>
+    <script src="js/configurePageController.js"></script>
     <script src="cordova-1.9.0.js"></script>
   </head>
   <body>
@@ -79,9 +81,9 @@
     </script>
 
     <script type="text/template" id="account-item-template">
-      <tr data-item="<%= item %>">
-        <td class="account-item"><%= item %></td>
-        <td class="classification"><%= classification %></td>
+      <tr data-item="<%= name %>">
+        <td class="account-item"><%= name %></td>
+        <td class="classification"><%= classificationId %></td>
       </tr>
     </script>
 
