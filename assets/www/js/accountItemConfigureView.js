@@ -11,6 +11,11 @@ AccountItemConfigureView = (function(global) {
                     .children('select').show()
                     .siblings().hide();
             },
+            'change .classification': function(e) {
+                $(e.currentTarget)
+                    .children('span').show()
+                    .siblings().hide();
+            }
         },
 
         initialize: function(options) {

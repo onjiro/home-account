@@ -70,6 +70,15 @@ casper
     @test.comment '初期値である流動資産が選択されていること'
     @test.assertEvalEquals (->$('#account-item tbody tr:first-child td.classification select option:selected').text()), '流動資産'
 
+casper
+  .then ->
+    @test.comment '別の勘定科目を選択したらセレクトボックスが閉じること'
+    @fill 'form#account-item'
+      classification: '費用'
+  .then ->
+    @test.assertVisible    '#account-item tbody tr td.classification span'
+    @test.assertNotVisible '#account-item tbody tr td.classification select'
+
 casper.run ->
-  @test.done 16
+  @test.done 18
 
