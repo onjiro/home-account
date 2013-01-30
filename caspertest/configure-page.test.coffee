@@ -56,6 +56,20 @@ casper
     @test.assertSelectorHasText '#account-item tbody tr:nth-child(2)', '流動資産'
     @test.assertSelectorHasText '#account-item tbody tr:nth-child(3)', '流動資産'
 
+casper
+  .then ->
+    @test.comment '勘定科目の分類をクリックするとセレクトボックスが出現すること'
+    @test.assertVisible    '#account-item tbody tr td.classification span'
+    @test.assertNotVisible '#account-item tbody tr td.classification select'
+  .thenClick '#account-item tbody tr:first-child td.classification', ->
+    @test.assertNotVisible '#account-item tbody tr:first-child td.classification span'
+    @test.assertVisible    '#account-item tbody tr:first-child td.classification select'
+
+casper
+  .then ->
+    @test.comment '初期値である流動資産が選択されていること'
+    @test.assertEvalEquals (->$('#account-item tbody tr:first-child td.classification select option:selected').text()), '流動資産'
+
 casper.run ->
-  @test.done 11
+  @test.done 16
 

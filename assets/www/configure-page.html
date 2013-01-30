@@ -13,6 +13,7 @@
     <script src="js/underscore-min.js"></script>
     <script src="js/backbone-min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/accountItemClassificationList.js"></script>
     <script src="js/accountItem.js"></script>
     <script src="js/accountItemList.js"></script>
     <script src="js/migrator.js"></script>
@@ -83,8 +84,15 @@
     <script type="text/template" id="account-item-template">
       <tr data-item="<%= name %>">
         <td class="account-item"><%= name %></td>
-        <td class="classification"><%= classification %></td>
+        <td class="classification">
+          <span><%= classification %></span>
+          <select style="display: none;"></select>
+        </td>
       </tr>
+    </script>
+
+    <script type="text/template" id="select-option-template">
+      <option value="<%= name %>"><%= name %></option>
     </script>
 
   </body>
