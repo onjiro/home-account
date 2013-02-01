@@ -6,7 +6,6 @@ this.AccountItem = (function(global) {
         defaults: {
             name: 'no-name',
             classification: '流動資産',
-            classificationId: 1,
         },
         /**
          * @override Backbone.Model#sync
@@ -27,8 +26,10 @@ this.AccountItem = (function(global) {
             switch(method) {
             case 'create':
                 tx.executeSql(
-                    'INSERT INTO AccountItems (name, classificationId) VALUES (?, ?)',
-                    [model.get('name'), model.get('classificationId')],
+                    'INSERT INTO AccountItems (name, classificationId) VALUES (?, '
+                        + '(SELECT rowid FROM AccountItemClassifications WHERE name = ?)'
+                        + ')',
+                    [model.get('name'), model.get('classification')],
                     success,
                     error);
                 break;

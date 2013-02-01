@@ -25,8 +25,7 @@ this.AccountItemList = (function(global) {
                 sql = 'SELECT '
                     +   'AccountItems.rowid AS id,'
                     +   'AccountItems.name AS name,'
-                    +   'AccountItemClassifications.name AS classification,'
-                    +   'AccountItems.classificationId AS classificationId '
+                    +   'AccountItemClassifications.name AS classification '
                     + 'FROM AccountItems '
                     +   'INNER JOIN AccountItemClassifications '
                     +     'ON AccountItems.classificationId = AccountItemClassifications.rowid ';
