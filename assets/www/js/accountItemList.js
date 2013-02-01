@@ -23,10 +23,13 @@ this.AccountItemList = (function(global) {
             switch(method) {
             case 'read':
                 sql = 'SELECT '
-                    +   'rowid AS id,'
-                    +   'name,'
-                    +   'classificationId '
-                    + 'FROM AccountItems';
+                    +   'AccountItems.rowid AS id,'
+                    +   'AccountItems.name AS name,'
+                    +   'AccountItemClassifications.name AS classification,'
+                    +   'AccountItems.classificationId AS classificationId '
+                    + 'FROM AccountItems '
+                    +   'INNER JOIN AccountItemClassifications '
+                    +     'ON AccountItems.classificationId = AccountItemClassifications.rowid ';
                 tx.executeSql(sql, [], success, error);
                 break;
             };

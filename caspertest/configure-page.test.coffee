@@ -74,7 +74,7 @@ casper
   .then ->
     @test.comment '別の勘定科目を選択したらセレクトボックスが閉じること'
     @fill 'form#account-item'
-      classification: '費用'
+      classification: '8' # '費用'のid
   .then ->
     @test.assertVisible    '#account-item tbody tr td.classification span'
     @test.assertNotVisible '#account-item tbody tr td.classification select'
@@ -84,6 +84,12 @@ casper
     @test.comment '勘定科目の分類に選択された勘定科目が表示されていること'
     @test.assertSelectorHasText '#account-item tbody tr:first-child span', '費用'
 
+casper
+  .then ->
+    @test.comment '再読み込みした際に先ほど選択した勘定科目が表示されること'
+    @reload()
+    @test.assertSelectorHasText '#account-item tbody tr:first-child span', '費用'
+
 casper.run ->
-  @test.done 19
+  @test.done 20
 

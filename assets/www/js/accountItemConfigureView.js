@@ -12,9 +12,13 @@ AccountItemConfigureView = (function(global) {
                     .siblings().hide();
             },
             'change .classification': function(e) {
-                $(e.currentTarget)
-                    .children('span').text(e.target.value).show()
-                    .siblings().hide();
+                var classification = this.classifications.get(e.target.value),
+                accountItem = this.collection.get($(e.srcElement).closest('[data-id]').data('id'));
+                db.transaction(function(tx) {
+                    accountItem.save({
+                        classification: classification.get('name')
+                    }, {tx: tx});
+                });
             }
         },
 
@@ -25,7 +29,13 @@ AccountItemConfigureView = (function(global) {
             this.$tableBody = this.$('tbody');
             this.$classificationOptions = $('<div/>');
 
-            this.collection.on('reset', this.render, this);
+            this.collection
+                .on('reset', this.render, this)
+                .on('change', function(model) {
+                    this.$el.find('[data-id="' + model.id + '"]')
+                        .find('span').text(model.get('classification')).show()
+                        .siblings().hide();
+                }, this);
             this.classifications.on('reset', this.render, this);
         },
         render: function() {
