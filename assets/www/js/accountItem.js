@@ -5,6 +5,7 @@ this.AccountItem = (function(global) {
          */
         defaults: {
             name: 'no-name',
+            classification: '流動資産',
             classificationId: 1,
         },
         /**
@@ -14,7 +15,7 @@ this.AccountItem = (function(global) {
             var options = (options || {}),
             tx = options.tx,
             success = function(tx, resultSet) {
-                model.set('id', resultSet.insertId);
+                if (method === 'create') model.set('id', resultSet.insertId);
                 if (options.success) options.success(model, resultSet, options);
                 model.trigger('sync', model, resultSet, options);
             },
@@ -28,6 +29,15 @@ this.AccountItem = (function(global) {
                 tx.executeSql(
                     'INSERT INTO AccountItems (name, classificationId) VALUES (?, ?)',
                     [model.get('name'), model.get('classificationId')],
+                    success,
+                    error);
+                break;
+            case 'update':
+                tx.executeSql(
+                    'UPDATE AccountItems SET classificationId = '
+                        + '(SELECT rowid FROM AccountItemClassifications WHERE name = ?) '
+                        + 'WHERE rowid = ?',
+                    [model.get('classification'), model.id],
                     success,
                     error);
                 break;
