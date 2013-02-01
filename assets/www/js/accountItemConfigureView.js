@@ -13,7 +13,7 @@ AccountItemConfigureView = (function(global) {
             },
             'change .classification': function(e) {
                 $(e.currentTarget)
-                    .children('span').show()
+                    .children('span').text(e.target.value).show()
                     .siblings().hide();
             }
         },

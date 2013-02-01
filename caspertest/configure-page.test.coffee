@@ -79,6 +79,11 @@ casper
     @test.assertVisible    '#account-item tbody tr td.classification span'
     @test.assertNotVisible '#account-item tbody tr td.classification select'
 
+casper
+  .then ->
+    @test.comment '勘定科目の分類に選択された勘定科目が表示されていること'
+    @test.assertSelectorHasText '#account-item tbody tr:first-child span', '費用'
+
 casper.run ->
-  @test.done 18
+  @test.done 19
 
