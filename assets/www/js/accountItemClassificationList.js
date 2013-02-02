@@ -1,11 +1,13 @@
-this.AccountItemList = (function(global) {
+this.AccountItemClassificationList = (function(global){
     return Backbone.Collection.extend({
-        model: AccountItem,
+        initialize: function(option) {
+            this.db = (option || {}).db;
+        },
         /**
          * @override Backbone.Colleciton#sync
          */
         sync: function(method, collection, options) {
-            var sql,
+            var sql, _this, sync,
             tx = (options || {}).tx,
             success = function(tx, resultSet) {
                 var i, arr = [];
@@ -19,16 +21,24 @@ this.AccountItemList = (function(global) {
                 if (options.error) options.error(collection, err, options);
                 collection.trigger('error', collection, err, options);
             };
+            if (!tx) {
+                _this = this;
+                sync = this.sync;
+                this.db.transaction(function(tx) {
+                    sync.call(_this, method, collection, _.defaults(options, {tx: tx}));
+                }, function(err) {
+                    alert('something failed while accessing database.\n' + err.message);
+                });
+                return;
+            }
 
             switch(method) {
             case 'read':
                 sql = 'SELECT '
-                    +   'AccountItems.rowid AS id,'
-                    +   'AccountItems.name AS name,'
-                    +   'AccountItemClassifications.name AS classification '
-                    + 'FROM AccountItems '
-                    +   'INNER JOIN AccountItemClassifications '
-                    +     'ON AccountItems.classificationId = AccountItemClassifications.rowid ';
+                    +   'rowid AS id,'
+                    +   'name,'
+                    +   'side '
+                    + 'FROM AccountItemClassifications';
                 tx.executeSql(sql, [], success, error);
                 break;
             };

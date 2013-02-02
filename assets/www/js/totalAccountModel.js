@@ -79,8 +79,10 @@ this.TotalAccount = (function(global){
             }
             if (option && option.startDate && option.endDate) {
                 whereSection.push('date between ? and ?');
-                queryParams.push(new Date(option.startDate).getTime());
-                queryParams.push(new Date(option.endDate).getTime());
+                queryParams = queryParams.concat([
+                    new Date(option.startDate).getTime(),
+                    new Date(option.endDate).getTime(),
+                ].sort(function(a, b) { return a - b }));
             }
             tx.executeSql([
                 'SELECT',

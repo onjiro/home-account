@@ -1,4 +1,5 @@
 dbinitializer = require('./jstestlibs/database.helper').initializer()
+noop = (->)
 
 casper.start('')
   .then ->
@@ -29,7 +30,8 @@ casper
     @click 'form#account-entry button[type="submit"]'
     firstCreatedDate = new Date()
 
-  .waitWhileVisible '.container .popup', ->
+  .waitWhileVisible('.container .popup', noop)
+  .wait 500, ->
     @test.assertEvalEquals (-> $('#history tbody tr').length ), 1
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(1)', (firstCreatedDate.getMonth() + 1) + '/' + firstCreatedDate.getDate()
     @test.assertSelectorHasText '#history tbody tr:first-child td:nth-child(2)', '食費'
@@ -60,12 +62,6 @@ casper
   .then ->
     @test.comment '履歴からTransactionを選択したら詳細が表示されること'
 
-    # todo reloadしないと削除がうまく動かない。原因を確認して修正 ==
-    @reload()
-  .waitWhileVisible '#history .loading', ->
-    @test.assertExist '#history table'
-    # ===============================================================
-
     @test.assertDoesntExist '.history-detail'
 
     @click '#history tbody tr:first-child'
@@ -80,7 +76,7 @@ casper
 
 casper
   .then ->
-    @test.comment '詳細画面で削除ボタンをクリックしたらTransactionが削除されること', 'INFO'
+    @test.comment '詳細画面で削除ボタンをクリックしたらTransactionが削除されること'
 
     # window.confirm() に対して trueを返す
     @setFilter 'page.confirm', (msg) => true
@@ -94,4 +90,4 @@ casper
     @test.assertSelectorDoesntHaveText '#history tbody tr td:nth-child(3)', '980'
 
 casper.run ->
-  @test.done 26
+  @test.done 25

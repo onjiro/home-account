@@ -34,7 +34,10 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
-          <h1 class="brand" href="#">Home Account</h1>
+          <ul class="nav">
+            <li class="active"><a href="#"><i class="icon-home icon-white"></i>Home</a></li>
+            <li><a href="configure-page.html"><i class="icon-wrench icon-white"></i>設定</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -66,14 +69,20 @@
             <div class="control-group">
               <label class="control-label">品目</label>
               <div class="controls">
-                <input name="item" type="text" placeholder="食費" required/>
+                <select name="item-in-selection">
+                  <option value="">&lt;新規品目&gt;</option>
+                </select>
+                <input name="item" type="text" placeholder="食費" />
               </div>
             </div>
             
             <div class="control-group">
               <label class="control-label">支払い方法</label>
               <div class="controls">
-                <input name="opposite-item" type="text" placeholder="現金" required/>
+                <select name="opposite-item-in-selection">
+                  <option value="">&lt;新規品目&gt;</option>
+                </select>
+                <input name="opposite-item" type="text" placeholder="現金" />
               </div>
             </div>
             <div class="form-actions">
@@ -110,14 +119,20 @@
             <div class="control-group">
               <label class="control-label">カード/品目</label>
               <div class="controls">
-                <input name="item" type="text" placeholder="水道料金" required/>
+                <select name="item-in-selection">
+                  <option value="">&lt;新規品目&gt;</option>
+                </select>
+                <input name="item" type="text" placeholder="水道料金" />
               </div>
             </div>
             
             <div class="control-group">
               <label class="control-label">引き落とし口座</label>
               <div class="controls">
-                <input name="opposite-item" type="text" placeholder="XX銀行普通預金" required/>
+                <select name="opposite-item-in-selection">
+                  <option value="">&lt;新規品目&gt;</option>
+                </select>
+                <input name="opposite-item" type="text" placeholder="XX銀行普通預金" />
               </div>
             </div>
             <div class="form-actions">
@@ -283,5 +298,8 @@
       </tr>
     </script>
 
+    <script type="text/template" id="selection-template">
+      <option value="<%= item %>"><%= item %></option>
+    </script>
   </body>
 </html>
