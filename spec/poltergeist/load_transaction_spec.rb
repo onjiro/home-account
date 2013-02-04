@@ -29,12 +29,15 @@ describe 'transaction history', :type => :feature do
     page.should have_selector('#history table')
   end
 
-  it 'Transactionを追加できること' do
-    visit '/index.html'
-    page.execute_script %Q{ $.fx.off = true } # setTimeoutが効いていないことへの回避策
-    page.should have_selector('#history .loading', visible: false)
-    page.should have_selector('#history table')
+  context '履歴がロード済みの場合' do
+    before do
+      visit '/index.html'
+      page.execute_script %Q{ $.fx.off = true } # setTimeoutが効いていないことへの回避策
+      page.should have_selector('#history .loading', visible: false)
+      page.should have_selector('#history table')
+    end
 
+  it 'Transactionを追加できること' do
     within('form#account-entry') do
       fill_in 'amount'       , :with => '120'
       fill_in 'item'         , :with => '食費'
@@ -61,10 +64,6 @@ describe 'transaction history', :type => :feature do
   end
 
   it 'リロードした場合、それ以前に追加したTransactionが表示されること' do
-    visit '/index.html'
-    page.should have_selector('#history .loading', visible: false)
-    page.should have_selector('#history table')
-
     within('#history tbody') do
       page.should have_selector('tr', :count => 1)
       within('tr:first-child') do
@@ -72,5 +71,6 @@ describe 'transaction history', :type => :feature do
         find('td:nth-child(3)').should have_content('120')
       end
     end
+  end
   end
 end
