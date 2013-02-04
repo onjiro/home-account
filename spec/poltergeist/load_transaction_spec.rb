@@ -13,14 +13,6 @@ Capybara.app = TestApp
 describe 'transaction history', :type => :feature do
   include Capybara::DSL
 
-  before do
-    @driver = TestSessions::Poltergeist.driver
-  end
-
-  after do
-    @driver.reset!
-  end
-
   it 'ページを開いた際に自動的にロードされること' do
     visit '/index.html'
     page.should have_xpath('//title', :text => 'Home Account')
