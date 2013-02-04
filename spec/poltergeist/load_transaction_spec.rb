@@ -1,13 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 require 'spec_helper'
-require 'sinatra/base'
-
-class TestApp
-  set :root, File.dirname(__FILE__) + '/../../assets/www/'
-  set :static, true
-  set :public_folder, root
-end
 Capybara.app = TestApp
 
 describe 'transaction history', :type => :feature do
