@@ -15,7 +15,6 @@ describe 'transaction history', :type => :feature do
 
   before do
     @driver = TestSessions::Poltergeist.driver
-    # todo Web SQLデータベースのセットアップ
   end
 
   after do
