@@ -41,10 +41,18 @@ describe 'transaction history', :type => :feature do
       fill_in 'opposite-item', :with => '現金'
     end
     find_button('決定').trigger('click')
+    entry_time = "#{Time.now.month}/#{Time.now.day}"
 
     page.should have_selector('.container .popup')
     # todo setTimeoutが効いていないため `.popup` が削除されることへのチェックを省く
-    page.should have_selector('#history tbody tr', :count => 1)
+    within('#history tbody') do
+      page.should have_selector('tr', :count => 1)
+      within('tr:first-child') do
+        find('td:nth-child(1)').should have_content(entry_time)
+        find('td:nth-child(2)').should have_content('食費')
+        find('td:nth-child(3)').should have_content('120')
+      end
+    end
     within('form#account-entry') do
       find_field('amount').value.should        eq('')
       find_field('item').value.should          eq('')
@@ -57,6 +65,12 @@ describe 'transaction history', :type => :feature do
     page.should have_selector('#history .loading', visible: false)
     page.should have_selector('#history table')
 
-    page.should have_selector('#history tbody tr', :count => 1)
+    within('#history tbody') do
+      page.should have_selector('tr', :count => 1)
+      within('tr:first-child') do
+        find('td:nth-child(2)').should have_content('食費')
+        find('td:nth-child(3)').should have_content('120')
+      end
+    end
   end
 end
