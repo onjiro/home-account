@@ -1,11 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 require 'spec_helper'
-require 'capybara/rspec'
 require 'sinatra/base'
 
-Capybara.default_driver = :poltergeist
-Capybara.javascript_driver = :poltergeist
 class TestApp
   set :root, File.dirname(__FILE__) + '/../../assets/www/'
   set :static, true

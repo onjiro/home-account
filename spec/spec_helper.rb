@@ -1,7 +1,7 @@
 require 'bundler/setup'
-require 'rspec'
-require 'capybara/poltergeist'
+require 'capybara/rspec'
 require 'capybara/spec/test_app'
+require 'support/capybara.rb'
 
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new app
