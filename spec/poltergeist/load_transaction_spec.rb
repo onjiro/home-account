@@ -51,4 +51,12 @@ describe 'transaction history', :type => :feature do
       find_field('opposite-item').value.should eq('')
     end
   end
+
+  it 'リロードした場合、それ以前に追加したTransactionが表示されること' do
+    visit '/index.html'
+    page.should have_selector('#history .loading', visible: false)
+    page.should have_selector('#history table')
+
+    page.should have_selector('#history tbody tr', :count => 1)
+  end
 end
