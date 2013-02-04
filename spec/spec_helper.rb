@@ -12,3 +12,4 @@ module TestSessions
   Poltergeist = Capybara::Session.new(:poltergeist, TestApp)
 end
 
+Capybara.app = TestApp

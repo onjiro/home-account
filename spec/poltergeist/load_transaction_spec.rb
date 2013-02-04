@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 require 'spec_helper'
-Capybara.app = TestApp
 
 describe 'transaction history', :type => :feature do
   include Capybara::DSL
