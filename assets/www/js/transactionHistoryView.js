@@ -15,6 +15,7 @@ this.TransactionHistoryView = (function(global) {
         initialize: function() {
             this.collection.on('add'   , this.add     , this);
             this.collection.on('remove', this.onRemove, this);
+            this.collection.on('reset' , this.render  , this);
 
             this.template = _.template($('#history-template').html());
         },
@@ -35,6 +36,13 @@ this.TransactionHistoryView = (function(global) {
         },
         onRemove: function(model) {
             this.$el.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
+        },
+        render: function(collection, options) {
+            collection.chain()
+                .sortBy(function(model) { return model.id * -1 })
+                .each(function(model) {
+                    this.$el.append(formatToTableRow(model, this.template));
+                }, this);
         },
     })
     , formatToTableRow = function(transaction, template) {

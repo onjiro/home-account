@@ -21,10 +21,7 @@ this.TransactionList = (function(global) {
             switch (method) {
             case 'read':
                 Transaction.find(tx, function(tx, transactions) {
-                    _this.reset()
-                    $.each(transactions.reverse(), function(i, transaction) {
-                        collections.add(_.defaults(transaction, {db: db}));
-                    });
+                    _this.reset(transactions ,option);
                 }, function(err) {
                     alert('something failed while accessing database.\n' + err.message);
                 });
