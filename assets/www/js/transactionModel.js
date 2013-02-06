@@ -83,8 +83,12 @@ this.Transaction = (function(global) {
         },
     }, {
         // class properties
-        find: function(tx, onSuccess, onError) {
-            var sql = [
+        find: function(tx, option, onSuccess, onError) {
+            var sql, where = [];
+            if (option.from) {
+                where.push(' Transactions.date >= ' + option.from.getTime());
+            }
+            sql = [
                 'SELECT',
                 '  Transactions.rowid as rowid,',
                 '  Transactions.date as date,',
@@ -98,6 +102,7 @@ this.Transaction = (function(global) {
                 '  ON Transactions.rowid = Accounts.transactionId',
                 '  INNER JOIN AccountItems',
                 '  ON Accounts.itemId = AccountItems.rowid',
+                (where.length === 0) ? '': 'WHERE' + where.join(','),
                 'ORDER BY',
                 '  Transactions.rowid'
             ].join(' ');

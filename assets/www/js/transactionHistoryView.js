@@ -11,13 +11,18 @@ this.TransactionHistoryView = (function(global) {
             "mouseover td" : 'hover',
             'touchend td'  : 'hout',
             'mouseout td'  : 'hout',
+            'click .more-history .btn': function(e) { this.collection.fetch(); },
         },
         initialize: function() {
             this.collection.on('add'   , this.add     , this);
             this.collection.on('remove', this.onRemove, this);
             this.collection.on('reset' , this.render  , this);
+            this.collection.on('request', function(collection, method, option) {
+                if (method === 'read') this.renderLoading(collection, option);
+            }, this);
 
             this.template = _.template($('#history-template').html());
+            this.$tbody = this.$el.find('tbody');
         },
         hover: function(e) {
             var $target = $(e.currentTarget).addClass('hover');
@@ -28,21 +33,31 @@ this.TransactionHistoryView = (function(global) {
         },
         add: function(model, collections, options) {
             $added = (options.index === 0) ?
-                this.$el.prepend(formatToTableRow(model, this.template)).children(':first-child'):
-                this.$el.append(formatToTableRow(model, this.template)).children(':last-child');
+                this.$tbody.prepend(formatToTableRow(model, this.template)).children(':first-child'):
+                this.$tbody.append(formatToTableRow(model, this.template)).children(':last-child');
             if (options.newest) {
                 $added.hide().fadeIn();
             }
         },
         onRemove: function(model) {
-            this.$el.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
+            this.$tbody.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
         },
         render: function(collection, options) {
+            this.$tbody.empty();
             collection.chain()
                 .sortBy(function(model) { return model.id * -1 })
                 .each(function(model) {
-                    this.$el.append(formatToTableRow(model, this.template));
+                    this.$tbody.append(formatToTableRow(model, this.template));
                 }, this);
+            this.$el
+                .find('table').show()
+                .siblings().not('h2').hide();
+            this.$el.find('.more-history').toggle(!!options.from);
+        },
+        renderLoading: function(collection, options) {
+            this.$el
+                .find('.loading').show()
+                .siblings().not('h2').hide();
         },
     })
     , formatToTableRow = function(transaction, template) {
