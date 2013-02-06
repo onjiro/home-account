@@ -12,7 +12,7 @@ this.Transaction = (function(global) {
             values = values || {};
             this.db = values.db;
             this.set({
-                id       : values.rowid,
+                id       : values.id,
                 date     : (values.date) ? new Date(values.date): new Date(),
                 accounts : values.accounts || [],
                 details  : values.details  || ""
@@ -43,14 +43,14 @@ this.Transaction = (function(global) {
         },
 
         remove: function(tx, onSuccess, onError) {
-            var rowid = this.get('id');
+            var id = this.id;
             tx.executeSql(
                 'DELETE FROM Transactions where rowid = ?',
-                [rowid],
+                [id],
                 function(tx, resultSet) {
                     tx.executeSql(
                         'delete from accounts where transactionId = ?',
-                        [rowid],
+                        [id],
                         onSuccess
                     );
                 },
@@ -90,7 +90,7 @@ this.Transaction = (function(global) {
             }
             sql = ''
                 + 'SELECT '
-                +   'Transactions.rowid as rowid,'
+                +   'Transactions.rowid as id,'
                 +   'Transactions.date as date,'
                 +   'Transactions.details as details,'
                 +   'Transactions.rowid as transactionId,'
@@ -111,7 +111,7 @@ this.Transaction = (function(global) {
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     var current = new Transaction(resultSet.rows.item(i));
                     var lastOne = (results.length === 0) ? null: results[results.length - 1];
-                    if (!lastOne || current.get('id') !== lastOne.get('id')) {
+                    if (!lastOne || current.id !== lastOne.id) {
                         results.push(current);
                     } else {
                         current = lastOne;
