@@ -29,6 +29,7 @@ this.TransactionList = (function(global) {
             default:
                 throw new Error('not supported method called!!');
             }
+            collections.trigger('request', collections, method, option);
         },
     })
 })(this);

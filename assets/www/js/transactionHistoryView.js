@@ -17,6 +17,9 @@ this.TransactionHistoryView = (function(global) {
             this.collection.on('add'   , this.add     , this);
             this.collection.on('remove', this.onRemove, this);
             this.collection.on('reset' , this.render  , this);
+            this.collection.on('request', function(collection, method, option) {
+                if (method === 'read') this.renderLoading(collection, option);
+            }, this);
 
             this.template = _.template($('#history-template').html());
             this.$tbody = this.$el.find('tbody');
@@ -46,7 +49,15 @@ this.TransactionHistoryView = (function(global) {
                 .each(function(model) {
                     this.$tbody.append(formatToTableRow(model, this.template));
                 }, this);
+            this.$el
+                .find('table').show()
+                .siblings().not('h2').hide();
             this.$el.find('.more-history').toggle(!!options.from);
+        },
+        renderLoading: function(collection, options) {
+            this.$el
+                .find('.loading').show()
+                .siblings().not('h2').hide();
         },
     })
     , formatToTableRow = function(transaction, template) {
