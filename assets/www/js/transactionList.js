@@ -21,7 +21,9 @@ this.TransactionList = (function(global) {
             switch (method) {
             case 'read':
                 Transaction.find(tx, option, function(tx, transactions) {
-                    _this.reset(transactions ,option);
+                    _this.reset(_.map(transactions, function(one) {
+                        return _.defaults(one, {db: db});
+                    }) ,option);
                 }, function(err) {
                     alert('something failed while accessing database.\n' + err.message);
                 });
