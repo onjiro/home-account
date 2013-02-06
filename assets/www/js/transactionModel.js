@@ -88,24 +88,24 @@ this.Transaction = (function(global) {
             if (option.from) {
                 where.push(' Transactions.date >= ' + option.from.getTime());
             }
-            sql = [
-                'SELECT',
-                '  Transactions.rowid as rowid,',
-                '  Transactions.date as date,',
-                '  Transactions.details as details,',
-                '  Transactions.rowid as transactionId,',
-                '  AccountItems.name as item,',
-                '  Accounts.amount as amount,',
-                '  Accounts.type as type',
-                'FROM',
-                '  Transactions INNER JOIN Accounts ',
-                '  ON Transactions.rowid = Accounts.transactionId',
-                '  INNER JOIN AccountItems',
-                '  ON Accounts.itemId = AccountItems.rowid',
-                (where.length === 0) ? '': 'WHERE' + where.join(','),
-                'ORDER BY',
-                '  Transactions.rowid'
-            ].join(' ');
+            sql = ''
+                + 'SELECT '
+                +   'Transactions.rowid as rowid,'
+                +   'Transactions.date as date,'
+                +   'Transactions.details as details,'
+                +   'Transactions.rowid as transactionId,'
+                +   'AccountItems.name as item,'
+                +   'Accounts.amount as amount,'
+                +   'Accounts.type as type '
+                + 'FROM '
+                +   'Transactions '
+                +   'INNER JOIN Accounts '
+                +     'ON Transactions.rowid = Accounts.transactionId '
+                +   'INNER JOIN AccountItems '
+                +     'ON Accounts.itemId = AccountItems.rowid '
+                + ((where.length === 0) ? '': 'WHERE' + where.join(',') + ' ')
+                + 'ORDER BY '
+                +   'Transactions.rowid ';
             tx.executeSql(sql, [], function(tx, resultSet) {
                 var results = [];
                 for (var i = 0; i < resultSet.rows.length; i++) {
