@@ -114,11 +114,10 @@ this.Transaction = (function(global) {
                 transactions = _.chain(resultArray)
                     .groupBy('id')
                     .map(function(group) {
-                        var transaction = new Transaction(group[0]);
-                        _.each(group, function(one) {
-                            transaction.get('accounts').push(new Account(one));
-                        });
-                        return transaction;
+                        return new Transaction(group[0])
+                            .set('accounts', _.map(group, function(one) {
+                                return new Account(one);
+                            }));
                     })
                     .value();
                 onSuccess(tx, transactions);
