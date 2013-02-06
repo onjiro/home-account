@@ -11,6 +11,7 @@ this.TransactionHistoryView = (function(global) {
             "mouseover td" : 'hover',
             'touchend td'  : 'hout',
             'mouseout td'  : 'hout',
+            'click .more-history .btn': function(e) { this.collection.fetch(); },
         },
         initialize: function() {
             this.collection.on('add'   , this.add     , this);
@@ -39,11 +40,13 @@ this.TransactionHistoryView = (function(global) {
             this.$tbody.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
         },
         render: function(collection, options) {
+            this.$tbody.empty();
             collection.chain()
                 .sortBy(function(model) { return model.id * -1 })
                 .each(function(model) {
                     this.$tbody.append(formatToTableRow(model, this.template));
                 }, this);
+            this.$el.find('.more-history').toggle(!!options.from);
         },
     })
     , formatToTableRow = function(transaction, template) {

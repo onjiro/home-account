@@ -22,7 +22,15 @@ $(function() {
     })
     , subtotalView = new SubTotalView({
         el: '#subtotal-tab',
-    });
+    })
+    , calculateDaysAgo = function(targetDate, days) {
+        var aWeekAgo = new Date(targetDate.getTime() - days * 24 * 3600 * 1000);
+        aWeekAgo.setHours(0);
+        aWeekAgo.setMinutes(0);
+        aWeekAgo.setSeconds(0);
+        aWeekAgo.setMilliseconds(0);
+        return aWeekAgo;
+    };
 
     // datepickerの設定
     $('input[type="date"]').datepicker({
@@ -85,7 +93,7 @@ $(function() {
     });
 
     // 初期ロード時に Transaction を読み込む
-    currentTransactions.fetch();
+    currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
 
     // 初期ロード時に TotalAccount を読み込む
     db.transaction(function(tx) {
