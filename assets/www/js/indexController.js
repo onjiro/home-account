@@ -7,7 +7,7 @@ $(function() {
         db: db,
     })
     , historyView = new TransactionHistoryView({
-        el: '#history table > tbody',
+        el: '#history',
         collection: currentTransactions
     })
     , appView = new AppView({

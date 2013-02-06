@@ -18,6 +18,7 @@ this.TransactionHistoryView = (function(global) {
             this.collection.on('reset' , this.render  , this);
 
             this.template = _.template($('#history-template').html());
+            this.$tbody = this.$el.find('tbody');
         },
         hover: function(e) {
             var $target = $(e.currentTarget).addClass('hover');
@@ -28,20 +29,20 @@ this.TransactionHistoryView = (function(global) {
         },
         add: function(model, collections, options) {
             $added = (options.index === 0) ?
-                this.$el.prepend(formatToTableRow(model, this.template)).children(':first-child'):
-                this.$el.append(formatToTableRow(model, this.template)).children(':last-child');
+                this.$tbody.prepend(formatToTableRow(model, this.template)).children(':first-child'):
+                this.$tbody.append(formatToTableRow(model, this.template)).children(':last-child');
             if (options.newest) {
                 $added.hide().fadeIn();
             }
         },
         onRemove: function(model) {
-            this.$el.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
+            this.$tbody.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
         },
         render: function(collection, options) {
             collection.chain()
                 .sortBy(function(model) { return model.id * -1 })
                 .each(function(model) {
-                    this.$el.append(formatToTableRow(model, this.template));
+                    this.$tbody.append(formatToTableRow(model, this.template));
                 }, this);
         },
     })
