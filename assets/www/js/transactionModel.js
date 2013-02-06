@@ -107,18 +107,20 @@ this.Transaction = (function(global) {
                 + 'ORDER BY '
                 +   'Transactions.rowid ';
             tx.executeSql(sql, [], function(tx, resultSet) {
-                var results = [];
+                var transactions = [], resultArray = [];
                 for (var i = 0; i < resultSet.rows.length; i++) {
-                    var current = new Transaction(resultSet.rows.item(i));
-                    var lastOne = (results.length === 0) ? null: results[results.length - 1];
-                    if (!lastOne || current.id !== lastOne.id) {
-                        results.push(current);
-                    } else {
-                        current = lastOne;
-                    }
-                    current.get('accounts').push(new Account(resultSet.rows.item(i)));
-                };
-                onSuccess(tx, results);
+                    resultArray.push(resultSet.rows.item(i));
+                }
+                _.chain(resultArray)
+                    .groupBy('id')
+                    .each(function(group) {
+                        var one = new Transaction(group[0]);
+                        _.each(group, function(one) {
+                            one.get('accounts').push(new Account(one));
+                        });
+                        transactions.push(one);
+                    });
+                onSuccess(tx, transactions);
             }, onError);
         }
     });
