@@ -107,19 +107,20 @@ this.Transaction = (function(global) {
                 + 'ORDER BY '
                 +   'Transactions.rowid ';
             tx.executeSql(sql, [], function(tx, resultSet) {
-                var transactions = [], resultArray = [];
+                var transactions, resultArray = [];
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     resultArray.push(resultSet.rows.item(i));
                 }
-                _.chain(resultArray)
+                transactions = _.chain(resultArray)
                     .groupBy('id')
-                    .each(function(group) {
-                        var one = new Transaction(group[0]);
+                    .map(function(group) {
+                        var transaction = new Transaction(group[0]);
                         _.each(group, function(one) {
-                            one.get('accounts').push(new Account(one));
+                            transaction.get('accounts').push(new Account(one));
                         });
-                        transactions.push(one);
-                    });
+                        return transaction;
+                    })
+                    .value();
                 onSuccess(tx, transactions);
             }, onError);
         }
