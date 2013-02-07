@@ -19,7 +19,8 @@
         case 'create':
             tx.executeSql(sql, [], _.bind(function(tx, resultSet) {
                 this.set('id', resultSet.insertId);
-                if (this.hooks[method]) this.hooks[method].call(this, tx, resultSet);
+                if ((this.hooks || {})[method]) this.hooks[method].call(this, tx, resultSet);
+                if ((options || {}).success) options.success(tx, resultSet);
             }, this));
             break;
         case 'read':

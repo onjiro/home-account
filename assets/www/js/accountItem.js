@@ -1,5 +1,14 @@
 this.AccountItem = (function(global) {
     return Backbone.Model.extend({
+        sqls: {
+            create: ''
+                + 'INSERT INTO AccountItems '
+                +   '(name, classificationId) VALUES ('
+                +     '"<%= name %>",'
+                +     '(SELECT rowid FROM AccountItemClassifications '
+                +       'WHERE name = "<%= classification %>")'
+                +   ')',
+        },
         /**
          * @override Backbone.Model#defaults
          */
@@ -25,13 +34,7 @@ this.AccountItem = (function(global) {
 
             switch(method) {
             case 'create':
-                tx.executeSql(
-                    'INSERT INTO AccountItems (name, classificationId) VALUES (?, '
-                        + '(SELECT rowid FROM AccountItemClassifications WHERE name = ?)'
-                        + ')',
-                    [model.get('name'), model.get('classification')],
-                    success,
-                    error);
+                Backbone.sync.call(this, method, model, options);
                 break;
             case 'update':
                 tx.executeSql(
