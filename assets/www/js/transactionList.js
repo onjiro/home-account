@@ -36,7 +36,7 @@ this.TransactionList = (function(global) {
             return _.chain(rows)
                 .groupBy('id')
                 .map(function(group) {
-                    return new Transaction(_.defaults(group[0], { db: db }))
+                    return new Transaction(group[0])
                         .set('accounts', _.map(group, function(one) {
                             return new Account(one);
                         }));

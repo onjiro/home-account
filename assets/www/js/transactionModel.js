@@ -1,9 +1,15 @@
 this.Transaction = (function(global) {
     return Backbone.Model.extend({
         // properties
+        sqls: {
+            delete: 'DELETE FROM Transactions WHERE rowid = <%= id %>',
+        },
+        hooks: {
+            delete: 'DELETE FROM Accounts WHERE transactionId = <%= id %>',
+        },
+
         initialize: function(values) {
             values = values || {};
-            this.db = values.db;
             this.set({
                 id       : values.id,
                 date     : (values.date) ? new Date(values.date): new Date(),
@@ -33,46 +39,6 @@ this.Transaction = (function(global) {
                 },
                 onError
             );
-        },
-
-        remove: function(tx, onSuccess, onError) {
-            var id = this.id;
-            tx.executeSql(
-                'DELETE FROM Transactions where rowid = ?',
-                [id],
-                function(tx, resultSet) {
-                    tx.executeSql(
-                        'delete from accounts where transactionId = ?',
-                        [id],
-                        onSuccess
-                    );
-                },
-                onError
-            );
-        },
-        /**
-         * モデルのDBへの書き込み・削除の際に呼ばれるメソッド
-         */
-        sync: function(method, model, option) {
-            var sync = this.sync
-            , tx = (option || {}).tx;
-            if (!tx) {
-                this.db.transaction(function(tx) {
-                    sync.call(model, method, model, _.defaults(option, {tx: tx}));
-                }, function(err) {
-                    alert('something failed while accessing database.\n');
-                });
-                return;
-            }
-
-            switch(method) {
-            case 'delete':
-                this.remove(tx, function(tx) {
-                }, function(err) {
-                    alert('something failed while removing transactions.\n' + err.message);
-                });
-                break;
-            }
         },
     });
 })(this);

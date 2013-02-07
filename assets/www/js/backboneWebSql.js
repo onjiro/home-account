@@ -3,7 +3,7 @@
      * override `Backbone.sync` to use web-sql db
      */
     Backbone.sync = function(method, model, options) {
-        var sql, tx = (options || {}).tx;
+        var sql, attr, tx = (options || {}).tx;
         if (!tx) {
             Backbone.sync.db.transaction(_.bind(function(tx) {
                 Backbone.sync.call(this, method, model, _.defaults(options, {tx: tx}));
@@ -13,7 +13,8 @@
             return;
         }
 
-        sql = _.template(this.sqls[method], options);
+        attr = _.defaults((model.attributes || {}), options);
+        sql = _.template(this.sqls[method], attr);
         switch (method) {
         case 'read':
             tx.executeSql(sql, [], _.bind(function(tx, resultSet) {
@@ -22,6 +23,14 @@
                     resultArray.push(resultSet.rows.item(i));
                 }
                 this.reset(this.createFromTable(resultArray), options);
+            }, this));
+            break;
+        case 'delete':
+            tx.executeSql(sql, [], _.bind(function() {
+                if ((this.hooks || {})[method]) {
+                    var hookSql = _.template(this.hooks[method], attr);
+                    tx.executeSql(hookSql, []);
+                }
             }, this));
             break;
         default:
