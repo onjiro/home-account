@@ -1,11 +1,12 @@
 $(function() {
     var accountItems = new AccountItemList(),
-    accountItemClassifications = new AccountItemClassificationList({db: db}),
+    accountItemClassifications = new AccountItemClassificationList(),
     accountItemView = new AccountItemConfigureView({
         el: $('#account-item'),
         collection: accountItems,
         classifications: accountItemClassifications,
     });
+    Backbone.sync.db = db;
 
     accountItemClassifications.fetch();
     db.transaction(function(tx) {
