@@ -12,7 +12,7 @@ this.Transaction = (function(global) {
             values = values || {};
             this.db = values.db;
             this.set({
-                id       : values.rowid,
+                id       : values.id,
                 date     : (values.date) ? new Date(values.date): new Date(),
                 accounts : values.accounts || [],
                 details  : values.details  || ""
@@ -43,14 +43,14 @@ this.Transaction = (function(global) {
         },
 
         remove: function(tx, onSuccess, onError) {
-            var rowid = this.get('id');
+            var id = this.id;
             tx.executeSql(
                 'DELETE FROM Transactions where rowid = ?',
-                [rowid],
+                [id],
                 function(tx, resultSet) {
                     tx.executeSql(
                         'delete from accounts where transactionId = ?',
-                        [rowid],
+                        [id],
                         onSuccess
                     );
                 },
@@ -88,37 +88,39 @@ this.Transaction = (function(global) {
             if (option.from) {
                 where.push(' Transactions.date >= ' + option.from.getTime());
             }
-            sql = [
-                'SELECT',
-                '  Transactions.rowid as rowid,',
-                '  Transactions.date as date,',
-                '  Transactions.details as details,',
-                '  Transactions.rowid as transactionId,',
-                '  AccountItems.name as item,',
-                '  Accounts.amount as amount,',
-                '  Accounts.type as type',
-                'FROM',
-                '  Transactions INNER JOIN Accounts ',
-                '  ON Transactions.rowid = Accounts.transactionId',
-                '  INNER JOIN AccountItems',
-                '  ON Accounts.itemId = AccountItems.rowid',
-                (where.length === 0) ? '': 'WHERE' + where.join(','),
-                'ORDER BY',
-                '  Transactions.rowid'
-            ].join(' ');
+            sql = ''
+                + 'SELECT '
+                +   'Transactions.rowid as id,'
+                +   'Transactions.date as date,'
+                +   'Transactions.details as details,'
+                +   'Transactions.rowid as transactionId,'
+                +   'AccountItems.name as item,'
+                +   'Accounts.amount as amount,'
+                +   'Accounts.type as type '
+                + 'FROM '
+                +   'Transactions '
+                +   'INNER JOIN Accounts '
+                +     'ON Transactions.rowid = Accounts.transactionId '
+                +   'INNER JOIN AccountItems '
+                +     'ON Accounts.itemId = AccountItems.rowid '
+                + ((where.length === 0) ? '': 'WHERE' + where.join(',') + ' ')
+                + 'ORDER BY '
+                +   'Transactions.rowid ';
             tx.executeSql(sql, [], function(tx, resultSet) {
-                var results = [];
+                var transactions, resultArray = [];
                 for (var i = 0; i < resultSet.rows.length; i++) {
-                    var current = new Transaction(resultSet.rows.item(i));
-                    var lastOne = (results.length === 0) ? null: results[results.length - 1];
-                    if (!lastOne || current.get('id') !== lastOne.get('id')) {
-                        results.push(current);
-                    } else {
-                        current = lastOne;
-                    }
-                    current.get('accounts').push(new Account(resultSet.rows.item(i)));
-                };
-                onSuccess(tx, results);
+                    resultArray.push(resultSet.rows.item(i));
+                }
+                transactions = _.chain(resultArray)
+                    .groupBy('id')
+                    .map(function(group) {
+                        return new Transaction(group[0])
+                            .set('accounts', _.map(group, function(one) {
+                                return new Account(one);
+                            }));
+                    })
+                    .value();
+                onSuccess(tx, transactions);
             }, onError);
         }
     });
