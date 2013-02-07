@@ -1,12 +1,5 @@
 this.Transaction = (function(global) {
-    // 依存モジュールを読み込む
-    var Backbone = global.Backbone, Account = global.Account;
-    if (typeof require !== 'undefined') {
-        if (!Backbone) Backbone = require('backbone');
-        if (!Account) Account = require('./account.js').Account;
-    }
-
-    var Transaction = Backbone.Model.extend({
+    return Backbone.Model.extend({
         // properties
         initialize: function(values) {
             values = values || {};
@@ -124,5 +117,4 @@ this.Transaction = (function(global) {
             }, onError);
         }
     });
-    return Transaction;
 })(this);
