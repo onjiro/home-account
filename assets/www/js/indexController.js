@@ -3,9 +3,7 @@ $(function() {
     // bootstrap の Alert div のテンプレート
     var alertTemplate = _.template($('#alert-template').html())
     , $history = $('#history')
-    , currentTransactions = new TransactionList({
-        db: db,
-    })
+    , currentTransactions = new TransactionList()
     , historyView = new TransactionHistoryView({
         el: '#history',
         collection: currentTransactions
@@ -31,6 +29,7 @@ $(function() {
         aWeekAgo.setMilliseconds(0);
         return aWeekAgo;
     };
+    Backbone.sync.db = db;
 
     // datepickerの設定
     $('input[type="date"]').datepicker({
@@ -69,7 +68,6 @@ $(function() {
                     type: 'credit'
                 }),
             ],
-            db: db,
         });
         db.transaction(function(tx) {
             accountTransaction.save(tx);
