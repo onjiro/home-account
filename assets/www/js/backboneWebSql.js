@@ -16,6 +16,12 @@
         attr = _.defaults((model.attributes || {}), options);
         sql = _.template(this.sqls[method], attr);
         switch (method) {
+        case 'create':
+            tx.executeSql(sql, [], _.bind(function(tx, resultSet) {
+                this.set('id', resultSet.insertId);
+                if (this.hooks[method]) this.hooks[method].call(this, tx, resultSet);
+            }, this));
+            break;
         case 'read':
             tx.executeSql(sql, [], _.bind(function(tx, resultSet) {
                 var resultArray = [];
