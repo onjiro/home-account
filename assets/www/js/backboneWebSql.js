@@ -32,6 +32,11 @@
                 this.reset(this.createFromTable(resultArray), options);
             }, this));
             break;
+        case 'update':
+            tx.executeSql(sql, [], _.bind(function(tx, resultSet) {
+                if (this.onUpdate) this.onUpdate(tx, resultSet);
+            }, this));
+            break;
         case 'delete':
             tx.executeSql(sql, [], _.bind(function() {
                 if ((this.hooks || {})[method]) {
