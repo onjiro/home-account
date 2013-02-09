@@ -1,16 +1,21 @@
 (function(global) {
+    var withTransaction = function(context, callback) {
+        var orgArgs = Array.prototype.slice.call(arguments, 2);
+        Backbone.sync.db.transaction(function(tx) {
+            orgArgs.push(tx);
+            callback.apply(context, orgArgs);
+        }, function(err) {
+            alert('something failed while accessing database.\n' + err.message);
+        });
+    };
+
     /**
      * override `Backbone.sync` to use web-sql db
      */
-    Backbone.sync = function(method, model, options) {
-        var sql, attr, placeholders, tx = (options || {}).tx;
-        if (!tx) {
-            Backbone.sync.db.transaction(_.bind(function(tx) {
-                Backbone.sync.call(this, method, model, _.defaults(options, {tx: tx}));
-            }, this), function(err) {
-                alert('something failed while accessing database.\n' + err.message);
-            });
-            return;
+    Backbone.sync = function(method, model, options, tx) {
+        var sql, attr, placeholders;
+        if (!(tx = tx || (options || {}).tx)) {
+            return withTransaction(this, Backbone.sync, method, model, options);
         }
 
         attr = _.defaults((model.attributes || {}), options);
