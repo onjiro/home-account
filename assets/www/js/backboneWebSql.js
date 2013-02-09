@@ -27,7 +27,7 @@
             tx.executeSql(sql, placeholders, _.bind(function(tx, resultSet) {
                 this.set('id', resultSet.insertId);
                 if ((this.hooks || {})[method]) this.hooks[method].call(this, tx, resultSet);
-                if ((options || {}).success) options.success(tx, resultSet);
+                if ((options || {}).success) options.success(this, resultSet, options);
             }, this));
             break;
         case 'read':
