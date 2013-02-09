@@ -4,15 +4,19 @@ this.AccountItem = (function(global) {
             create: ''
                 + 'INSERT INTO AccountItems '
                 +   '(name, classificationId) VALUES ('
-                +     '"<%= name %>",'
+                +     '?,'
                 +     '(SELECT rowid FROM AccountItemClassifications '
-                +       'WHERE name = "<%= classification %>")'
+                +       'WHERE name = ?)'
                 +   ')',
             update: ''
                 + 'UPDATE AccountItems SET classificationId = '
                 + '(SELECT rowid FROM AccountItemClassifications '
-                +   'WHERE name = "<%= classification %>") '
-                + 'WHERE rowid = <%= id %>',
+                +   'WHERE name = ?) '
+                + 'WHERE rowid = ?',
+        },
+        placeholders: {
+            create: ['name', 'classification'],
+            update: ['classification', 'id'],
         },
         /**
          * @override Backbone.Model#defaults
