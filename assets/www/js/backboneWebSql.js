@@ -41,7 +41,7 @@
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     resultArray.push(resultSet.rows.item(i));
                 }
-                this.reset((this.createFromTable) ? this.createFromTable(resultArray): resultArray, options);
+                if ((options || {}).success) options.success(resultArray, options);
             }, this));
             break;
         case 'update':

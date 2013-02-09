@@ -32,8 +32,8 @@ this.TransactionList = (function(global) {
                 +   'Transactions.rowid ',
         },
 
-        createFromTable: function(rows) {
-            return _.chain(rows)
+        parse: function(response) {
+            return _.chain(response)
                 .groupBy('id')
                 .map(function(group) {
                     return new Transaction(group[0])
