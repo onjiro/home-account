@@ -27,39 +27,30 @@
                 }, attr);
             })
             .value();
-        switch (method) {
-        case 'create':
-            tx.executeSql(sql, placeholders, _.bind(function(tx, resultSet) {
-                this.set('id', resultSet.insertId);
-                if ((this.hooks || {})[method]) this.hooks[method].call(this, tx, resultSet);
-                if ((options || {}).success) options.success(this, resultSet, options);
-            }, this));
-            break;
-        case 'read':
-            tx.executeSql(sql, placeholders, _.bind(function(tx, resultSet) {
-                var resultArray = [];
-                for (var i = 0; i < resultSet.rows.length; i++) {
-                    resultArray.push(resultSet.rows.item(i));
-                }
-                if ((options || {}).success) options.success(resultArray, options);
-            }, this));
-            break;
-        case 'update':
-            tx.executeSql(sql, placeholders, _.bind(function(tx, resultSet) {
-                if (this.onUpdate) this.onUpdate(tx, resultSet);
-            }, this));
-            break;
-        case 'delete':
-            tx.executeSql(sql, placeholders, _.bind(function() {
-                if ((this.hooks || {})[method]) {
+
+        tx.executeSql(sql, placeholders, _.bind(function(tx, resultSet) {
+            var resultArray;
+            if (method === 'create') { this.set('id', resultSet.insertId); }
+
+            if ((this.hooks || {})[method]) {
+                if (_.isFunction(this.hooks[method])) {
+                    this.hooks[method].call(this, tx, resultSet);
+                } else {
                     var hookSql = _.template(this.hooks[method], attr);
                     tx.executeSql(hookSql, []);
                 }
-            }, this));
-            break;
-        default:
-            throw new Error('not supported method called!!');
-        }
+            }
+
+            if (method === 'read') {
+                resultArray = []
+                for (var i = 0; i < resultSet.rows.length; i++) {
+                    resultArray.push(resultSet.rows.item(i));
+                }
+            }
+
+            if ((options || {}).success) options.success(resultArray || resultSet, options);
+        }, this));
+
         model.trigger('request', model, method, options);
     }
 })(this);
