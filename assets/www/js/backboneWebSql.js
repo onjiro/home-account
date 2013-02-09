@@ -29,7 +29,7 @@
                 for (var i = 0; i < resultSet.rows.length; i++) {
                     resultArray.push(resultSet.rows.item(i));
                 }
-                this.reset(this.createFromTable(resultArray), options);
+                this.reset((this.createFromTable) ? this.createFromTable(resultArray): resultArray, options);
             }, this));
             break;
         case 'update':

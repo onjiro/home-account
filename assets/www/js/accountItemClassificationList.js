@@ -8,7 +8,5 @@ this.AccountItemClassificationList = (function(global){
                 +   'side '
                 + 'FROM AccountItemClassifications ',
         },
-
-        createFromTable: function(rows) { return rows },
     });
 })(this);
