@@ -2,8 +2,12 @@ this.Transaction = (function(global) {
     return Backbone.Model.extend({
         // properties
         sqls: {
-            create: 'INSERT INTO Transactions (date, details) VALUES (<%= date.getTime() %>, "<%= details %>")',
-            delete: 'DELETE FROM Transactions WHERE rowid = <%= id %>',
+            create: 'INSERT INTO Transactions (date, details) VALUES (?, ?)',
+            delete: 'DELETE FROM Transactions WHERE rowid = ?',
+        },
+        placeholders: {
+            create: ['date.getTime', 'details'],
+            delete: ['id'],
         },
         hooks: {
             create: function(tx, resultSet) {
