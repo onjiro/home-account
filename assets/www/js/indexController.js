@@ -14,9 +14,16 @@ $(function() {
         accountItems: Account.items,
     })
     , totalAccounts = new Backbone.Collection()
-    , totalAccountView = new TotalAccountView({
-        el: '#inventory-tab table tbody',
-        collection: totalAccounts
+    , inventoryTabView = new InventoryTabView({
+        el: '#inventory-tab',
+        collection: totalAccounts,
+        showClassifications: [
+            '流動資産',
+            '固定資産',
+            '繰延資産',
+            '流動負債',
+            '固定負債',
+        ],
     })
     , subtotalView = new SubTotalView({
         el: '#subtotal-tab',

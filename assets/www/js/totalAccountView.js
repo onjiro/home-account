@@ -4,6 +4,7 @@ this.TotalAccountView = (function(global) {
             this.collection.on('add', this.add, this);
             this.collection.on('change', this.update, this);
             this.collection.on('reset', this.render, this);
+            this.render();
         },
         add: function(model, collections, options) {
             this.$el.append(
