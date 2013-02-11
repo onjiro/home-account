@@ -4,11 +4,10 @@ this.TotalAccountView = (function(global) {
             this.collection.on('add', this.add, this);
             this.collection.on('change', this.update, this);
             this.collection.on('reset', this.render, this);
-
-            this.$tbody = this.$('table tbody');
+            this.render();
         },
         add: function(model, collections, options) {
-            this.$tbody.append(
+            this.$el.append(
                 '<tr' +
                     '  data-item="' + model.get('item') + '"' +
                     '  data-type="' + model.get('type') + '"' +
@@ -21,7 +20,7 @@ this.TotalAccountView = (function(global) {
             );
         },
         update: function(model, collections, options) {
-            var $row = this.$tbody.children('[data-item="' + model.get('item') + '"]')
+            var $row = this.$el.children('[data-item="' + model.get('item') + '"]')
             $row
                 .data('type', model.get('type'))
                 .data('amount', model.get('amount'))
@@ -34,7 +33,7 @@ this.TotalAccountView = (function(global) {
         },
         render: function(collections, options) {
             var _this = this;
-            this.$tbody.empty();
+            this.$el.empty();
             this.collection.forEach(function(model) {
                 this.add(model, collections, options);
             }, this);
