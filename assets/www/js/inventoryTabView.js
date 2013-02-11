@@ -13,7 +13,7 @@ this.InventoryTabView = (function(global) {
         events: {
             'click .js-show-all': function(e) {
                 this.tableView.remove();
-                this.tableView = new TotalAccountView({
+                this.tableView = new TotalAccountTableView({
                     el: this.$('table').append('<tbody/>').children('tbody'),
                     collection: this.collection.filterWith(),
                 });
@@ -22,7 +22,7 @@ this.InventoryTabView = (function(global) {
             },
             'click .js-show-limited': function(e) {
                 this.tableView.remove();
-                this.tableView = new TotalAccountView({
+                this.tableView = new TotalAccountTableView({
                     el: this.$('table').append('<tbody/>').children('tbody'),
                     collection: this.collection.filterWith(this.options.showClassifications),
                 });
@@ -45,7 +45,7 @@ this.InventoryTabView = (function(global) {
                 return totalAccounts;
             };
 
-            this.tableView = new TotalAccountView({
+            this.tableView = new TotalAccountTableView({
                 el: this.$('table tbody'),
                 collection: this.collection.filterWith(this.options.showClassifications),
             });

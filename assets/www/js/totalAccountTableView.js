@@ -1,4 +1,4 @@
-this.TotalAccountView = (function(global) {
+this.TotalAccountTableView = (function(global) {
     var TotalAccountView = Backbone.View.extend({
         initialize: function() {
             this.collection.on('add', this.add, this);
