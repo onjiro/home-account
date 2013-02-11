@@ -15,7 +15,7 @@ $(function() {
     })
     , totalAccounts = new Backbone.Collection()
     , totalAccountView = new TotalAccountView({
-        el: '#inventory-tab',
+        el: '#inventory-tab table tbody',
         collection: totalAccounts
     })
     , subtotalView = new SubTotalView({
