@@ -1,12 +1,10 @@
 this.InventoryTabView = (function(global) {
     var createFilteredAccounts = function(all, accepts) {
-        if (accepts) {
-            return all.filter(function(account) {
-                return _.contains(accepts, account.get('itemClassification'));
-            });
-        } else {
-            return all.models;
-        }
+        return all.filter(function(account) {
+            return (accepts) ?
+                _.contains(accepts, account.get('itemClassification')):
+                true;
+        });
     };
 
     return Backbone.View.extend({
