@@ -3,11 +3,11 @@ this.Transaction = (function(global) {
         // properties
         sqls: {
             create: 'INSERT INTO Transactions (date, details) VALUES (?, ?)',
-            delete: 'DELETE FROM Transactions WHERE rowid = ?',
+            'delete': 'DELETE FROM Transactions WHERE rowid = ?',
         },
         placeholders: {
             create: ['date.getTime', 'details'],
-            delete: ['id'],
+            'delete': ['id'],
         },
         hooks: {
             create: function(tx, resultSet) {
@@ -18,7 +18,7 @@ this.Transaction = (function(global) {
                     });
                 }, this);
             },
-            delete: 'DELETE FROM Accounts WHERE transactionId = <%= id %>',
+            'delete': 'DELETE FROM Accounts WHERE transactionId = <%= id %>',
         },
 
         initialize: function(values) {
