@@ -9,15 +9,7 @@ this.InventoryTabView = (function(global) {
 
     return Backbone.View.extend({
         events: {
-            'click .js-show-all, .js-show-limited': function(e) {
-                this.tableView.remove();
-                this.tableView = new TotalAccountTableView({
-                    el: this.$('table').append('<tbody/>').children('tbody'),
-                    collection: this.collection.filterWith(eval(e.target.getAttribute('data-accepts'))),
-                });
-                $(e.target).hide()
-                    .siblings().show();
-            },
+            'click .js-show-all, .js-show-limited': function(e) { this.onClickFilterButton($(e.target)); },
         },
 
         initialize: function() {
@@ -33,11 +25,16 @@ this.InventoryTabView = (function(global) {
                 }, this);
                 return totalAccounts;
             };
-
-            this.tableView = new TotalAccountTableView({
-                el: this.$('table tbody'),
-                collection: this.collection.filterWith(eval(this.$('.js-show-limited').data('accepts'))),
-            });
+            this.onClickFilterButton($(this.$('[default]')));
         },
+        onClickFilterButton: function($button) {
+            if (this.tableView) this.tableView.remove();
+            this.tableView = new TotalAccountTableView({
+                el: this.$('table').append('<tbody/>').children('tbody'),
+                collection: this.collection.filterWith(eval($button.data('accepts'))),
+            });
+            $button.hide().siblings().show();
+        },
+
     });
 })(this);

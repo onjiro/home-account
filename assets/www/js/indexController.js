@@ -17,7 +17,6 @@ $(function() {
     , inventoryTabView = new InventoryTabView({
         el: '#inventory-tab',
         collection: totalAccounts,
-        defaultAcceptSelector: '.js-show-limited',
     })
     , subtotalView = new SubTotalView({
         el: '#subtotal-tab',
