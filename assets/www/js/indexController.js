@@ -17,13 +17,7 @@ $(function() {
     , inventoryTabView = new InventoryTabView({
         el: '#inventory-tab',
         collection: totalAccounts,
-        showClassifications: [
-            '流動資産',
-            '固定資産',
-            '繰延資産',
-            '流動負債',
-            '固定負債',
-        ],
+        defaultAcceptSelector: '.js-show-limited',
     })
     , subtotalView = new SubTotalView({
         el: '#subtotal-tab',

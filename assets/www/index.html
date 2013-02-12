@@ -151,10 +151,10 @@
         <div id="inventory-tab" class="span12 tab-pane">
           <h2>棚卸し登録</h2>
           <div>
-              <div class="btn js-show-all">
+              <div class="btn js-show-all" data-accepts="undefined">
                   <i class="icon-filter"></i>すべての科目を表示
               </div>
-              <div class="btn js-show-limited" style="display: none;">
+              <div class="btn js-show-limited" data-accepts="['流動資産', '固定資産', '繰延資産', '流動負債', '固定負債']" style="display: none;">
                   <i class="icon-filter"></i>資産と負債のみを表示
               </div>
           </div>
