@@ -15,7 +15,7 @@ this.TotalAccountTableView = (function(global) {
                     '>' +
                     '  <td><a href="#inventory-entry">' + model.get('item') + '</a></td>' +
                     '  <td>' + model.get('type') + '</td>' +
-                    '  <td>' + model.get('amount') + '</td>' +
+                    '  <td class="amount">' + model.get('amount') + '</td>' +
                     '</tr>'
             );
         },

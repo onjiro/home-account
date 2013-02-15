@@ -52,3 +52,8 @@ div.history-detail .container {
     width: 60%;
     border-radius: 8px;
 }
+
+/* 金額の表示は右寄せ */
+td.amount {
+    text-align: right;
+}
