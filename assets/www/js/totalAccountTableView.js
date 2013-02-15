@@ -11,16 +11,8 @@ this.TotalAccountTableView = (function(global) {
             this.$el.append(this.$template(model.attributes));
         },
         update: function(model, collections, options) {
-            var $row = this.$el.children('[data-item="' + model.get('item') + '"]')
-            $row
-                .data('type', model.get('type'))
-                .data('amount', model.get('amount'))
-                .empty()
-                .append(
-                    '<td>' + model.get('item') + '</td>' +
-                        '<td>' + model.get('type') + '</td>' +
-                        '<td>' + model.get('amount') + '</td>'
-                );
+            this.$('[data-item="' + model.get('item') + '"]')
+                .replaceWith(this.$template(model.attributes));
         },
         render: function(collections, options) {
             var _this = this;
