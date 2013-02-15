@@ -305,6 +305,14 @@
       </div>
     </script>
 
+    <script type="text/template" id="total-account-template">
+      <tr data-item="<%= item %>" data-type="<%= type %>" data-amount="<%= amount %>">
+        <td class="item"><a href="#inventory-entry"><%= item %></a></td>
+        <td class="type"><%= type %></td>
+        <td class="amount"><%= amount %></td>
+      </tr>
+    </script>
+
     <script type="text/template" id="sub-total-template">
       <tr data-item="<%= item %>">
         <td class="item"><%= item %></td>
