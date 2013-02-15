@@ -15,11 +15,8 @@ this.TotalAccountTableView = (function(global) {
                 .replaceWith(this.$template(model.attributes));
         },
         render: function(collections, options) {
-            var _this = this;
             this.$el.empty();
-            this.collection.forEach(function(model) {
-                this.add(model, collections, options);
-            }, this);
+            this.collection.forEach(this.add, this);
         }
     });
     return TotalAccountView;
