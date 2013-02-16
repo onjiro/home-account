@@ -29,6 +29,11 @@ $(function() {
         aWeekAgo.setMilliseconds(0);
         return aWeekAgo;
     };
+    window.withSeparators = function(amount) {
+        var num = new String(amount).replace(/,/g, '');
+        while(num != (num = num.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+        return num;
+    };
     Backbone.sync.db = db;
 
     // datepickerの設定

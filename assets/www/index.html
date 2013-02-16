@@ -270,7 +270,7 @@
           <%= items.join(", ") %>
         </td>
         <td class="amount">
-          <%= amount %>
+          <%= withSeparators(amount) %>
         </td>
       </tr>
     </script>
@@ -286,7 +286,7 @@
           <% _.chain(accounts).where({type: 'debit'}).each(function(account) { %>
           <dd>
             <span class="item"><%= account.item %></span>
-            <span class="amount"><%= account.amount %></span>
+            <span class="amount"><%= withSeparators(account.amount) %></span>
           </dd>
           <% }); %>
         </dl>
@@ -295,7 +295,7 @@
           <% _.chain(accounts).where({type: 'credit'}).each(function(account) { %>
           <dd>
             <span class="item"><%= account.item %></span>
-            <span class="amount"><%= account.amount %></span>
+            <span class="amount"><%= withSeparators(account.amount) %></span>
           </dd>
           <% }); %>
         </dl>
@@ -309,7 +309,7 @@
       <tr data-item="<%= item %>" data-type="<%= type %>" data-amount="<%= amount %>">
         <td class="item"><a href="#inventory-entry"><%= item %></a></td>
         <td class="type"><%= type %></td>
-        <td class="amount"><%= amount %></td>
+        <td class="amount"><%= withSeparators(amount) %></td>
       </tr>
     </script>
 
@@ -317,7 +317,7 @@
       <tr data-item="<%= item %>">
         <td class="item"><%= item %></td>
         <td class="type"><%= type %></td>
-        <td class="amount"><%= amount %></td>
+        <td class="amount"><%= withSeparators(amount) %></td>
       </tr>
     </script>
 
