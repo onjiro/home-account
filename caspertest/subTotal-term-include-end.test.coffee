@@ -40,7 +40,6 @@ casper
     @test.assertVisible '#subtotal-tab'
     @test.assertVisible '#subtotal-tab input[name="start"]'
     @test.assertVisible '#subtotal-tab input[name="end"]'
-    @test.assertVisible '#subtotal-tab .term-not-assigned'
 
 casper
   .then ->
@@ -54,4 +53,4 @@ casper
     @test.assertEvalEquals (->$('.subtotals tbody tr').length), 2
 
 casper.run ->
-  @test.done 9
+  @test.done 8

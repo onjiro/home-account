@@ -45,11 +45,20 @@ casper
     @test.assertVisible '#subtotal-tab'
     @test.assertVisible '#subtotal-tab input[name="start"]'
     @test.assertVisible '#subtotal-tab input[name="end"]'
-    @test.assertVisible '#subtotal-tab .term-not-assigned'
 
 casper
   .then ->
-    @test.comment '開始日と終了日を入力すると集計結果が表示されること'
+    @test.comment '開始日と終了日が入力されていること'
+
+    now = new Date()
+    aMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+
+    @test.assertField 'start', "#{now.getYear() + 1900}-#{('0' + (now.getMonth() + 1)).slice(-2)}-#{now.getDate()}"
+    @test.assertField 'end', "#{aMonthAgo.getYear() + 1900}-#{('0' + (aMonthAgo.getMonth() + 1)).slice(-2)}-#{aMonthAgo.getDate()}"
+
+casper
+  .then ->
+    @test.comment '集計結果が表示されていること'
 
     @fill 'form#subtotal-query',
       'start'       : '2000/01/01'
@@ -79,4 +88,4 @@ casper
     @test.assertVisible '.term-not-assigned'
 
 casper.run ->
-  @test.done 11
+  @test.done 12
