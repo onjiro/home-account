@@ -1,7 +1,17 @@
 var SubTotalView = (function(global) {
+    var format = _.template('<%= 1900 + getYear() %>-0<%= getMonth() + 1%>-<%= getDate()%>');
     return Backbone.View.extend({
         collection: new Backbone.Collection(),
         events: {
+            'show': function(e) {
+                var $start = this.$('[name="start"]'),
+                $end = this.$('[name="end"]'),
+                now = new Date(),
+                aMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                if ($start.val() || $end.val()) return;
+                $start.val(format(now));
+                $end.val(format(aMonthAgo)).trigger('change');
+             },
             'change input': function(e) {
                 var    start = this.$el.find('input[name="start"]').val()
                 ,        end = this.$el.find('input[name="end"]').val()
