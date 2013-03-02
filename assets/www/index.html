@@ -20,9 +20,12 @@
     <script src="js/transactionModel.js"></script>
     <script src="js/transactionList.js"></script>
     <script src="js/totalAccountModel.js"></script>
+    <script src="js/collection.commonlyUseAccountItemList.js"></script>
     <script src="js/migrator.js"></script>
     <script src="js/initialize.js"></script>
     <script src="js/indexTabController.js"></script>
+    <script src="js/view.commonlyUseAccount.js"></script>
+    <script src="js/view.commonlyUseAccountArea.js"></script>
     <script src="js/transactionDetailView.js"></script>
     <script src="js/transactionHistoryView.js"></script>
     <script src="js/totalAccountTableView.js"></script>
@@ -68,23 +71,29 @@
               </div>
             </div>
             
-            <div class="control-group">
+            <div class="control-group item">
               <label class="control-label">品目</label>
               <div class="controls">
                 <select name="item-in-selection">
                   <option value="">&lt;新規品目&gt;</option>
                 </select>
                 <input name="item" type="text" placeholder="食費" />
+                <div class="commonly-use debit">
+                  <!-- よく使う科目の表示用領域 -->
+                </div>
               </div>
             </div>
             
-            <div class="control-group">
+            <div class="control-group opposite-item">
               <label class="control-label">支払い方法</label>
               <div class="controls">
                 <select name="opposite-item-in-selection">
                   <option value="">&lt;新規品目&gt;</option>
                 </select>
                 <input name="opposite-item" type="text" placeholder="現金" />
+                <div class="commonly-use credit">
+                  <!-- よく使う科目の表示用領域 -->
+                </div>
               </div>
             </div>
             <div class="form-actions">
@@ -323,6 +332,15 @@
 
     <script type="text/template" id="selection-template">
       <option value="<%= item %>"><%= item %></option>
+    </script>
+
+    <!-- よく使う勘定科目入力用ボタンのテンプレート -->
+    <script id="template-commonly-used-account" type="text/template">
+      <a href="#">
+        <span class="btn btn-info btn-small">
+          <%= name %>
+        </span>
+      </a>
     </script>
   </body>
 </html>
