@@ -23,6 +23,7 @@
     <script src="js/migrator.js"></script>
     <script src="js/initialize.js"></script>
     <script src="js/indexTabController.js"></script>
+    <script src="js/view.commonlyUseAccount.js"></script>
     <script src="js/transactionDetailView.js"></script>
     <script src="js/transactionHistoryView.js"></script>
     <script src="js/totalAccountTableView.js"></script>
@@ -75,6 +76,9 @@
                   <option value="">&lt;新規品目&gt;</option>
                 </select>
                 <input name="item" type="text" placeholder="食費" />
+                <div class="commonly-use credit">
+                  <!-- よく使う科目の表示用領域 -->
+                </div>
               </div>
             </div>
             
@@ -85,6 +89,9 @@
                   <option value="">&lt;新規品目&gt;</option>
                 </select>
                 <input name="opposite-item" type="text" placeholder="現金" />
+                <div class="commonly-use credit">
+                  <!-- よく使う科目の表示用領域 -->
+                </div>
               </div>
             </div>
             <div class="form-actions">
@@ -323,6 +330,15 @@
 
     <script type="text/template" id="selection-template">
       <option value="<%= item %>"><%= item %></option>
+    </script>
+
+    <!-- よく使う勘定科目入力用ボタンのテンプレート -->
+    <script id="template-commonly-used-account" type="text/template">
+      <a href="#">
+        <div class="btn btn-info btn-mini">
+          <%= name %>
+        </div>
+      </a>
     </script>
   </body>
 </html>
