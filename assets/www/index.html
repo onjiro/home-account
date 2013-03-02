@@ -69,20 +69,20 @@
               </div>
             </div>
             
-            <div class="control-group">
+            <div class="control-group item">
               <label class="control-label">品目</label>
               <div class="controls">
                 <select name="item-in-selection">
                   <option value="">&lt;新規品目&gt;</option>
                 </select>
                 <input name="item" type="text" placeholder="食費" />
-                <div class="commonly-use credit">
+                <div class="commonly-use debit">
                   <!-- よく使う科目の表示用領域 -->
                 </div>
               </div>
             </div>
             
-            <div class="control-group">
+            <div class="control-group opposite-item">
               <label class="control-label">支払い方法</label>
               <div class="controls">
                 <select name="opposite-item-in-selection">
@@ -335,9 +335,9 @@
     <!-- よく使う勘定科目入力用ボタンのテンプレート -->
     <script id="template-commonly-used-account" type="text/template">
       <a href="#">
-        <div class="btn btn-info btn-mini">
+        <span class="btn btn-info btn-small">
           <%= name %>
-        </div>
+        </span>
       </a>
     </script>
   </body>
