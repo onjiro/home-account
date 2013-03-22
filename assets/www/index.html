@@ -96,6 +96,21 @@
                 </div>
               </div>
             </div>
+            <div class="control-group">
+              <div class="now-mode">
+                <div class="control-group">
+                  <div class="controls">
+                    <span class="btn btn-mini">日付を指定する</span>
+                  </div>
+                </div>
+              </div>
+              <div class="past-mode" style="display: none;">
+                <label class="control-label">日付</label>
+                <div class="controls">
+                  <input class="name" type="text" placeholder="yyyy/MM/dd" />
+                </div>
+              </div>
+            </div>
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">
                 <i class="icon-ok icon-white"></i>決定
@@ -160,12 +175,12 @@
         <div id="inventory-tab" class="span12 tab-pane">
           <h2>棚卸し登録</h2>
           <div>
-              <div class="btn js-show-all" data-accepts="undefined">
-                  <i class="icon-filter"></i>すべての科目を表示
-              </div>
-              <div class="btn js-show-limited" data-accepts="['流動資産', '固定資産', '繰延資産', '流動負債', '固定負債']" default>
-                  <i class="icon-filter"></i>資産と負債のみを表示
-              </div>
+            <div class="btn js-show-all" data-accepts="undefined">
+              <i class="icon-filter"></i>すべての科目を表示
+            </div>
+            <div class="btn js-show-limited" data-accepts="['流動資産', '固定資産', '繰延資産', '流動負債', '固定負債']" default>
+              <i class="icon-filter"></i>資産と負債のみを表示
+            </div>
           </div>
           <table class="table table-striped table-bordered table-condensed">
             <thead>
