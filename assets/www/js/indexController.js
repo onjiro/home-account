@@ -37,7 +37,7 @@ $(function() {
     Backbone.sync.db = db;
 
     // datepickerの設定
-    $('input[type="date"]').datepicker({
+    $('input[type="date"], .datepicker').datepicker({
         dateFormat: 'yy/mm/dd',
     });
 
@@ -139,6 +139,11 @@ $(function() {
             });
         });
         return false;
+    });
+
+    // エントリータブのビュー
+    new EntryTabView({
+        el: $('#entry-tab'),
     });
 
     // 支出登録のビューモデル
