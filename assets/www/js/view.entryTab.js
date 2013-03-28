@@ -5,6 +5,10 @@ var EntryTabView = (function() {
                 $('.past-mode').show()
                     .siblings().hide();
             },
+            'click .no-edit-date': function(e) {
+                $('.now-mode').show()
+                    .siblings().hide();
+            },
         },
     });
 })();
