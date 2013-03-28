@@ -52,7 +52,6 @@
         <div class="span12">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#entry-tab">支払</a></li>
-            <li><a href="#withdraw-tab">引落</a></li>
             <li><a href="#subtotal-tab">集計</a></li>
             <li><a href="#inventory-tab">棚卸</a></li>
           </ul>
@@ -123,57 +122,8 @@
             </div>
           </form>
         </div>
-        
-        <div id="withdraw-tab" class="span12 tab-pane">
-          <form id="account-withdraw" class="form-horizontal" method="post">
-            <legend>引き落とし登録</legend>
-            
-            <div class="control-group">
-              <label class="control-label">引き落とし日</label>
-              <div class="controls">
-                <input name="date" type="date" required/>
-              </div>
-            </div>
-            
-            <div class="control-group">
-              <label class="control-label">金額</label>
-              <div class="controls">
-                <div class="input-prepend input-append">
-                  <span class="add-on">&yen;</span><input name="amount" type="number" placeholder="1000" required/><span class="add-on">.00</span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="control-group">
-              <label class="control-label">カード/品目</label>
-              <div class="controls">
-                <select name="item-in-selection">
-                  <option value="">&lt;新規品目&gt;</option>
-                </select>
-                <input name="item" type="text" placeholder="水道料金" />
-              </div>
-            </div>
-            
-            <div class="control-group">
-              <label class="control-label">引き落とし口座</label>
-              <div class="controls">
-                <select name="opposite-item-in-selection">
-                  <option value="">&lt;新規品目&gt;</option>
-                </select>
-                <input name="opposite-item" type="text" placeholder="XX銀行普通預金" />
-              </div>
-            </div>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">
-                <i class="icon-ok icon-white"></i>決定
-              </button>
-              <button type="reset" class="btn">
-                <i class="icon-remove"></i>リセット
-              </button>
-            </div>
-          </form>
-        </div>
-        
+
+        <!-- inventory tab pane -->
         <div id="inventory-tab" class="span12 tab-pane">
           <h2>棚卸し登録</h2>
           <div>
