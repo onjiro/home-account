@@ -37,12 +37,12 @@ $(function() {
     Backbone.sync.db = db;
 
     // datepickerの設定
-    $('input[type="date"]').datepicker({
+    $('input[type="date"], .datepicker').datepicker({
         dateFormat: 'yy/mm/dd',
     });
 
     // submit 時に勘定と反対勘定を同時に登録する
-    $('#account-entry, #account-withdraw').live('submit', function(event){
+    $('#account-entry').live('submit', function(event){
         var _this = this;
         // 画面に入力された情報を取得
         var dateVal = $('[name=date]', this).val();
@@ -139,6 +139,11 @@ $(function() {
             });
         });
         return false;
+    });
+
+    // エントリータブのビュー
+    new EntryTabView({
+        el: $('#entry-tab'),
     });
 
     // 支出登録のビューモデル
