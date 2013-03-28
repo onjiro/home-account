@@ -2,27 +2,30 @@ var EntryTabView = (function() {
     return Backbone.View.extend({
         events: {
             'click .edit-date': function(e){
-                $('.past-mode').show()
+                this.$('.past-mode').show()
                     .siblings().hide();
             },
             'click .no-edit-date': function(e) {
-                $('.now-mode').show()
+                this.$('.now-mode').show()
                     .siblings().hide();
-                $('input').val(null);
+                this.$('input').val(null);
             },
             'submit': function(e) {
                 e.preventDefault();
                 this.onSubmit();
             },
         },
+        initialize: function() {
+            this.alertTemplate = this.options.alertTemplate;
+        },
         onSubmit: function() {
             // 画面に入力された情報を取得
             var dateVal = $('[name=date]').val();
             var entries = {
                 date: (dateVal) ? new Date(dateVal): new Date(),
-                item: $('[name=item]').val(),
-                oppositeItem: $('[name=opposite-item]').val(),
-                amount: $('[name=amount]').val(),
+                item: this.$('[name=item]').val(),
+                oppositeItem: this.$('[name=opposite-item]').val(),
+                amount: this.$('[name=amount]').val(),
                 details: null
             };
             // 勘定を登録する
@@ -46,15 +49,16 @@ var EntryTabView = (function() {
                     }),
                 ],
             });
-            accountTransaction.save({success: function() {
-                var $alert = $(alertTemplate({
+            accountTransaction.on('save', function() {
+                var $alert = $(this.alertTemplate({
                     message: "ok to save!!"
                 })).delay(1000).fadeOut();
 
-                $history.prepend($alert, function() { this.remove(); });
-                currentTransactions.add(accountTransaction, {at: 0, newest: true});
-                _this.reset();
-            }});
+                $('#history').prepend($alert, function() { this.remove(); });
+                this.collection.add(accountTransaction, {at: 0, newest: true});
+                this.$('form').trigger('reset');
+            }, this);
+            accountTransaction.save();
         },
     });
 })();

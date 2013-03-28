@@ -48,6 +48,7 @@
                 }
             }
 
+            if (method === 'create') { this.trigger('save', this); };
             if ((options || {}).success) options.success(resultArray || resultSet, options);
         }, this));
 

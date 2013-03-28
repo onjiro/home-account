@@ -94,8 +94,9 @@ $(function() {
 
     // エントリータブのビュー
     new EntryTabView({
-        db: db,
         el: $('#entry-tab'),
+        collection: currentTransactions,
+        alertTemplate: alertTemplate,
     });
 
     // 支出登録のビューモデル
