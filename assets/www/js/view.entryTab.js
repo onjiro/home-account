@@ -8,6 +8,7 @@ var EntryTabView = (function() {
             'click .no-edit-date': function(e) {
                 $('.now-mode').show()
                     .siblings().hide();
+                $('input').val(null);
             },
         },
     });
