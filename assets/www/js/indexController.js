@@ -41,55 +41,6 @@ $(function() {
         dateFormat: 'yy/mm/dd',
     });
 
-    // submit 時に勘定と反対勘定を同時に登録する
-    $('#account-entry').live('submit', function(event){
-        var _this = this;
-        // 画面に入力された情報を取得
-        var dateVal = $('[name=date]', this).val();
-        var entries = {
-            date: (dateVal) ? new Date(dateVal): new Date(),
-            item: $('[name=item]' ,this).val(),
-            oppositeItem: $('[name=opposite-item]' ,this).val(),
-            amount: $('[name=amount]' ,this).val(),
-            details: null
-        };
-        // 勘定を登録する
-        var accountTransaction = new Transaction({
-            date: entries.date,
-            details: entries.details,
-            accounts: [
-                // 購入した品目側、通常は資産増加のため、借方（左側）の増加
-                new Account({
-                    date: entries.date,
-                    item: entries.item,
-                    amount: entries.amount,
-                    type: 'debit'
-                }),
-                // 支払い方法、通常は資産減少のため、貸方（右側）の増加
-                new Account({
-                    date: entries.date,
-                    item: entries.oppositeItem,
-                    amount: entries.amount,
-                    type: 'credit'
-                }),
-            ],
-        });
-        db.transaction(function(tx) {
-            accountTransaction.save(tx);
-        }, function(err) {
-            alert('something failed while accessing database.\n' + err.message);
-        }, function() {
-            var $alert = $(alertTemplate({
-                message: "ok to save!!"
-            })).delay(1000).fadeOut();
-
-            $history.prepend($alert, function() { this.remove(); });
-            currentTransactions.add(accountTransaction, {at: 0, newest: true});
-            _this.reset();
-        });
-        return false;
-    });
-
     // 初期ロード時に AccountItems を読み込む
     db.transaction(function(tx) {
         Account.items.fetch({tx: tx});
@@ -143,6 +94,7 @@ $(function() {
 
     // エントリータブのビュー
     new EntryTabView({
+        db: db,
         el: $('#entry-tab'),
     });
 
