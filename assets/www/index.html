@@ -237,20 +237,6 @@
       <div class="popup alert alert-success"><%= message %></div>
     </script>
 
-    <script type="text/template" id="history-template">
-      <tr data-model-cid="<%= cid %>">
-        <td><span class="label label-info">
-            <%= date.getMonth() + 1 %>/<%= date.getDate() %>
-        </span></td>
-        <td>
-          <%= items.join(", ") %>
-        </td>
-        <td class="amount">
-          <%= withSeparators(amount) %>
-        </td>
-      </tr>
-    </script>
-
     <!-- 履歴の各行 -->
     <script type="text/template" id="history-row-template">
       <td><span class="label label-info">

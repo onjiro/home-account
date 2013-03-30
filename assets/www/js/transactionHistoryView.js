@@ -42,7 +42,6 @@ this.TransactionHistoryView = (function(global) {
                     if (method === 'read') this.renderLoading(collection, option);
                 }, this);
 
-            this.template = _.template($('#history-template').html());
             this.$tbody = this.$('tbody');
         },
         add: function(model, collections, options) {
