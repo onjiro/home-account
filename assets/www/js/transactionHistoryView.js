@@ -54,8 +54,8 @@ var TransactionHistoryView = (function(global) {
                 .append(this.collection
                         .sortBy(function(model) { return model.id * -1 })
                         .map(function(model) { return new TransactionHistoryRowView({ model: model }).el; }));
-            this.$('table').show().siblings().hide();
-            this.$el.find('.more-history').toggle(!!options.from);
+            this.$('table').show().end().find('.loading').hide();
+            this.$('.more-history').toggle(!!options.from);
         },
     });
 })(this);
