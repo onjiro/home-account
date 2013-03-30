@@ -9,7 +9,9 @@ require([
         , $history = $('#history')
         , currentTransactions = new TransactionList()
         , historyView = new (TransactionHistoryView.extend({
-            innerView: TransactionHistoryRowView,
+            innerView: TransactionHistoryRowView.extend({
+                template: _.template($('#history-row-template').html()),
+            }),
             el: '#history',
             collection: currentTransactions
         }))()

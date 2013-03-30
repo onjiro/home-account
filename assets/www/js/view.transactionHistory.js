@@ -11,7 +11,6 @@ this.TransactionHistoryRowView = (function() {
             'mouseout td'  : 'hout',
         },
         initialize: function() {
-            this.template = _.template($('#history-row-template').html());
             this.model.on('destroy', function() {
                 this.$el.fadeOut(this.remove);
             }, this);
