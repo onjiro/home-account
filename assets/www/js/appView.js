@@ -4,7 +4,7 @@ this.AppView = (function(global) {
             'change [name="item-in-selection"],[name="opposite-item-in-selection"]': function(e) { this.onSelectItem($(e.srcElement)); },
         },
         initialize: function(options) {
-            this.selectionTemplate = _.template($('#selection-template').html());
+            this.template = _.template($('#selection-template').html());
             this.$select = this.$('[name="item-in-selection"], [name="opposite-item-in-selection"]');
 
             this.collection.on('reset', function() {
@@ -21,7 +21,7 @@ this.AppView = (function(global) {
                 }, this);
         },
         onAddAccountItems: function(accountItem) {
-            this.$select.append(this.selectionTemplate({
+            this.$select.append(this.template({
                 item: accountItem.get('name'),
             }));
         },
