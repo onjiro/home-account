@@ -14,15 +14,16 @@ this.TransactionHistoryView = (function(global) {
             'click .more-history .btn': function(e) { this.collection.fetch(); },
         },
         initialize: function() {
-            this.collection.on('add'   , this.add     , this);
-            this.collection.on('remove', this.onRemove, this);
-            this.collection.on('reset' , this.render  , this);
-            this.collection.on('request', function(collection, method, option) {
-                if (method === 'read') this.renderLoading(collection, option);
-            }, this);
+            this.collection
+                .on('add'   , this.add     , this)
+                .on('remove', this.onRemove, this)
+                .on('reset' , this.render  , this)
+                .on('request', function(collection, method, option) {
+                    if (method === 'read') this.renderLoading(collection, option);
+                }, this);
 
             this.template = _.template($('#history-template').html());
-            this.$tbody = this.$el.find('tbody');
+            this.$tbody = this.$('tbody');
         },
         hover: function(e) {
             var $target = $(e.currentTarget).addClass('hover');
