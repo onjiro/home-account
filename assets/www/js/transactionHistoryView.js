@@ -47,9 +47,7 @@ this.TransactionHistoryView = (function(global) {
         },
         add: function(model, collections, options) {
             var $newEl = new TransactionHistoryRowView({ model: model }).$el;
-            (options.index === 0) ?
-                this.$tbody.prepend($newEl):
-                this.$tbody.append($newEl);
+            this.$tbody.prepend($newEl);
         },
         render: function(collection, options) {
             this.$tbody.empty();
