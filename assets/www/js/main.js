@@ -50,11 +50,6 @@ require([
             accountItems: Account.items,
         });
 
-        // datepickerの設定
-        $('input[type="date"], .datepicker').datepicker({
-            dateFormat: 'yy/mm/dd',
-        });
-
         // 初期ロード時に AccountItems を読み込む
         db.transaction(function(tx) {
             Account.items.fetch({tx: tx});
