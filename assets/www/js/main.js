@@ -1,15 +1,16 @@
 require([
     'jquery',
     'underscore',
-], function($, _) {
+    'js/view.transactionHistory.js',
+], function($, _, TransactionHistoryView) {
     $(function() {
         Account.items = new AccountItemList();
         // bootstrap の Alert div のテンプレート
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
         , currentTransactions = new TransactionList()
-        , historyView = new (TransactionHistoryView.extend({
-            innerView: TransactionHistoryRowView.extend({
+        , historyView = new (TransactionHistoryView.Area.extend({
+            innerView: TransactionHistoryView.Row.extend({
                 template: _.template($('#history-row-template').html()),
             }),
             el: '#history',

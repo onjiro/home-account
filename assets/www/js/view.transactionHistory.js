@@ -1,5 +1,5 @@
-this.TransactionHistoryRowView = (function() {
-    return Backbone.View.extend({
+define(['backbone'], {
+    Row: Backbone.View.extend({
         tagName: 'tr',
         events: {
             'click': function(e) {
@@ -26,10 +26,9 @@ this.TransactionHistoryRowView = (function() {
         hout: function(e) {
             this.$el.removeClass('hover');
         },
-    });
-})();
-var TransactionHistoryView = (function() {
-    return Backbone.View.extend({
+    }),
+
+    Area: Backbone.View.extend({
         // innerView to be set using `extend`
         events: {
             'click .more-history .btn': function(e) { this.collection.fetch(); },
@@ -57,5 +56,5 @@ var TransactionHistoryView = (function() {
             this.$('table').show().end().find('.loading').hide();
             this.$('.more-history').toggle(!!options.from);
         },
-    });
-})();
+    }),
+});
