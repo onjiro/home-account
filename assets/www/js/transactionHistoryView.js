@@ -18,7 +18,7 @@ this.TransactionHistoryRowView = (function() {
             this.render();
         },
         render: function() {
-            this.$el.empty().append(this.template(this.model.attributes)).fadeIn();
+            this.$el.empty().append(this.template(this.model.attributes));
         },
         hover: function(e) {
             this.$el.addClass('hover');
@@ -46,8 +46,8 @@ this.TransactionHistoryView = (function(global) {
             this.$tbody = this.$('tbody');
         },
         add: function(model, collections, options) {
-            var $newEl = new TransactionHistoryRowView({ model: model }).$el;
-            this.$tbody.prepend($newEl);
+            new TransactionHistoryRowView({ model: model }).$el
+                .fadeIn().prependTo(this.$tbody);
         },
         render: function(collection, options) {
             this.$tbody.empty();
