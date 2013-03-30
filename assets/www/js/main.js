@@ -52,9 +52,7 @@ require([
         });
 
         // 初期ロード時に AccountItems を読み込む
-        db.transaction(function(tx) {
-            Account.items.fetch({tx: tx});
-        });
+        Account.items.fetch();
 
         // 初期ロード時に Transaction を読み込む
         currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
