@@ -10,6 +10,9 @@ this.InventoryTabView = (function(global) {
     return Backbone.View.extend({
         events: {
             'click .js-show-all, .js-show-limited': function(e) { this.onClickFilterButton($(e.target)); },
+            'click tbody a': function(e) {
+                this.$('#inventory-entry [name="item"]').val($(e.target).closest('tr').data('item'));
+            },
         },
 
         initialize: function() {
