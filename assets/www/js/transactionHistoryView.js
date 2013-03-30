@@ -50,15 +50,11 @@ this.TransactionHistoryView = (function(global) {
                 .each(function(model) {
                     this.$tbody.append(formatToTableRow(model, this.template));
                 }, this);
-            this.$el
-                .find('table').show()
-                .siblings().not('h2').hide();
+            this.$('table').show().siblings().hide();
             this.$el.find('.more-history').toggle(!!options.from);
         },
         renderLoading: function(collection, options) {
-            this.$el
-                .find('.loading').show()
-                .siblings().not('h2').hide();
+            this.$('.loading').show().siblings().hide();
         },
     })
     , formatToTableRow = function(transaction, template) {
