@@ -9,13 +9,6 @@ require([
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
         , currentTransactions = new TransactionList()
-        , appView = new (AppView.extend({
-            template: _.template($('#selection-template').html())
-        }))({
-            el: document,
-            collection: currentTransactions,
-            accountItems: Account.items,
-        })
         , totalAccounts = new Backbone.Collection()
         , inventoryTabView = new InventoryTabView({
             el: '#inventory-tab',
@@ -47,6 +40,15 @@ require([
             el: '#history',
             collection: currentTransactions
         }))();
+
+        // 全体のビューの生成
+        new (AppView.extend({
+            template: _.template($('#selection-template').html())
+        }))({
+            el: document,
+            collection: currentTransactions,
+            accountItems: Account.items,
+        });
 
         // datepickerの設定
         $('input[type="date"], .datepicker').datepicker({
