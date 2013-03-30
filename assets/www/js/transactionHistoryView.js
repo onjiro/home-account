@@ -29,8 +29,8 @@ this.TransactionHistoryRowView = (function() {
         },
     });
 })();
-this.TransactionHistoryView = (function(global) {
-    var TransactionHistoryView = Backbone.View.extend({
+var TransactionHistoryView = (function(global) {
+    return Backbone.View.extend({
         events: {
             'click .more-history .btn': function(e) { this.collection.fetch(); },
         },
@@ -59,17 +59,5 @@ this.TransactionHistoryView = (function(global) {
             this.$('table').show().siblings().hide();
             this.$el.find('.more-history').toggle(!!options.from);
         },
-    })
-    , formatToTableRow = function(transaction, template) {
-        var accounts = transaction.get('accounts')
-        , debitAccounts  = _.where(accounts, {type: 'debit'});
-        return template({
-            cid        : transaction.cid,
-            date       : transaction.get('date'),
-            items      : _.map(debitAccounts, function(account) { return account.item }),
-            amount     : _.reduce(debitAccounts, function(memo, item) { return memo + item.amount }, 0),
-        });
-    }
-
-    return TransactionHistoryView;
+    });
 })(this);
