@@ -10,11 +10,7 @@ require([
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
         , currentTransactions = new TransactionList()
-        , totalAccounts = new Backbone.Collection()
-        , inventoryTabView = new InventoryTabView({
-            el: '#inventory-tab',
-            collection: totalAccounts,
-        })
+        , totalAccounts = new TotalAccountList()
         , subtotalView = new SubTotalView({
             el: '#subtotal-tab',
         })
@@ -51,31 +47,20 @@ require([
             accountItems: Account.items,
         });
 
-        // 初期ロード時に AccountItems を読み込む
-        Account.items.fetch();
-
-        // 初期ロード時に Transaction を読み込む
-        currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
-
-        // 初期ロード時に TotalAccount を読み込む
-        db.transaction(function(tx) {
-            TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
-                totalAccounts.add(accounts);
-
-                // backboned model 間の依存 listen 関係を定義
-                currentTransactions.on('add change remove', function(model, collection, option) {
-                    db.transaction(function(tx) {
-                        TotalAccount.select({date: new Date()}, tx, function(tx, accounts) {
-                            totalAccounts.reset(accounts);
-                        });
-                    });
-                });
-            }, function(err) {
-                alert('something failed on query TotalAccounts.\n' + err.message);
-            });
-        }, function(err) {
-            alert('something failed while accessing Accounts.\n' + err.message);
+        // 棚卸タブビューの生成
+        new InventoryTabView({
+            el: '#inventory-tab',
+            collection: totalAccounts,
         });
+
+        currentTransactions.on('add remove change reset', function() {
+            totalAccounts.fetch({ to: new Date() });
+        });
+
+        // データ初期ロード
+        Account.items.fetch({success: function() {
+            currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
+        }});
 
         // 棚卸時、選択された科目を科目欄に入力qし、フォームに移動する
         $(document).on('click', '#inventory-tab tbody a', function(e) {

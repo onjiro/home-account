@@ -21,7 +21,7 @@ this.InventoryTabView = (function(global) {
                     }
                 }, this);
                 this.on('reset', function(collection, options) {
-                    totalAccounts.reset(createFilteredAccounts(this, classifications));
+                    totalAccounts.reset(_.map(createFilteredAccounts(this, classifications), function(model) { return model.attributes; }));
                 }, this);
                 return totalAccounts;
             };
