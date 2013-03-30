@@ -2,6 +2,7 @@ require([
     'jquery',
     'underscore',
     'view/transactionHistory',
+    'backbone-websql',
 ], function($, _, TransactionHistoryView) {
     $(function() {
         Account.items = new AccountItemList();

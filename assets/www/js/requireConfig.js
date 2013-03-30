@@ -7,8 +7,8 @@ var require = {
         'jquery',
         'jquery-ui',
         'underscore',
-        'backbone',
         'backbone-websql',
+        'backbone',
     ],
     paths: {
         'bootstrap': 'bootstrap.min',
@@ -35,5 +35,8 @@ var require = {
         'jquery-ui': {
             deps: ['jquery']
         },
+        'bootstrap': {
+            deps: ['jquery']
+        }
     },
 }
