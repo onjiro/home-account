@@ -18,7 +18,7 @@ this.TransactionHistoryRowView = (function() {
             this.render();
         },
         render: function() {
-            this.$el.empty().append(this.template(this.model.attributes));
+            this.$el.empty().append(this.template(this.model.attributes)).fadeIn();
         },
         hover: function(e) {
             this.$el.addClass('hover');
@@ -50,9 +50,6 @@ this.TransactionHistoryView = (function(global) {
             (options.index === 0) ?
                 this.$tbody.prepend($newEl):
                 this.$tbody.append($newEl);
-            if (options.newest) {
-                $newEl.hide().fadeIn();
-            }
         },
         render: function(collection, options) {
             this.$tbody.empty();
