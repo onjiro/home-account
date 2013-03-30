@@ -29,7 +29,7 @@ this.TransactionHistoryRowView = (function() {
         },
     });
 })();
-var TransactionHistoryView = (function(global) {
+var TransactionHistoryView = (function() {
     return Backbone.View.extend({
         events: {
             'click .more-history .btn': function(e) { this.collection.fetch(); },
@@ -58,4 +58,4 @@ var TransactionHistoryView = (function(global) {
             this.$('.more-history').toggle(!!options.from);
         },
     });
-})(this);
+})();
