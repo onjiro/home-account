@@ -9,13 +9,6 @@ require([
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
         , currentTransactions = new TransactionList()
-        , historyView = new (TransactionHistoryView.Area.extend({
-            innerView: TransactionHistoryView.Row.extend({
-                template: _.template($('#history-row-template').html()),
-            }),
-            el: '#history',
-            collection: currentTransactions
-        }))()
         , appView = new AppView({
             el: document,
             collection: currentTransactions,
@@ -43,6 +36,15 @@ require([
             return num;
         };
         Backbone.sync.db = db;
+
+        // 履歴ビューの生成
+        new (TransactionHistoryView.Area.extend({
+            innerView: TransactionHistoryView.Row.extend({
+                template: _.template($('#history-row-template').html()),
+            }),
+            el: '#history',
+            collection: currentTransactions
+        }))();
 
         // datepickerの設定
         $('input[type="date"], .datepicker').datepicker({
