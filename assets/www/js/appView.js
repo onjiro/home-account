@@ -7,12 +7,6 @@ this.AppView = (function(global) {
             this.template = _.template($('#selection-template').html());
             this.$select = this.$('[name="item-in-selection"], [name="opposite-item-in-selection"]');
 
-            this.collection.on('reset', function() {
-                this.$('#history')
-                    .children('.loading').hide().end()
-                    .children('table').show();
-            }, this);
-
             options.accountItems
                 .on('add', this.onAddAccountItems, this)
                 .on('reset', function(collection) {
