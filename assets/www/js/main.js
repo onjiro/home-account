@@ -1,7 +1,7 @@
 require([
     'jquery',
     'underscore',
-    'js/view.transactionHistory.js',
+    'view/transactionHistory',
 ], function($, _, TransactionHistoryView) {
     $(function() {
         Account.items = new AccountItemList();

@@ -1,4 +1,5 @@
 var require = {
+    urlArgs: 'bust=' + (new Date()).getTime(),
     baseUrl: 'js/',
     deps: [
         'bootstrap',
