@@ -30,6 +30,7 @@ var EntryTabView = (function() {
             };
             // 勘定を登録する
             var accountTransaction = new Transaction({
+                amount: entries.amount,
                 date: entries.date,
                 details: entries.details,
                 accounts: [

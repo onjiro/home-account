@@ -1,22 +1,42 @@
-this.TransactionHistoryView = (function(global) {
-    var TransactionHistoryView = Backbone.View.extend({
+this.TransactionHistoryRowView = (function() {
+    return Backbone.View.extend({
+        tagName: 'tr',
         events: {
-            "click tr": function(e) {
-                var modelCid = $(e.currentTarget).data('model-cid')
-                new TransactionDetailView({
-                    model: this.collection.getByCid(modelCid),
-                });
+            'click': function(e) {
+                new TransactionDetailView({ model: this.model });
             },
             "touchstart td": 'hover',
             "mouseover td" : 'hover',
             'touchend td'  : 'hout',
             'mouseout td'  : 'hout',
+        },
+        initialize: function() {
+            this.template = _.template($('#history-row-template').html());
+            this.model.on('destroy', function() {
+                this.$el.fadeOut(this.remove);
+            }, this);
+            this.render();
+        },
+        render: function() {
+            this.$el.empty().append(this.template(this.model.attributes));
+        },
+        hover: function(e) {
+            this.$el.addClass('hover');
+            setTimeout(_.bind(function() { this.$el.removeClass('hover'); }, this), 1000);
+        },
+        hout: function(e) {
+            this.$el.removeClass('hover');
+        },
+    });
+})();
+this.TransactionHistoryView = (function(global) {
+    var TransactionHistoryView = Backbone.View.extend({
+        events: {
             'click .more-history .btn': function(e) { this.collection.fetch(); },
         },
         initialize: function() {
             this.collection
                 .on('add'   , this.add     , this)
-                .on('remove', this.onRemove, this)
                 .on('reset' , this.render  , this)
                 .on('request', function(collection, method, option) {
                     if (method === 'read') this.renderLoading(collection, option);
@@ -25,30 +45,21 @@ this.TransactionHistoryView = (function(global) {
             this.template = _.template($('#history-template').html());
             this.$tbody = this.$('tbody');
         },
-        hover: function(e) {
-            var $target = $(e.currentTarget).addClass('hover');
-            setTimeout(function() { $target.removeClass('hover'); }, 1000);
-        },
-        hout: function(e) {
-            $(e.currentTarget).removeClass('hover');
-        },
         add: function(model, collections, options) {
-            $added = (options.index === 0) ?
-                this.$tbody.prepend(formatToTableRow(model, this.template)).children(':first-child'):
-                this.$tbody.append(formatToTableRow(model, this.template)).children(':last-child');
+            var $newEl = new TransactionHistoryRowView({ model: model }).$el;
+            (options.index === 0) ?
+                this.$tbody.prepend($newEl):
+                this.$tbody.append($newEl);
             if (options.newest) {
-                $added.hide().fadeIn();
+                $newEl.hide().fadeIn();
             }
-        },
-        onRemove: function(model) {
-            this.$tbody.children('[data-model-cid="' + model.cid + '"]').fadeOut(function() { $(this).detach() });
         },
         render: function(collection, options) {
             this.$tbody.empty();
             collection.chain()
                 .sortBy(function(model) { return model.id * -1 })
                 .each(function(model) {
-                    this.$tbody.append(formatToTableRow(model, this.template));
+                    this.$tbody.append(new TransactionHistoryRowView({ model: model }).el);
                 }, this);
             this.$('table').show().siblings().hide();
             this.$el.find('.more-history').toggle(!!options.from);
