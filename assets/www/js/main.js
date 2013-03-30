@@ -8,10 +8,11 @@ require([
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
         , currentTransactions = new TransactionList()
-        , historyView = new TransactionHistoryView({
+        , historyView = new (TransactionHistoryView.extend({
+            innerView: TransactionHistoryRowView,
             el: '#history',
             collection: currentTransactions
-        })
+        }))()
         , appView = new AppView({
             el: document,
             collection: currentTransactions,

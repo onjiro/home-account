@@ -31,6 +31,7 @@ this.TransactionHistoryRowView = (function() {
 })();
 var TransactionHistoryView = (function() {
     return Backbone.View.extend({
+        // innerView to be set using `extend`
         events: {
             'click .more-history .btn': function(e) { this.collection.fetch(); },
         },
@@ -38,7 +39,7 @@ var TransactionHistoryView = (function() {
             this.collection
                 .on('reset' , this.render  , this)
                 .on('add', function(model, collections, options) {
-                    new TransactionHistoryRowView({ model: model }).$el
+                    (new this.innerView({ model: model })).$el
                         .fadeIn().prependTo(this.$tbody);
                 }, this)
                 .on('request', function(collection, method, option) {
@@ -53,7 +54,7 @@ var TransactionHistoryView = (function() {
             this.$tbody.empty()
                 .append(this.collection
                         .sortBy(function(model) { return model.id * -1 })
-                        .map(function(model) { return new TransactionHistoryRowView({ model: model }).el; }));
+                        .map(function(model) { return (new this.innerView({ model: model })).el; }, this));
             this.$('table').show().end().find('.loading').hide();
             this.$('.more-history').toggle(!!options.from);
         },
