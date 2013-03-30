@@ -4,7 +4,6 @@ this.AppView = (function(global) {
             'change [name="item-in-selection"],[name="opposite-item-in-selection"]': function(e) { this.onSelectItem($(e.srcElement)); },
         },
         initialize: function(options) {
-            this.template = _.template($('#selection-template').html());
             this.$select = this.$('[name="item-in-selection"], [name="opposite-item-in-selection"]');
 
             options.accountItems

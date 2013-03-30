@@ -9,7 +9,9 @@ require([
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
         , currentTransactions = new TransactionList()
-        , appView = new AppView({
+        , appView = new (AppView.extend({
+            template: _.template($('#selection-template').html())
+        }))({
             el: document,
             collection: currentTransactions,
             accountItems: Account.items,
