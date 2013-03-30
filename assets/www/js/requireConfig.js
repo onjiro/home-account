@@ -2,6 +2,7 @@ var require = {
     urlArgs: 'bust=' + (new Date()).getTime(),
     baseUrl: 'js/',
     deps: [
+        'util',
         'bootstrap',
         'jquery',
         'jquery-ui',
