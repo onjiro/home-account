@@ -51,6 +51,7 @@ require([
         new InventoryTabView({
             el: '#inventory-tab',
             collection: totalAccounts,
+            transactions: currentTransactions,
         });
 
         currentTransactions.on('add remove change reset', function() {
@@ -61,24 +62,6 @@ require([
         Account.items.fetch({success: function() {
             currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
         }});
-
-        // 棚卸登録
-        $(document).on('submit', '#inventory-entry', function(e) {
-            var form = this;
-            db.transaction(function(tx) {
-                new TotalAccount({
-                    amount: $('[name="amount"]', form).val(),
-                    item:   $('[name="item"]', form).val(),
-                    type:   $('[name="account-type"]:checked', form).val()
-                }).makeInventory(tx, function(tx, total, newTransaction) {
-                    currentTransactions.add(newTransaction, {at: 0, newest: true});
-                    form.reset();
-                }, function(err) {
-                    alert('something failed while make an inventory.\n' + err.message);
-                });
-            });
-            return false;
-        });
 
         // エントリータブのビュー
         new EntryTabView({

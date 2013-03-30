@@ -13,6 +13,23 @@ this.InventoryTabView = (function(global) {
             'click tbody a': function(e) {
                 this.$('#inventory-entry [name="item"]').val($(e.target).closest('tr').data('item'));
             },
+            'submit #inventory-entry': function(e) {
+                e.preventDefault();
+                var form = e.target,
+                transactions = this.options.transactions;
+                Backbone.sync.db.transaction(function(tx) {
+                    new TotalAccount({
+                        amount: $('[name="amount"]', form).val(),
+                        item:   $('[name="item"]', form).val(),
+                        type:   $('[name="account-type"]:checked', form).val()
+                    }).makeInventory(tx, function(tx, total, newTransaction) {
+                        transactions.add(newTransaction);
+                        form.reset();
+                    }, function(err) {
+                        alert('something failed while make an inventory.\n' + err.message);
+                    });
+                });
+            },
         },
 
         initialize: function() {

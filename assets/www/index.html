@@ -250,6 +250,7 @@
         <%= _.chain(accounts).where({type: 'debit'}).map(function(account) { return account.item; }).value().join(',') %>
       </td>
       <td class="amount">
+        <% var amount = _.chain(accounts).where({type: 'debit'}).map(function(account){ return account.amount; }).join(function(sum, amount){ return sum + amount}, 0).value()  %>
         <%= withSeparators(amount) %>
       </td>
     </script>
