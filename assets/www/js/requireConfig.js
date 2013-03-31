@@ -37,6 +37,60 @@ var require = {
         },
         'bootstrap': {
             deps: ['jquery']
-        }
+        },
+        'accountItem': {
+            deps: ['backbone'],
+        },
+        'accountItemList': {
+            deps: ['backbone'],
+        },
+        'account': {
+            deps: ['backbone'],
+        },
+        'transactionModel': {
+            deps: ['backbone'],
+        },
+        'transactionList': {
+            deps: ['backbone'],
+        },
+        'totalAccountModel': {
+            deps: ['backbone'],
+        },
+        'collection.commonlyUseAccountItemList': {
+            deps: ['backbone'],
+        },
+        'migrator': {
+            deps: ['backbone'],
+        },
+        'initialize': {
+            deps: ['backbone'],
+        },
+        'indexTabController': {
+            deps: ['backbone'],
+        },
+        'view.entryTab': {
+            deps: ['backbone'],
+        },
+        'view.commonlyUseAccount': {
+            deps: ['backbone'],
+        },
+        'view.commonlyUseAccountArea': {
+            deps: ['backbone'],
+        },
+        'transactionDetailView': {
+            deps: ['backbone'],
+        },
+        'totalAccountTableView': {
+            deps: ['backbone'],
+        },
+        'inventoryTabView': {
+            deps: ['backbone'],
+        },
+        'subTotalView': {
+            deps: ['backbone'],
+        },
+        'appView': {
+            deps: ['backbone'],
+        },
     },
 }
