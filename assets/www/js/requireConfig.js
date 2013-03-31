@@ -42,7 +42,7 @@ var require = {
             deps: ['backbone'],
         },
         'accountItemList': {
-            deps: ['backbone'],
+            deps: ['backbone', 'accountItem'],
         },
         'account': {
             deps: ['backbone'],
@@ -51,10 +51,10 @@ var require = {
             deps: ['backbone'],
         },
         'transactionList': {
-            deps: ['backbone'],
+            deps: ['backbone', 'account', 'transactionModel'],
         },
         'totalAccountModel': {
-            deps: ['backbone'],
+            deps: ['backbone', 'account', 'transactionModel'],
         },
         'collection.commonlyUseAccountItemList': {
             deps: ['backbone'],
@@ -63,13 +63,13 @@ var require = {
             deps: ['backbone'],
         },
         'initialize': {
-            deps: ['backbone'],
+            deps: ['backbone', 'migrator'],
         },
         'indexTabController': {
-            deps: ['backbone'],
+            deps: ['jquery', 'bootstrap'],
         },
         'view.entryTab': {
-            deps: ['backbone'],
+            deps: ['backbone', 'account', 'transactionModel'],
         },
         'view.commonlyUseAccount': {
             deps: ['backbone'],
@@ -84,7 +84,7 @@ var require = {
             deps: ['backbone'],
         },
         'inventoryTabView': {
-            deps: ['backbone'],
+            deps: ['backbone', 'totalAccountModel', 'totalAccountTableView'],
         },
         'subTotalView': {
             deps: ['backbone'],
