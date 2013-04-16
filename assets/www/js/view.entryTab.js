@@ -59,7 +59,10 @@ var EntryTabView = (function() {
                 this.collection.add(accountTransaction, {at: 0, newest: true});
                 this.$('form').trigger('reset');
             }, this);
-            accountTransaction.save();
+            accountTransaction.on('error', function(model, error) {
+                alert(error);
+            });
+            accountTransaction.save({validate: true});
         },
     });
 })();
