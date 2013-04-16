@@ -50,19 +50,20 @@ var EntryTabView = (function() {
                     }),
                 ],
             });
-            accountTransaction.on('save', function() {
-                var $alert = $(this.alertTemplate({
-                    message: "ok to save!!"
-                })).delay(1000).fadeOut();
+            accountTransaction
+                .on('save', function() {
+                    var $alert = $(this.alertTemplate({
+                        message: "ok to save!!"
+                    })).delay(1000).fadeOut();
 
-                $('#history').prepend($alert, function() { this.remove(); });
-                this.collection.add(accountTransaction, {at: 0, newest: true});
-                this.$('form').trigger('reset');
-            }, this);
-            accountTransaction.on('error', function(model, error) {
-                alert(error);
-            });
-            accountTransaction.save({validate: true});
+                    $('#history').prepend($alert, function() { this.remove(); });
+                    this.collection.add(accountTransaction, {at: 0, newest: true});
+                    this.$('form').trigger('reset');
+                }, this)
+                .on('error', function(model, error) {
+                    alert(error);
+                }, this)
+                .save({validate: true});
         },
     });
 })();
