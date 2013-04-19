@@ -1,7 +1,7 @@
 $(function() {
     window.CommonlyUseAccountAreaView = Backbone.View.extend({
         initialize: function() {
-            this.collection.on('reset', function(collection) {
+            this.collection.on('reset sync', function(collection) {
                 collection.each(this.onAdd, this);
             }, this);
         },
