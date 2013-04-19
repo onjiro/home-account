@@ -15,7 +15,7 @@ var require = {
         'backbone': 'backbone-min',
         'backbone-websql': 'backboneWebSql',
         'underscore': 'underscore-min',
-        'jquery': 'jquery-1.7.2.min',
+        'jquery': 'jquery-2.0.0.min',
         'jquery-ui': 'jquery-ui-1.10.0.custom',
     },
     shim: {

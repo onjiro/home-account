@@ -52,11 +52,9 @@ var EntryTabView = (function() {
             });
             accountTransaction
                 .on('save', function() {
-                    var $alert = $(this.alertTemplate({
-                        message: "ok to save!!"
-                    })).delay(1000).fadeOut();
-
-                    $('#history').prepend($alert, function() { this.remove(); });
+                    $('#history')
+                        .prepend(this.alertTemplate({message: "ok to save!!"}))
+                        .children().first().delay(1000).fadeOut(function() { this.remove(); });
                     this.collection.add(accountTransaction, {at: 0, newest: true});
                     this.$('form').trigger('reset');
                 }, this)
