@@ -36,7 +36,7 @@ define(['backbone'], function(Backbone) {
             },
             initialize: function() {
                 this.collection
-                    .on('reset' , this.render  , this)
+                    .on('reset sync' , this.render  , this)
                     .on('add', function(model, collections, options) {
                         (new this.innerView({ model: model })).$el
                             .fadeIn().prependTo(this.$tbody);
