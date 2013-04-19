@@ -49,7 +49,7 @@ define(['backbone'], function(Backbone) {
 
                 this.$tbody = this.$('tbody');
             },
-            render: function(collection, options) {
+            render: function(model, collection, options) {
                 this.$tbody.empty()
                     .append(this.collection
                             .sortBy(function(model) { return model.id * -1 })
