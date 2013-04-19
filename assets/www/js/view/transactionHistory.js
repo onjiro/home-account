@@ -13,7 +13,7 @@ define(['backbone'], function(Backbone) {
             },
             initialize: function() {
                 this.model.on('destroy', function() {
-                    this.$el.fadeOut(this.remove);
+                    this.$el.fadeOut(_.bind(this.remove, this));
                 }, this);
                 this.render();
             },
