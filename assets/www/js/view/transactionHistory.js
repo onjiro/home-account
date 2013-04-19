@@ -13,7 +13,7 @@ define(['backbone'], function(Backbone) {
             },
             initialize: function() {
                 this.model.on('destroy', function() {
-                    this.$el.fadeOut(this.remove);
+                    this.$el.fadeOut(_.bind(this.remove, this));
                 }, this);
                 this.render();
             },
@@ -36,7 +36,7 @@ define(['backbone'], function(Backbone) {
             },
             initialize: function() {
                 this.collection
-                    .on('reset' , this.render  , this)
+                    .on('reset sync' , this.render  , this)
                     .on('add', function(model, collections, options) {
                         (new this.innerView({ model: model })).$el
                             .fadeIn().prependTo(this.$tbody);
@@ -49,7 +49,7 @@ define(['backbone'], function(Backbone) {
 
                 this.$tbody = this.$('tbody');
             },
-            render: function(collection, options) {
+            render: function(model, collection, options) {
                 this.$tbody.empty()
                     .append(this.collection
                             .sortBy(function(model) { return model.id * -1 })
