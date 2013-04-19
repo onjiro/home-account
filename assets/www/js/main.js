@@ -73,7 +73,7 @@ require([
         });
 
         currentTransactions.on('add remove change reset', function() {
-            totalAccounts.fetch({ to: new Date() });
+            totalAccounts.fetch({ to: new Date(), reset: true });
         });
 
         // データ初期ロード
