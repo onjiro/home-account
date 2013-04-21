@@ -2,6 +2,7 @@ var require = {
     urlArgs: 'bust=' + (new Date()).getTime(),
     baseUrl: 'js/',
     deps: [
+        'migration',
         'util',
         'bootstrap',
         'jquery',
@@ -9,7 +10,6 @@ var require = {
         'underscore',
         'backbone',
         'backbone-websql',
-        'initialize',
     ],
     paths: {
         'bootstrap'      : 'lib/bootstrap.min',
