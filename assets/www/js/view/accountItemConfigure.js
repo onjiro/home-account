@@ -13,7 +13,7 @@ define(['backbone'], function(Backbone) {
             },
             'change .classification': function(e) {
                 var classification = this.classifications.get(e.target.value),
-                accountItem = this.collection.get($(e.srcElement).closest('[data-id]').data('id'));
+                accountItem = this.collection.get($(e.target).closest('[data-id]').data('id'));
                 db.transaction(function(tx) {
                     accountItem.save({
                         classification: classification.get('name')
