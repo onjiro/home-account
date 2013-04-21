@@ -1,5 +1,5 @@
-var CommonlyUseAccountItemList = (function(global) {
-    return Backbone.Collection.extend({
+define(['backbone', 'model/accountItem'], function(Backbone, AccountItem) {
+    return CommonlyUseAccountItemList = Backbone.Collection.extend({
         model: AccountItem,
         sqls: {
             read: ''
@@ -27,4 +27,4 @@ var CommonlyUseAccountItemList = (function(global) {
             read: ['side', 'limit'],
         },
     });
-})();
+});

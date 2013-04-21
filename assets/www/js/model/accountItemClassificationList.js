@@ -1,5 +1,5 @@
-this.AccountItemClassificationList = (function(global){
-    return Backbone.Collection.extend({
+define(['backbone'], function(Backbone) {
+    return AccountItemClassificationList = Backbone.Collection.extend({
         sqls: {
             read: ''
                 + 'SELECT '
@@ -9,4 +9,4 @@ this.AccountItemClassificationList = (function(global){
                 + 'FROM AccountItemClassifications ',
         },
     });
-})(this);
+});

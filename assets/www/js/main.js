@@ -8,6 +8,7 @@ require([
     'model/transaction',
     'model/transactionList',
     'model/totalAccount',
+    'model/totalAccountList',
     'model/commonlyUseAccountItemList',
     'indexTabController',
     'view/entryTab',

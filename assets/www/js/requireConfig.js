@@ -42,18 +42,6 @@ var require = {
         },
 
         // app modules
-        'accountItem': {
-            deps: ['backbone'],
-        },
-        'accountItemList': {
-            deps: ['backbone', 'model/accountItem'],
-        },
-        'totalAccountModel': {
-            deps: ['backbone', 'model/account', 'model/transaction'],
-        },
-        'collection.commonlyUseAccountItemList': {
-            deps: ['backbone'],
-        },
         'indexTabController': {
             deps: ['jquery', 'bootstrap'],
         },
@@ -73,7 +61,7 @@ var require = {
             deps: ['backbone'],
         },
         'inventoryTabView': {
-            deps: ['backbone', 'model/totalAccountModel', 'model/totalAccountTableView'],
+            deps: ['backbone', 'model/totalAccount', 'model/totalAccountList', 'model/totalAccountTableView'],
         },
         'subTotalView': {
             deps: ['backbone'],
