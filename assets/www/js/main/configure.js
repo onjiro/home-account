@@ -15,9 +15,8 @@ $(function() {
     });
     Backbone.sync.db = db;
 
-    accountItemClassifications.fetch();
-    db.transaction(function(tx) {
-        accountItems.fetch({tx: tx});
-    });
+    accountItemClassifications.fetch({success: function() {
+        accountItems.fetch();
+    }});
 });
 });

@@ -30,7 +30,7 @@ define(['backbone'], function(Backbone) {
             this.$classificationOptions = $('<div/>');
 
             this.collection
-                .on('reset', this.render, this)
+                .on('reset sync', this.render, this)
                 .on('change', function(model) {
                     this.$el.find('[data-id="' + model.id + '"]')
                         .find('span').text(model.get('classification')).show()
