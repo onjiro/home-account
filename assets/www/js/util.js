@@ -23,18 +23,17 @@ define(['jquery', 'jquery-ui', 'bootstrap'], function() {
             })
             .on('show', '.js-tab a', function(e) {
                 $($(this).attr('href')).trigger('show', e);
-            });
+            })
+            .on('show', '.js-tab a', function(e) {
+                // タブペインの入力内容を引き継ぐ
+                var $inputs = $(e.target.hash).find('input')
+                , $previousInputs = $(e.relatedTarget.hash).find('input');
 
-        // タブ押下時に入力内容を引き継ぐ
-        $('.js-tab a').on('show', function(e) {
-            var $inputs = $(e.target.hash).find('input')
-            , $previousInputs = $(e.relatedTarget.hash).find('input');
-
-            $.each(['date', 'amount', 'item', 'opposite-item'], function(i, name) {
-                var selector = '[name="' + name + '"]';
-                $inputs.filter(selector).val(
-                    $previousInputs.filter(selector).val() || $inputs.filter(selector).val());
+                $.each(['date', 'amount', 'item', 'opposite-item'], function(i, name) {
+                    var selector = '[name="' + name + '"]';
+                    $inputs.filter(selector).val(
+                        $previousInputs.filter(selector).val() || $inputs.filter(selector).val());
+                });
             });
-        });
     });
 });
