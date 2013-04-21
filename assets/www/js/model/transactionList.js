@@ -1,5 +1,9 @@
-this.TransactionList = (function(global) {
-    return Backbone.Collection.extend({
+define([
+    'backbone',
+    'model/account',
+    'model/transaction',
+], function(Backbone, Account, Transaction) {
+    return TransactionList = Backbone.Collection.extend({
         model: Transaction,
         sqls: {
             read: ''
@@ -44,4 +48,4 @@ this.TransactionList = (function(global) {
                 .value();
         },
     })
-})(this);
+});

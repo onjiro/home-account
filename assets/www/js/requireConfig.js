@@ -48,9 +48,6 @@ var require = {
         'accountItemList': {
             deps: ['backbone', 'accountItem'],
         },
-        'model/transactionList': {
-            deps: ['backbone', 'model/account', 'model/transaction'],
-        },
         'totalAccountModel': {
             deps: ['backbone', 'model/account', 'model/transaction'],
         },
