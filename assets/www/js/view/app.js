@@ -1,4 +1,6 @@
-this.AppView = (function(global) {
+define([
+    'backbone',
+], function(Backbone) {
     return Backbone.View.extend({
         events: {
             'change [name="item-in-selection"],[name="opposite-item-in-selection"]': function(e) { this.onSelectItem($(e.srcElement)); },
@@ -25,4 +27,4 @@ this.AppView = (function(global) {
                 .toggle($selection.val() === '');
         },
     });
-})(this);
+});

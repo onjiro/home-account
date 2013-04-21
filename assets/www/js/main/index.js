@@ -2,6 +2,7 @@ require([
     'jquery',
     'underscore',
     'view/transactionHistory',
+    'view/app',
     'model/accountItemList',
     'model/account',
     'model/transactionList',
@@ -15,8 +16,7 @@ require([
     'view/totalAccountTable',
     'view/inventoryTab',
     'view/subTotal',
-    'view/app',
-], function($, _, TransactionHistoryView) {
+], function($, _, TransactionHistoryView, AppView) {
     $(function() {
         Account.items = new AccountItemList();
         // bootstrap の Alert div のテンプレート
