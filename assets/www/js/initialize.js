@@ -1,3 +1,7 @@
+define([
+    'migrator',
+    'transactionModel',
+], function(Migrator, Transaction) {
 var db = openDatabase('home-account', '', 'home account', 300000);
 $(function() {
     var m = new Migrator(db);
@@ -116,4 +120,5 @@ $(function() {
         });
     });
     m.doIt();
+});
 });

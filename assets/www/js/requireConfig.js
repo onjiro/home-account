@@ -9,6 +9,7 @@ var require = {
         'underscore',
         'backbone-websql',
         'backbone',
+        'initialize',
     ],
     paths: {
         'bootstrap'      : 'lib/bootstrap.min',
@@ -39,10 +40,6 @@ var require = {
         'bootstrap': {
             deps: ['jquery']
         },
-        'migrator': {
-            deps: ['backbone'],
-            exports: 'Migrator',
-        },
 
         // app modules
         'accountItem': {
@@ -65,9 +62,6 @@ var require = {
         },
         'collection.commonlyUseAccountItemList': {
             deps: ['backbone'],
-        },
-        'initialize': {
-            deps: ['backbone', 'migrator'],
         },
         'indexTabController': {
             deps: ['jquery', 'bootstrap'],

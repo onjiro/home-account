@@ -1,5 +1,6 @@
+define(function() {
 // created by Max Aller <nanodeath@gmail.com>
-function Migrator(db){
+return function Migrator(db){
     var migrations = [];
     this.migration = function(number, func){
         migrations[number] = func;
@@ -23,4 +24,5 @@ function Migrator(db){
             if(console.error) console.error(e);
         }
     }
-}
+};
+});
