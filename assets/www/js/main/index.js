@@ -3,7 +3,6 @@ require([
     'underscore',
     'view/app',
     'model/accountItemList',
-    'model/account',
     'model/transactionList',
     'model/totalAccountList',
     'model/commonlyUseAccountItemList',
@@ -16,7 +15,7 @@ require([
     'view/subTotal',
 ], function($, _, AppView) {
     $(function() {
-        Account.items = new AccountItemList();
+        accountItems = new AccountItemList();
         // bootstrap の Alert div のテンプレート
         var alertTemplate = _.template($('#alert-template').html())
         , $history = $('#history')
@@ -46,7 +45,7 @@ require([
         }))({
             el: document,
             collection: currentTransactions,
-            accountItems: Account.items,
+            accountItems: accountItems,
         });
 
         // 棚卸タブビューの生成
@@ -61,7 +60,7 @@ require([
         });
 
         // データ初期ロード
-        Account.items.fetch({success: function() {
+        accountItems.fetch({success: function() {
             currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
         }});
 
