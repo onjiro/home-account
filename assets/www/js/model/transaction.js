@@ -1,5 +1,5 @@
-this.Transaction = (function(global) {
-    return Backbone.Model.extend({
+define(['backbone'], function() {
+    return Transaction = Backbone.Model.extend({
         // properties
         sqls: {
             create: 'INSERT INTO Transactions (date, details) VALUES (?, ?)',
@@ -40,4 +40,4 @@ this.Transaction = (function(global) {
             }
         },
     });
-})(this);
+});

@@ -51,14 +51,11 @@ var require = {
         'account': {
             deps: ['backbone'],
         },
-        'transactionModel': {
-            deps: ['backbone'],
-        },
         'transactionList': {
-            deps: ['backbone', 'account', 'transactionModel'],
+            deps: ['backbone', 'account', 'model/transaction'],
         },
         'totalAccountModel': {
-            deps: ['backbone', 'account', 'transactionModel'],
+            deps: ['backbone', 'account', 'model/transaction'],
         },
         'collection.commonlyUseAccountItemList': {
             deps: ['backbone'],
@@ -67,7 +64,7 @@ var require = {
             deps: ['jquery', 'bootstrap'],
         },
         'view.entryTab': {
-            deps: ['backbone', 'account', 'transactionModel'],
+            deps: ['backbone', 'account', 'model/transaction'],
         },
         'view.commonlyUseAccount': {
             deps: ['backbone'],

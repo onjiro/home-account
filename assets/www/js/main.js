@@ -5,7 +5,7 @@ require([
     'accountItem',
     'accountItemList',
     'account',
-    'transactionModel',
+    'model/transaction',
     'transactionList',
     'totalAccountModel',
     'collection.commonlyUseAccountItemList',

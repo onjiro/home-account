@@ -1,6 +1,6 @@
 define([
     'migrator',
-    'transactionModel',
+    'model/transaction',
 ], function(Migrator, Transaction) {
     var db = openDatabase('home-account', '', 'home account', 300000);
     $(function() {
