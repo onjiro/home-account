@@ -1,7 +1,7 @@
 define([
     'backbone',
-    'view/transactionHistory',
-], function(Backbone, TransactionHistoryView) {
+    'view/historyArea',
+], function(Backbone, HistoryAreaView) {
     return Backbone.View.extend({
         events: {
             'change [name="item-in-selection"],[name="opposite-item-in-selection"]': function(e) { this.onSelectItem($(e.srcElement)); },
@@ -17,8 +17,8 @@ define([
                 }, this);
 
             // 履歴ビュー
-            new (TransactionHistoryView.Area.extend({
-                innerView: TransactionHistoryView.Row.extend({
+            new (HistoryAreaView.Area.extend({
+                innerView: HistoryAreaView.Row.extend({
                     template: _.template($('#history-row-template').html()),
                 }),
             }))({

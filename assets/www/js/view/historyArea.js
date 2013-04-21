@@ -1,13 +1,13 @@
 define([
     'backbone',
-    'view/transactionDetail',
-], function(Backbone, TransactionDetailView) {
+    'view/historyDetail',
+], function(Backbone, DetailView) {
     return {
         Row: Backbone.View.extend({
             tagName: 'tr',
             events: {
                 'click': function(e) {
-                    new TransactionDetailView({ model: this.model });
+                    new DetailView({ model: this.model });
                 },
                 "touchstart td": 'hover',
                 "mouseover td" : 'hover',
