@@ -11,12 +11,13 @@ var require = {
         'backbone',
     ],
     paths: {
-        'bootstrap': 'bootstrap.min',
-        'backbone': 'backbone-min',
-        'backbone-websql': 'backboneWebSql',
-        'underscore': 'underscore-min',
-        'jquery': 'jquery-2.0.0.min',
-        'jquery-ui': 'jquery-ui-1.10.0.custom',
+        'bootstrap'      : 'lib/bootstrap.min',
+        'backbone'       : 'lib/backbone-min',
+        'backbone-websql': 'lib/backboneWebSql',
+        'underscore'     : 'lib/underscore-min',
+        'jquery'         : 'lib/jquery-2.0.0.min',
+        'jquery-ui'      : 'lib/jquery-ui-1.10.0.custom',
+        'migrator'       : 'lib/migrator',
     },
     shim: {
         'backbone': {
@@ -61,6 +62,7 @@ var require = {
         },
         'migrator': {
             deps: ['backbone'],
+            exports: 'Migrator',
         },
         'initialize': {
             deps: ['backbone', 'migrator'],
