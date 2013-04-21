@@ -3,7 +3,7 @@
  *
  * el, collectionをオブジェクトの生成時に与えること。
  */
-AccountItemConfigureView = (function(global) {
+define(['backbone'], function(Backbone) {
     return Backbone.View.extend({
         events: {
             'click .classification': function(e) {
@@ -49,5 +49,4 @@ AccountItemConfigureView = (function(global) {
             this.$tableBody.find('select').append(this.$classificationOptions.html());
         },
     });
-})(this);
-
+});

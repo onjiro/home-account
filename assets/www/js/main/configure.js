@@ -1,3 +1,10 @@
+require([
+    'jquery',
+    'backbone',
+    'model/accountItemClassificationList',
+    'model/accountItemList',
+    'view/accountItemConfigure',
+], function($, Backbone, AccountItemClassificationList, AccountItemList, AccountItemConfigureView) {
 $(function() {
     var accountItems = new AccountItemList(),
     accountItemClassifications = new AccountItemClassificationList(),
@@ -13,4 +20,4 @@ $(function() {
         accountItems.fetch({tx: tx});
     });
 });
-
+});

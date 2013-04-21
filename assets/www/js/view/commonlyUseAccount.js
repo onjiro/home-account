@@ -1,3 +1,4 @@
+define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 $(function() {
     window.CommonlyUseAccountView = Backbone.View.extend({
         template: _.template($('#template-commonly-used-account').html()),
@@ -18,4 +19,5 @@ $(function() {
             return this;
         },
     });
+});
 });

@@ -45,28 +45,28 @@ var require = {
         'indexTabController': {
             deps: ['jquery', 'bootstrap'],
         },
-        'view.entryTab': {
+        'view/entryTab': {
             deps: ['backbone', 'model/account', 'model/transaction'],
         },
-        'view.commonlyUseAccount': {
+        'view/commonlyUseAccount': {
             deps: ['backbone'],
         },
-        'view.commonlyUseAccountArea': {
+        'view/commonlyUseAccountArea': {
             deps: ['backbone'],
         },
-        'transactionDetailView': {
+        'view/transactionDetail': {
             deps: ['backbone'],
         },
-        'totalAccountTableView': {
+        'view/totalAccountTable': {
             deps: ['backbone'],
         },
-        'inventoryTabView': {
+        'view/inventory': {
             deps: ['backbone', 'model/totalAccount', 'model/totalAccountList', 'model/totalAccountTableView'],
         },
-        'subTotalView': {
+        'view/subTotal': {
             deps: ['backbone'],
         },
-        'appView': {
+        'view/app': {
             deps: ['backbone'],
         },
     },
