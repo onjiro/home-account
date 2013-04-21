@@ -2,7 +2,6 @@ require([
     'jquery',
     'underscore',
     'view/transactionHistory',
-    'backbone-websql',
     'accountItem',
     'accountItemList',
     'account',

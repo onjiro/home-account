@@ -7,8 +7,8 @@ var require = {
         'jquery',
         'jquery-ui',
         'underscore',
-        'backbone-websql',
         'backbone',
+        'backbone-websql',
         'initialize',
     ],
     paths: {
