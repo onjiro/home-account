@@ -4,7 +4,7 @@ require([
     'view/transactionHistory',
     'accountItem',
     'accountItemList',
-    'account',
+    'model/account',
     'model/transaction',
     'model/transactionList',
     'totalAccountModel',

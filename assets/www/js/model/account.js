@@ -1,4 +1,6 @@
-this.Account = (function(global) {
+define([
+    'backbone'
+], function(Backbone) {
     var Constructor = function(values) {
         values = values || {}
         this.transactionId = values.transactionId;
@@ -44,5 +46,5 @@ this.Account = (function(global) {
         }
     }
 
-    return Constructor;
-})(this);
+    return Account = Constructor;
+});
