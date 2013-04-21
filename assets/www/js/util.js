@@ -1,4 +1,4 @@
-define(['jquery', 'jquery-ui', 'bootstrap'], function() {
+define(['jquery', 'underscore', 'jquery-ui', 'bootstrap'], function($, _) {
      $(function() {
         $(document).on('change', 'select', function(e) {
             $(this.selectedOptions[0]).trigger('select');
@@ -26,14 +26,18 @@ define(['jquery', 'jquery-ui', 'bootstrap'], function() {
             })
             .on('show', '.js-tab a', function(e) {
                 // タブペインの入力内容を引き継ぐ
-                var $inputs = $(e.target.hash).find('input')
-                , $previousInputs = $(e.relatedTarget.hash).find('input');
-
-                $.each(['date', 'amount', 'item', 'opposite-item'], function(i, name) {
-                    var selector = '[name="' + name + '"]';
-                    $inputs.filter(selector).val(
-                        $previousInputs.filter(selector).val() || $inputs.filter(selector).val());
-                });
+                var $currents = $(e.target.hash).find('input')
+                , $previouses = $(e.relatedTarget.hash).find('input');
+                _.chain(['date', 'amount', 'item', 'opposite-item'])
+                    .map(function(type) { return '[name="' + type + '"]' })
+                    .map(function(selector) { return {
+                        current:  $currents.filter(selector).val(),
+                        previous: $previouses.filter(selector).val(),
+                        target:   $currents.filter(selector),
+                    }})
+                    .each(function(params) {
+                        params.target.val(params.previous || params.current);
+                    });
             });
     });
 });
