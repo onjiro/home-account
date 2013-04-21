@@ -10,8 +10,6 @@ require([
     'transactionList',
     'totalAccountModel',
     'collection.commonlyUseAccountItemList',
-    'migrator',
-    'initialize',
     'indexTabController',
     'view/entryTab',
     'view/commonlyUseAccount',
@@ -22,6 +20,7 @@ require([
     'view/subTotal',
     'view/app',
 ], function($, _, TransactionHistoryView) {
+    var db = openDatabase('home-account', '', 'home account', 300000);
     $(function() {
         Account.items = new AccountItemList();
         // bootstrap の Alert div のテンプレート
