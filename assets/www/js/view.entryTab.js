@@ -58,7 +58,7 @@ var EntryTabView = (function() {
                     this.collection.add(accountTransaction, {at: 0, newest: true});
                     this.$('form').trigger('reset');
                 }, this)
-                .on('error', function(model, error) {
+                .on('invalid', function(model, error) {
                     alert(error);
                 }, this)
                 .save({validate: true});
