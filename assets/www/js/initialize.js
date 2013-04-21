@@ -2,7 +2,7 @@ define([
     'migrator',
     'model/transaction',
 ], function(Migrator, Transaction) {
-    var db = openDatabase('home-account', '', 'home account', 300000);
+    this.db = openDatabase('home-account', '', 'home account', 300000);
     $(function() {
         var m = new Migrator(db);
         m.migration(1, function(tx) {
