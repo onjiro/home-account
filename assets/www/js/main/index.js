@@ -1,7 +1,6 @@
 require([
     'jquery',
     'underscore',
-    'view/transactionHistory',
     'view/app',
     'model/accountItemList',
     'model/account',
@@ -16,7 +15,7 @@ require([
     'view/totalAccountTable',
     'view/inventoryTab',
     'view/subTotal',
-], function($, _, TransactionHistoryView, AppView) {
+], function($, _, AppView) {
     $(function() {
         Account.items = new AccountItemList();
         // bootstrap の Alert div のテンプレート
@@ -41,15 +40,6 @@ require([
             return num;
         };
         Backbone.sync.db = db;
-
-        // 履歴ビューの生成
-        new (TransactionHistoryView.Area.extend({
-            innerView: TransactionHistoryView.Row.extend({
-                template: _.template($('#history-row-template').html()),
-            }),
-            el: '#history',
-            collection: currentTransactions
-        }))();
 
         // 全体のビューの生成
         new (AppView.extend({
