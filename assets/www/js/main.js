@@ -6,7 +6,7 @@ require([
     'accountItemList',
     'account',
     'model/transaction',
-    'transactionList',
+    'model/transactionList',
     'totalAccountModel',
     'collection.commonlyUseAccountItemList',
     'indexTabController',

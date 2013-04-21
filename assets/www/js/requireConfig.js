@@ -51,7 +51,7 @@ var require = {
         'account': {
             deps: ['backbone'],
         },
-        'transactionList': {
+        'model/transactionList': {
             deps: ['backbone', 'account', 'model/transaction'],
         },
         'totalAccountModel': {
