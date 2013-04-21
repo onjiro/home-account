@@ -39,6 +39,12 @@ var require = {
         'bootstrap': {
             deps: ['jquery']
         },
+        'migrator': {
+            deps: ['backbone'],
+            exports: 'Migrator',
+        },
+
+        // app modules
         'accountItem': {
             deps: ['backbone'],
         },
@@ -59,10 +65,6 @@ var require = {
         },
         'collection.commonlyUseAccountItemList': {
             deps: ['backbone'],
-        },
-        'migrator': {
-            deps: ['backbone'],
-            exports: 'Migrator',
         },
         'initialize': {
             deps: ['backbone', 'migrator'],
