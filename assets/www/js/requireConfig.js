@@ -66,8 +66,5 @@ var require = {
         'view/subTotal': {
             deps: ['backbone'],
         },
-        'view/app': {
-            deps: ['backbone'],
-        },
     },
 }
