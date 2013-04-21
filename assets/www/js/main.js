@@ -13,14 +13,14 @@ require([
     'migrator',
     'initialize',
     'indexTabController',
-    'view.entryTab',
-    'view.commonlyUseAccount',
-    'view.commonlyUseAccountArea',
-    'transactionDetailView',
-    'totalAccountTableView',
-    'inventoryTabView',
-    'subTotalView',
-    'appView',
+    'view/entryTab',
+    'view/commonlyUseAccount',
+    'view/commonlyUseAccountArea',
+    'view/transactionDetail',
+    'view/totalAccountTable',
+    'view/inventoryTab',
+    'view/subTotal',
+    'view/app',
 ], function($, _, TransactionHistoryView) {
     $(function() {
         Account.items = new AccountItemList();
