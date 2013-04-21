@@ -49,7 +49,7 @@
             }
 
             if (method === 'create') { this.trigger('save', this); };
-            if ((options || {}).success) options.success(resultArray || resultSet, options);
+            if ((options || {}).success) options.success(resultArray || {rowsAffected: resultSet.rowsAffected}, options);
         }, this));
 
         model.trigger('request', model, method, options);
