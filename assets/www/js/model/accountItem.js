@@ -1,5 +1,5 @@
-this.AccountItem = (function(global) {
-    return Backbone.Model.extend({
+define(['backbone'], function(Backbone) {
+    return AccountItem = Backbone.Model.extend({
         sqls: {
             create: ''
                 + 'INSERT INTO AccountItems '
@@ -26,4 +26,4 @@ this.AccountItem = (function(global) {
             classification: '流動資産',
         },
     });
-})(this);
+});
