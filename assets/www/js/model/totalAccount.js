@@ -1,19 +1,11 @@
-this.TotalAccount = (function(global){
-    var Backbone = global.Backbone
-    , Account = global.Account
-    , Transaction = global.Transaction
-    if (typeof require !== 'undefined') {
-        if (!Backbone) Backbone = require('backbone');
-        if (!Account) Account = require('./account.js').Account;
-        if (!Transaction) Transaction = require('./transactionModel.js').Transaction;
-    }
-
-    var TotalAccount = Backbone.Model.extend({
+define(['backbone'], function(Backbone) {
+    return TotalAccount = Backbone.Model.extend({
         // properties below
         initialize: function(values) {
             values = values || {};
             this.set({
                 item  : values.item,
+                itemClassification: values.itemClassification,
                 type  : values.type || 'credit',
                 amount: (values.amount) ? parseInt(values.amount): 0
             });
@@ -54,9 +46,12 @@ this.TotalAccount = (function(global){
                             type: (type === 'credit') ? 'debit': 'credit'
                         })
                     ]
-                }).save(tx, function(tx, rowId, transaction) {
-                    if (success) {success(tx, _this, transaction)}
-                }, err);
+                }).save({}, {
+                    tx: tx,
+                    success: function(model, resultSet, options) {
+                        if (success) success(tx, _this, model);
+                    },
+                });
             }, err);
         }
     }, {
@@ -87,12 +82,15 @@ this.TotalAccount = (function(global){
             tx.executeSql([
                 'SELECT',
                 '  AccountItems.name as item,',
+                '  AccountItemClassifications.name as itemClassification,',
                 '  SUM(CASE type WHEN \'debit\' THEN amount ELSE 0 END) AS debitAmount,',
                 '  SUM(CASE type WHEN \'credit\' THEN amount ELSE 0 END) AS creditAmount',
                 'FROM',
                 '  Accounts',
                 '  INNER JOIN AccountItems',
                 '  ON Accounts.itemId = AccountItems.rowid',
+                '  INNER JOIN AccountItemClassifications',
+                '  ON AccountItems.classificationId = AccountItemClassifications.rowid',
                 (whereSection.length > 0) ?
                     'WHERE ' + whereSection.join(' and '):
                     '',
@@ -104,6 +102,7 @@ this.TotalAccount = (function(global){
                     var one = resultSet.rows.item(i);
                     totals.push(new TotalAccount({
                         item: one.item,
+                        itemClassification: one.itemClassification,
                         type: (one.debitAmount < one.creditAmount) ? 'credit': 'debit',
                         amount: Math.abs(one.debitAmount - one.creditAmount)
                     }));
@@ -119,6 +118,4 @@ this.TotalAccount = (function(global){
             }, err);
         }
     });
-
-    return TotalAccount;
-})(this);
+});

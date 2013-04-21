@@ -3,6 +3,8 @@ $(function() {
     $('.js-tab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
+    }).on('show', function(e) {
+        $($(this).attr('href')).trigger('show', e);
     });
     
     // タブ押下時に入力内容を引き継ぐ

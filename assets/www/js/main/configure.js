@@ -1,0 +1,22 @@
+require([
+    'jquery',
+    'backbone',
+    'model/accountItemClassificationList',
+    'model/accountItemList',
+    'view/accountItemConfigure',
+], function($, Backbone, AccountItemClassificationList, AccountItemList, AccountItemConfigureView) {
+$(function() {
+    var accountItems = new AccountItemList(),
+    accountItemClassifications = new AccountItemClassificationList(),
+    accountItemView = new AccountItemConfigureView({
+        el: $('#account-item'),
+        collection: accountItems,
+        classifications: accountItemClassifications,
+    });
+    Backbone.sync.db = db;
+
+    accountItemClassifications.fetch({success: function() {
+        accountItems.fetch();
+    }});
+});
+});

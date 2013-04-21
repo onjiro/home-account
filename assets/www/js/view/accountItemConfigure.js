@@ -3,7 +3,7 @@
  *
  * el, collectionをオブジェクトの生成時に与えること。
  */
-AccountItemConfigureView = (function(global) {
+define(['backbone'], function(Backbone) {
     return Backbone.View.extend({
         events: {
             'click .classification': function(e) {
@@ -13,7 +13,7 @@ AccountItemConfigureView = (function(global) {
             },
             'change .classification': function(e) {
                 var classification = this.classifications.get(e.target.value),
-                accountItem = this.collection.get($(e.srcElement).closest('[data-id]').data('id'));
+                accountItem = this.collection.get($(e.target).closest('[data-id]').data('id'));
                 db.transaction(function(tx) {
                     accountItem.save({
                         classification: classification.get('name')
@@ -30,7 +30,7 @@ AccountItemConfigureView = (function(global) {
             this.$classificationOptions = $('<div/>');
 
             this.collection
-                .on('reset', this.render, this)
+                .on('reset sync', this.render, this)
                 .on('change', function(model) {
                     this.$el.find('[data-id="' + model.id + '"]')
                         .find('span').text(model.get('classification')).show()
@@ -49,5 +49,4 @@ AccountItemConfigureView = (function(global) {
             this.$tableBody.find('select').append(this.$classificationOptions.html());
         },
     });
-})(this);
-
+});
