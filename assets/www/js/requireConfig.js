@@ -42,9 +42,6 @@ var require = {
         },
 
         // app modules
-        'indexTabController': {
-            deps: ['jquery', 'bootstrap'],
-        },
         'view/entryTab': {
             deps: ['backbone', 'model/account', 'model/transaction'],
         },
@@ -52,9 +49,6 @@ var require = {
             deps: ['backbone'],
         },
         'view/commonlyUseAccountArea': {
-            deps: ['backbone'],
-        },
-        'view/transactionDetail': {
             deps: ['backbone'],
         },
         'view/totalAccountTable': {

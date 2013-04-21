@@ -9,7 +9,6 @@ require([
     'view/entryTab',
     'view/commonlyUseAccount',
     'view/commonlyUseAccountArea',
-    'view/transactionDetail',
     'view/totalAccountTable',
     'view/inventoryTab',
     'view/subTotal',

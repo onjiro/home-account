@@ -1,4 +1,7 @@
-define(['backbone'], function(Backbone) {
+define([
+    'backbone',
+    'view/transactionDetail',
+], function(Backbone, TransactionDetailView) {
     return {
         Row: Backbone.View.extend({
             tagName: 'tr',

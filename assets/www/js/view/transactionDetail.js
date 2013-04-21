@@ -1,4 +1,4 @@
-this.TransactionDetailView = (function(global){
+define(['backbone'], function(Backbone) {
     return Backbone.View.extend({
         tagName: 'div',
         className: 'history-detail',
@@ -33,4 +33,4 @@ this.TransactionDetailView = (function(global){
             this.$el.css({top: this.$body.scrollTop()});
         },
     });
-})();
+});
