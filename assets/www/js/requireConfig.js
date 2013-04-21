@@ -60,8 +60,8 @@ var require = {
         'view/totalAccountTable': {
             deps: ['backbone'],
         },
-        'view/inventory': {
-            deps: ['backbone', 'model/totalAccount', 'model/totalAccountList', 'model/totalAccountTableView'],
+        'view/inventoryTab': {
+            deps: ['backbone', 'model/totalAccount', 'model/totalAccountList', 'view/totalAccountTable'],
         },
         'view/subTotal': {
             deps: ['backbone'],
