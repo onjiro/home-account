@@ -3,24 +3,8 @@ define([
     'underscore',
     'view/historyArea',
     'view/historyRow',
-], function(Backbone, _, HistoryAreaView, HistoryRowView) {
-    var ItemOptionView = Backbone.View.extend({
-        tagName: 'option',
-        events: {
-            'select': function(e) {
-                this.model.trigger(this.eventName, this.model)
-            },
-        },
-        initialize: function() {
-            this.eventName = this.options.eventName;
-            this.render();
-        },
-        render: function() {
-            this.$el.append(this.model.get('name'));
-            return this;
-        },
-    });
-
+    'view/itemOptionView',
+], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView) {
     return Backbone.View.extend({
         initialize: function(options) {
             this.accountItems = this.options.accountItems;
@@ -30,11 +14,13 @@ define([
             this.accountItems
                 .on('add', this.onAddAccountItems, this)
                 .on('select-for-item', function(model) {
+                    this.$('[name="item-id"]').val(model.id);
                     this.$('[name="item"]')
                         .val(model.isNew() ? '': model.get('name'))
                         .toggle(model.isNew());
                 }, this)
                 .on('select-for-opposite-item', function(model) {
+                    this.$('[name="opposite-item-id"]').val(model.id);
                     this.$('[name="opposite-item"]')
                         .val(model.isNew() ? '': model.get('name'))
                         .toggle(model.isNew());
