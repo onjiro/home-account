@@ -2,6 +2,7 @@ require([
     'jquery',
     'underscore',
     'view/app',
+    'model/accountItem',
     'model/accountItemList',
     'model/transactionList',
     'model/totalAccountList',
@@ -12,7 +13,7 @@ require([
     'view/totalAccountTable',
     'view/inventoryTab',
     'view/subTotal',
-], function($, _, AppView) {
+], function($, _, AppView, AccountItem) {
     $(function() {
         accountItems = new AccountItemList();
         // bootstrap の Alert div のテンプレート
@@ -59,7 +60,8 @@ require([
         });
 
         // データ初期ロード
-        accountItems.fetch({success: function() {
+        accountItems.add(new AccountItem({name: '<新規科目>'}));
+        accountItems.fetch({remove: false, success: function() {
             currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
         }});
 
