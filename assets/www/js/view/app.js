@@ -24,25 +24,20 @@ define([
     return Backbone.View.extend({
         initialize: function(options) {
             this.accountItems = this.options.accountItems;
-            this.$select = this.$('[name="item-in-selection"], [name="opposite-item-in-selection"]');
             this.$itemSelection = this.$('[name="item-in-selection"]');
             this.$oppositeSelection = this.$('[name="opposite-item-in-selection"]');
 
             this.accountItems
                 .on('add', this.onAddAccountItems, this)
-                .on('reset', function(collection) {
-                    collection.each(this.onAddAccountItems, this);
-                    this.onSelectItem(this.$select);
-                }, this)
                 .on('select-for-item', function(model) {
                     this.$('[name="item"]')
-                        .val(model.get('name'))
-                        .toggle(!model.id);
+                        .val(model.isNew() ? '': model.get('name'))
+                        .toggle(model.isNew());
                 }, this)
                 .on('select-for-opposite-item', function(model) {
                     this.$('[name="opposite-item"]')
-                        .val(model.get('name'))
-                        .toggle(!model.id);
+                        .val(model.isNew() ? '': model.get('name'))
+                        .toggle(model.isNew());
                 }, this);
 
             // 履歴ビュー
