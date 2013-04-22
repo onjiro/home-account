@@ -5,16 +5,34 @@ define([
 ], function(Backbone, HistoryAreaView, HistoryRowView) {
     return Backbone.View.extend({
         events: {
-            'change [name="item-in-selection"],[name="opposite-item-in-selection"]': function(e) { this.onSelectItem($(e.srcElement)); },
+            'change [name="item-in-selection"]': function(e) {
+                var item = this.accountItems.findWhere({name: $(e.target).val()});
+                item.trigger('select-for-item', item);
+            },
+            'change [name="opposite-item-in-selection"]': function(e) {
+                var item = this.accountItems.findWhere({name: $(e.target).val()});
+                item.trigger('select-for-opposite-item', item);
+            },
         },
         initialize: function(options) {
+            this.accountItems = this.options.accountItems;
             this.$select = this.$('[name="item-in-selection"], [name="opposite-item-in-selection"]');
 
-            options.accountItems
+            this.accountItems
                 .on('add', this.onAddAccountItems, this)
                 .on('reset', function(collection) {
                     collection.each(this.onAddAccountItems, this);
                     this.onSelectItem(this.$select);
+                }, this)
+                .on('select-for-item', function(model) {
+                    this.$('[name="item"]')
+                        .val(model.get('name'))
+                        .toggle(model.id);
+                }, this)
+                .on('select-for-opposite-item', function(model) {
+                    this.$('[name="opposite-item"]')
+                        .val(model.get('name'))
+                        .toggle(model.id);
                 }, this);
 
             // 履歴ビュー
@@ -31,12 +49,6 @@ define([
             this.$select.append(this.template({
                 item: accountItem.get('name'),
             }));
-        },
-        onSelectItem: function($selection) {
-            $selection
-                .siblings('[name="item"], [name="opposite-item"]')
-                .val($selection.val())
-                .toggle($selection.val() === '');
         },
     });
 });
