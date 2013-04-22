@@ -4,7 +4,7 @@ define([
     'view/historyArea',
     'view/historyRow',
 ], function(Backbone, _, HistoryAreaView, HistoryRowView) {
-    var ItemRowView = Backbone.View.extend({
+    var ItemOptionView = Backbone.View.extend({
         tagName: 'option',
         events: {
             'select': function(e) {
@@ -51,11 +51,11 @@ define([
             });
         },
         onAddAccountItems: function(accountItem) {
-            this.$itemSelection.append(new ItemRowView({
+            this.$itemSelection.append(new ItemOptionView({
                 model: accountItem,
                 eventName: 'select-for-item',
             }).el);
-            this.$oppositeSelection.append(new ItemRowView({
+            this.$oppositeSelection.append(new ItemOptionView({
                 model: accountItem,
                 eventName: 'select-for-opposite-item',
             }).el);
