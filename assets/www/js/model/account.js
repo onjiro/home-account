@@ -32,12 +32,12 @@ define([
             ], function(tx, rs) {
                 if (options.success) options.success(tx, rs.insertId)
             }, options.error);
-        },
-        item = _.first(Constructor.items.where({name: this.item}));
+        };
         // TODO ignore `attribute` now
-        if (item) {
+        if (this.itemId) {
             doSave(item);
         } else {
+            if (!confirm('新たに科目"' + this.item + '"を登録してよいですか？')) { return }
             Constructor.items.create({ name: this.item }, {
                 tx:      options.tx,
                 success: doSave,

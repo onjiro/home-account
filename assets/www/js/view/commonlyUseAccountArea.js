@@ -7,8 +7,11 @@ $(function() {
         },
         onAdd: function(model) {
             var newView = new CommonlyUseAccountView({ model: model });
-            newView.on('selected', function(accountItem) {
-                this.model.set({ accountItem: accountItem });
+            newView.on('selected', function(item) {
+                this.model.set({
+                    accountItem: item.name,
+                    accountItemId: item.id,
+                });
             }, this);
             this.$el.append(newView.el);
         },

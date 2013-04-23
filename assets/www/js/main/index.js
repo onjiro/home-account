@@ -83,7 +83,8 @@ require([
                 this.render();
             },
             render: function() {
-                this.$('input').val(this.model.get('accountItem'));
+                this.$('input.name').val(this.model.get('accountItem'));
+                this.$('input.id').val(this.model.get('accountItemId'));
                 return this;
             },
         });

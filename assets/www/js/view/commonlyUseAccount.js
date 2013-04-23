@@ -7,7 +7,7 @@ $(function() {
         events: {
             'click a': function(e) {
                 e.preventDefault();
-                this.trigger('selected', this.model.get('name'));
+                this.trigger('selected', this.model.attributes);
             },
         },
 
