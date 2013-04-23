@@ -24,7 +24,9 @@ var EntryTabView = (function() {
             var entries = {
                 date: (dateVal) ? new Date(dateVal): new Date(),
                 item: this.$('[name=item]').val(),
+                itemId: this.$('[name="item-id"]').val(),
                 oppositeItem: this.$('[name=opposite-item]').val(),
+                oppositeItemId: this.$('[name="item-id"]').val(),
                 amount: this.$('[name=amount]').val(),
                 details: null
             };
@@ -38,6 +40,7 @@ var EntryTabView = (function() {
                     new Account({
                         date: entries.date,
                         item: entries.item,
+                        itemId: entries.itemId,
                         amount: entries.amount,
                         type: 'debit'
                     }),
@@ -45,6 +48,7 @@ var EntryTabView = (function() {
                     new Account({
                         date: entries.date,
                         item: entries.oppositeItem,
+                        itemId: entries.oppositeItemId,
                         amount: entries.amount,
                         type: 'credit'
                     }),

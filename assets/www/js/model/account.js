@@ -5,6 +5,7 @@ define([
         values = values || {}
         this.transactionId = values.transactionId;
         this.item = values.item;
+        this.itemId = values.itemId;
         this.amount = (values.amount) ? parseInt(values.amount): 0;
         this.date = new Date(values.date) || new Date();
         this.type = values.type || 'credit';
@@ -21,8 +22,7 @@ define([
     Constructor.prototype.save = function(attribute, options) {
         var _this = this,
         options = options || {},
-        doSave = function(accountItem) {
-            _this.itemId = accountItem.get('id');
+        doSave = function() {
             options.tx.executeSql(insertSql, [
                 _this.transactionId,
                 _this.date.getTime(),
@@ -35,7 +35,7 @@ define([
         };
         // TODO ignore `attribute` now
         if (this.itemId) {
-            doSave(item);
+            doSave();
         } else {
             if (!confirm('新たに科目"' + this.item + '"を登録してよいですか？')) { return }
             Constructor.items.create({ name: this.item }, {
