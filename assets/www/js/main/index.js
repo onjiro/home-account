@@ -7,7 +7,6 @@ require([
     'model/transactionList',
     'model/totalAccountList',
     'model/commonlyUseAccountItemList',
-    'view/entryTab',
     'view/commonlyUseAccount',
     'view/commonlyUseAccountArea',
     'view/totalAccountTable',

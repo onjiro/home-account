@@ -1,4 +1,4 @@
-var EntryTabView = (function() {
+define([], function() {
     return Backbone.View.extend({
         events: {
             'click .edit-date': function(e){
@@ -68,4 +68,4 @@ var EntryTabView = (function() {
                 .save({validate: true});
         },
     });
-})();
+});

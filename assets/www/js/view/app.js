@@ -4,7 +4,8 @@ define([
     'view/historyArea',
     'view/historyRow',
     'view/itemOptionView',
-], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView) {
+    'view/entryTab',
+], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView) {
     return Backbone.View.extend({
         initialize: function(options) {
             this.accountItems = this.options.accountItems;
@@ -40,7 +41,7 @@ define([
             new EntryTabView({
                 el: this.$('#entry-tab'),
                 collection: this.collection,
-                alertTemplate: _.template($('#alert-template').html()),
+                alertTemplate: _.template(this.$('#alert-template').html()),
             });
         },
         onAddAccountItems: function(accountItem) {
