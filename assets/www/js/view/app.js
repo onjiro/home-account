@@ -6,7 +6,7 @@ define([
     'view/itemOptionView',
     'view/entryTab',
     'view/inventoryTab',
-], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView) {
+], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView, InventoryTabView) {
     return Backbone.View.extend({
         initialize: function(options) {
             this.accountItems = this.options.accountItems;

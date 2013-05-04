@@ -6,8 +6,6 @@ require([
     'model/accountItem',
     'model/accountItemList',
     'model/transactionList',
-    'model/totalAccountList',
-    'view/totalAccountTable',
     'view/subTotal',
 ], function(util, $, _, AppView, AccountItem) {
     $(function() {
