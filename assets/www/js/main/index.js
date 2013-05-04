@@ -10,11 +10,11 @@ require([
     Backbone.sync.db = db;
     $(function() {
         var accountItems = new AccountItemList()
-        , currentTransactions = new TransactionList()
+        , transactions = new TransactionList()
         , totalAccounts = new TotalAccountList();
 
         // モデル間の依存関係を設定
-        currentTransactions.on('add remove change reset', function() {
+        transactions.on('add remove change reset', function() {
             totalAccounts.fetch({ to: new Date(), reset: true });
         });
 
@@ -23,7 +23,7 @@ require([
             template: _.template($('#selection-template').html())
         }))({
             el: document,
-            collection: currentTransactions,
+            collection: transactions,
             accountItems: accountItems,
             totalAccounts: totalAccounts,
         });
@@ -31,7 +31,7 @@ require([
         // データ初期ロード
         accountItems.add(new AccountItem({name: '<新規科目>'}));
         accountItems.fetch({remove: false, success: function() {
-            currentTransactions.fetch({ from: util.calculateDaysAgo(new Date(), 7) });
+            transactions.fetch({ from: util.calculateDaysAgo(new Date(), 7) });
         }});
     });
 });
