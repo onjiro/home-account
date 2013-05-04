@@ -7,7 +7,7 @@ define([
     'view/entryTab',
     'view/inventoryTab',
     'view/subTotal',
-], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView, InventoryTabView) {
+], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView, InventoryTabView, SubTotalView) {
     return Backbone.View.extend({
         initialize: function(options) {
             this.accountItems = this.options.accountItems;
