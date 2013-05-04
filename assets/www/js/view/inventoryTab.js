@@ -4,7 +4,7 @@ define([
     'backbone',
     'model/totalAccount',
     'view/totalAccountTable',
-], function($, _, Backbone) {
+], function($, _, Backbone, TotalAccount, TotalAccountTableView) {
     var createFilteredAccounts = function(all, accepts) {
         return all.filter(function(account) {
             return (accepts) ?
