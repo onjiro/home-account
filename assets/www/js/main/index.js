@@ -1,4 +1,5 @@
 require([
+    'util',
     'jquery',
     'underscore',
     'view/app',
@@ -9,7 +10,7 @@ require([
     'view/totalAccountTable',
     'view/inventoryTab',
     'view/subTotal',
-], function($, _, AppView, AccountItem) {
+], function(util, $, _, AppView, AccountItem) {
     $(function() {
         accountItems = new AccountItemList();
         var $history = $('#history')
@@ -17,20 +18,7 @@ require([
         , totalAccounts = new TotalAccountList()
         , subtotalView = new SubTotalView({
             el: '#subtotal-tab',
-        })
-        , calculateDaysAgo = function(targetDate, days) {
-            var aWeekAgo = new Date(targetDate.getTime() - days * 24 * 3600 * 1000);
-            aWeekAgo.setHours(0);
-            aWeekAgo.setMinutes(0);
-            aWeekAgo.setSeconds(0);
-            aWeekAgo.setMilliseconds(0);
-            return aWeekAgo;
-        };
-        window.withSeparators = function(amount) {
-            var num = new String(amount).replace(/,/g, '');
-            while(num != (num = num.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
-            return num;
-        };
+        });
         Backbone.sync.db = db;
 
         // 全体のビューの生成
@@ -56,7 +44,7 @@ require([
         // データ初期ロード
         accountItems.add(new AccountItem({name: '<新規科目>'}));
         accountItems.fetch({remove: false, success: function() {
-            currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
+            currentTransactions.fetch({ from: util.calculateDaysAgo(new Date(), 7) });
         }});
     });
 });

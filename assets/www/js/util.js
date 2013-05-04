@@ -40,4 +40,21 @@ define(['jquery', 'underscore', 'jquery-ui', 'bootstrap'], function($, _) {
                     });
             });
     });
+
+    window.withSeparators = function(amount) {
+        var num = new String(amount).replace(/,/g, '');
+        while(num != (num = num.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+        return num;
+    };
+
+    return {
+        calculateDaysAgo: function(targetDate, days) {
+            var aWeekAgo = new Date(targetDate.getTime() - days * 24 * 3600 * 1000);
+            aWeekAgo.setHours(0);
+            aWeekAgo.setMinutes(0);
+            aWeekAgo.setSeconds(0);
+            aWeekAgo.setMilliseconds(0);
+            return aWeekAgo;
+        },
+    };
 });
