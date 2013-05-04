@@ -9,8 +9,7 @@ require([
 ], function(util, $, _, AppView, AccountItem) {
     Backbone.sync.db = db;
     $(function() {
-        accountItems = new AccountItemList();
-        var $history = $('#history')
+        var accountItems = new AccountItemList()
         , currentTransactions = new TransactionList()
         , totalAccounts = new TotalAccountList();
 
