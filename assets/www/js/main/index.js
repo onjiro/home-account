@@ -6,16 +6,12 @@ require([
     'model/accountItem',
     'model/accountItemList',
     'model/transactionList',
-    'view/subTotal',
 ], function(util, $, _, AppView, AccountItem) {
     $(function() {
         accountItems = new AccountItemList();
         var $history = $('#history')
         , currentTransactions = new TransactionList()
-        , totalAccounts = new TotalAccountList()
-        , subtotalView = new SubTotalView({
-            el: '#subtotal-tab',
-        });
+        , totalAccounts = new TotalAccountList();
         Backbone.sync.db = db;
 
         // 全体のビューの生成

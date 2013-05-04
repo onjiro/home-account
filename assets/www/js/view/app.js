@@ -6,6 +6,7 @@ define([
     'view/itemOptionView',
     'view/entryTab',
     'view/inventoryTab',
+    'view/subTotal',
 ], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView, InventoryTabView) {
     return Backbone.View.extend({
         initialize: function(options) {
@@ -44,14 +45,16 @@ define([
                 collection: this.collection,
                 alertTemplate: _.template(this.$('#alert-template').html()),
             });
-
+            // 集計タブビューの生成
+            new SubTotalView({
+                el: this.$('#subtotal-tab'),
+            });
             // 棚卸タブビューの生成
             new InventoryTabView({
                 el: this.$('#inventory-tab'),
                 collection: this.options.totalAccounts,
                 transactions: this.collection,
             });
-
         },
         onAddAccountItems: function(accountItem) {
             this.$itemSelection.append(new ItemOptionView({
