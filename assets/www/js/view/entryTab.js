@@ -2,9 +2,8 @@ define([
     'underscore',
     'backbone',
     'model/commonlyUseAccountItemList',
-    'view/commonlyUseAccount',
     'view/commonlyUseAccountArea',
-], function(_, Backbone) {
+], function(_, Backbone, CommonlyUseAccountItemList, CommonlyUseAccountAreaView) {
     // 支出登録のビューモデル
     var AccountItemEntryView = Backbone.View.extend({
         initialize: function() {
