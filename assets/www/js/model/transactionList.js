@@ -3,7 +3,7 @@ define([
     'model/account',
     'model/transaction',
 ], function(Backbone, Account, Transaction) {
-    return TransactionList = Backbone.Collection.extend({
+    return Backbone.Collection.extend({
         model: Transaction,
         sqls: {
             read: ''
