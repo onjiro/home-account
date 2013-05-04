@@ -1,5 +1,7 @@
-this.TotalAccountTableView = (function(global) {
-    var TotalAccountView = Backbone.View.extend({
+define([
+    'backbone',
+], function(Backbone) {
+    return Backbone.View.extend({
         initialize: function() {
             this.$template = _.template($('#total-account-template').html());
             this.collection.on('add', this.add, this);
@@ -19,5 +21,4 @@ this.TotalAccountTableView = (function(global) {
             this.collection.forEach(this.add, this);
         }
     });
-    return TotalAccountView;
-})(this);
+});

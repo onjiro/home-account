@@ -1,5 +1,5 @@
 define(['backbone', 'model/totalAccount'], function(Backbone, TotalAccount) {
-    return TotalAccountList = Backbone.Collection.extend({
+    return Backbone.Collection.extend({
         model: TotalAccount,
         sqls: {
             read: ''

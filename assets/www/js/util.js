@@ -1,5 +1,7 @@
-define(['jquery', 'underscore', 'jquery-ui', 'bootstrap'], function($, _) {
-     $(function() {
+define(['jquery', 'underscore', 'backbone', 'jquery-ui', 'bootstrap', 'backbone-websql', 'migration'], function($, _, Backbone) {
+    Backbone.sync.db = db;
+
+    $(function() {
         $(document).on('change', 'select', function(e) {
             $(this.options[this.selectedIndex]).trigger('select');
         });
@@ -40,4 +42,21 @@ define(['jquery', 'underscore', 'jquery-ui', 'bootstrap'], function($, _) {
                     });
             });
     });
+
+    window.withSeparators = function(amount) {
+        var num = new String(amount).replace(/,/g, '');
+        while(num != (num = num.replace(/^(-?\d+)(\d{3})/, "$1,$2")));
+        return num;
+    };
+
+    return {
+        calculateDaysAgo: function(targetDate, days) {
+            var aWeekAgo = new Date(targetDate.getTime() - days * 24 * 3600 * 1000);
+            aWeekAgo.setHours(0);
+            aWeekAgo.setMinutes(0);
+            aWeekAgo.setSeconds(0);
+            aWeekAgo.setMilliseconds(0);
+            return aWeekAgo;
+        },
+    };
 });

@@ -1,5 +1,5 @@
 define(['backbone'], function(Backbone) {
-    return TotalAccount = Backbone.Model.extend({
+    return Backbone.Model.extend({
         // properties below
         initialize: function(values) {
             values = values || {};
