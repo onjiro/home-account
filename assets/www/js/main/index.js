@@ -13,6 +13,11 @@ require([
         , currentTransactions = new TransactionList()
         , totalAccounts = new TotalAccountList();
 
+        // モデル間の依存関係を設定
+        currentTransactions.on('add remove change reset', function() {
+            totalAccounts.fetch({ to: new Date(), reset: true });
+        });
+
         // 全体のビューの生成
         new (AppView.extend({
             template: _.template($('#selection-template').html())
@@ -21,10 +26,6 @@ require([
             collection: currentTransactions,
             accountItems: accountItems,
             totalAccounts: totalAccounts,
-        });
-
-        currentTransactions.on('add remove change reset', function() {
-            totalAccounts.fetch({ to: new Date(), reset: true });
         });
 
         // データ初期ロード
