@@ -1,4 +1,6 @@
-define(['jquery', 'underscore', 'jquery-ui', 'bootstrap'], function($, _) {
+define(['jquery', 'underscore', 'backbone', 'jquery-ui', 'bootstrap', 'backbone-websql', 'migration'], function($, _, Backbone) {
+    Backbone.sync.db = db;
+
     $(function() {
         $(document).on('change', 'select', function(e) {
             $(this.options[this.selectedIndex]).trigger('select');

@@ -7,7 +7,6 @@ require([
     'model/accountItemList',
     'model/transactionList',
 ], function(util, $, _, AppView, AccountItem, AccountItemList, TransactionList) {
-    Backbone.sync.db = db;
     $(function() {
         var accountItems = new AccountItemList()
         , transactions = new TransactionList()
