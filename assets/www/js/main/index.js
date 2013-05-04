@@ -6,7 +6,8 @@ require([
     'model/accountItem',
     'model/accountItemList',
     'model/transactionList',
-], function(util, $, _, AppView, AccountItem, AccountItemList, TransactionList) {
+    'model/totalAccountList',
+], function(util, $, _, AppView, AccountItem, AccountItemList, TransactionList, TotalAccountList) {
     $(function() {
         var accountItems = new AccountItemList()
         , transactions = new TransactionList()
