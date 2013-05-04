@@ -1,5 +1,5 @@
 define(['jquery', 'underscore', 'jquery-ui', 'bootstrap'], function($, _) {
-     $(function() {
+    $(function() {
         $(document).on('change', 'select', function(e) {
             $(this.options[this.selectedIndex]).trigger('select');
         });
