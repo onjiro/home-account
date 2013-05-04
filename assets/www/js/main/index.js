@@ -16,9 +16,7 @@ require([
 ], function($, _, AppView, AccountItem) {
     $(function() {
         accountItems = new AccountItemList();
-        // bootstrap の Alert div のテンプレート
-        var alertTemplate = _.template($('#alert-template').html())
-        , $history = $('#history')
+        var $history = $('#history')
         , currentTransactions = new TransactionList()
         , totalAccounts = new TotalAccountList()
         , subtotalView = new SubTotalView({
@@ -64,13 +62,6 @@ require([
         accountItems.fetch({remove: false, success: function() {
             currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
         }});
-
-        // エントリータブのビュー
-        new EntryTabView({
-            el: $('#entry-tab'),
-            collection: currentTransactions,
-            alertTemplate: alertTemplate,
-        });
 
         // 支出登録のビューモデル
         var accounts = {

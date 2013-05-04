@@ -35,6 +35,13 @@ define([
                 el: this.$('#history'),
                 collection: this.collection,
             });
+
+            // エントリータブのビュー
+            new EntryTabView({
+                el: this.$('#entry-tab'),
+                collection: this.collection,
+                alertTemplate: _.template($('#alert-template').html()),
+            });
         },
         onAddAccountItems: function(accountItem) {
             this.$itemSelection.append(new ItemOptionView({
