@@ -8,7 +8,6 @@ require([
     'model/transactionList',
     'model/totalAccountList',
     'view/totalAccountTable',
-    'view/inventoryTab',
     'view/subTotal',
 ], function(util, $, _, AppView, AccountItem) {
     $(function() {
@@ -28,13 +27,7 @@ require([
             el: document,
             collection: currentTransactions,
             accountItems: accountItems,
-        });
-
-        // 棚卸タブビューの生成
-        new InventoryTabView({
-            el: '#inventory-tab',
-            collection: totalAccounts,
-            transactions: currentTransactions,
+            totalAccounts: totalAccounts,
         });
 
         currentTransactions.on('add remove change reset', function() {
