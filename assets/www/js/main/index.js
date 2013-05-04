@@ -6,9 +6,6 @@ require([
     'model/accountItemList',
     'model/transactionList',
     'model/totalAccountList',
-    'model/commonlyUseAccountItemList',
-    'view/commonlyUseAccount',
-    'view/commonlyUseAccountArea',
     'view/totalAccountTable',
     'view/inventoryTab',
     'view/subTotal',
@@ -61,55 +58,5 @@ require([
         accountItems.fetch({remove: false, success: function() {
             currentTransactions.fetch({ from: calculateDaysAgo(new Date(), 7) });
         }});
-
-        // 支出登録のビューモデル
-        var accounts = {
-            debit:  new Backbone.Model({ accountItem: '' }),
-            credit: new Backbone.Model({ accountItem: '' }),
-        }
-        var AccountItemEntryView = Backbone.View.extend({
-            initialize: function() {
-                this.model.on('change', this.render, this);
-                this.render();
-            },
-            render: function() {
-                this.$('input.name').val(this.model.get('accountItem'));
-                this.$('input.id').val(this.model.get('accountItemId'));
-                return this;
-            },
-        });
-        new AccountItemEntryView({
-            el: $('.control-group.item'),
-            model: accounts.debit,
-        });
-        new AccountItemEntryView({
-            el: $('.control-group.opposite-item'),
-            model: accounts.credit,
-        });
-
-        // よく使う勘定科目の表示領域
-        var commonlyUseAccounts = {
-            debit:  new CommonlyUseAccountItemList(),
-            credit: new CommonlyUseAccountItemList(),
-        }
-        new CommonlyUseAccountAreaView({
-            el: $('.debit.commonly-use'),
-            model: accounts.debit,
-            collection: commonlyUseAccounts.debit,
-        });
-        new CommonlyUseAccountAreaView({
-            el: $('.credit.commonly-use'),
-            model: accounts.credit,
-            collection: commonlyUseAccounts.credit,
-        });
-
-        commonlyUseAccounts.debit.fetch({
-            side: 'debit',
-            limit: 3,
-        });
-        commonlyUseAccounts.credit.fetch({
-            side: 'credit',
-            limit: 3,
-        });
     });
 });
