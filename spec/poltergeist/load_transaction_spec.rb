@@ -15,9 +15,8 @@ describe 'transaction history', :type => :feature do
   context '履歴がロード済みの場合' do
     before do
       visit '/index.html'
-      page.execute_script %Q{ $.fx.off = true } # setTimeoutが効いていないことへの回避策
       page.should have_selector('#history .loading', visible: false)
-      page.should have_selector('#history table')
+      page.should have_selector('#history .body')
     end
 
     it 'Transactionを追加できること' do
