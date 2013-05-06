@@ -47,3 +47,8 @@ div.history-detail .container {
 td.amount {
     text-align: right;
 }
+
+/* 集計期間を1行に収まる幅にする */
+#subtotal-query .datepicker {
+    width: 110px;
+}

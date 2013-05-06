@@ -1,5 +1,8 @@
-define(['backbone', 'model/accountItem'], function(Backbone, AccountItem) {
-    return AccountItemList = Backbone.Collection.extend({
+define([
+    'backbone',
+    'model/accountItem',
+], function(Backbone, AccountItem) {
+    return Backbone.Collection.extend({
         model: AccountItem,
         sqls: {
             read: ''

@@ -1,5 +1,9 @@
-var SubTotalView = (function(global) {
+define([
+    'underscore',
+    'backbone',
+], function(_, Backbone) {
     var format = _.template('<%= 1900 + getYear() %>-0<%= getMonth() + 1%>-<%= getDate()%>');
+
     return Backbone.View.extend({
         collection: new Backbone.Collection(),
         events: {
@@ -72,4 +76,4 @@ var SubTotalView = (function(global) {
             this.$el.find('.subtotals').show().siblings().not('input').hide();
         },
     });
-})(this);
+});

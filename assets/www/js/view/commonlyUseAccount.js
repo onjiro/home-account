@@ -1,13 +1,12 @@
 define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
-$(function() {
-    window.CommonlyUseAccountView = Backbone.View.extend({
+    return Backbone.View.extend({
         template: _.template($('#template-commonly-used-account').html()),
         className: 'commonly-used-account',
         tagName: 'span',
         events: {
             'click a': function(e) {
                 e.preventDefault();
-                this.trigger('selected', this.model.get('name'));
+                this.trigger('selected', this.model.attributes);
             },
         },
 
@@ -19,5 +18,4 @@ $(function() {
             return this;
         },
     });
-});
 });

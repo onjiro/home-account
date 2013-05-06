@@ -1,4 +1,22 @@
-var EntryTabView = (function() {
+define([
+    'underscore',
+    'backbone',
+    'model/commonlyUseAccountItemList',
+    'view/commonlyUseAccountArea',
+], function(_, Backbone, CommonlyUseAccountItemList, CommonlyUseAccountAreaView) {
+    // 支出登録のビューモデル
+    var AccountItemEntryView = Backbone.View.extend({
+        initialize: function() {
+            this.model.on('change', this.render, this);
+            this.render();
+        },
+        render: function() {
+            this.$('input.name').val(this.model.get('accountItem'));
+            this.$('input.id').val(this.model.get('accountItemId'));
+            return this;
+        },
+    });
+
     return Backbone.View.extend({
         events: {
             'click .edit-date': function(e){
@@ -17,6 +35,42 @@ var EntryTabView = (function() {
         },
         initialize: function() {
             this.alertTemplate = this.options.alertTemplate;
+            this.accounts = {
+                debit:  new Backbone.Model({ accountItem: '' }),
+                credit: new Backbone.Model({ accountItem: '' }),
+            }
+            new AccountItemEntryView({
+                el: this.$('.control-group.item'),
+                model: this.accounts.debit,
+            });
+            new AccountItemEntryView({
+                el: this.$('.control-group.opposite-item'),
+                model: this.accounts.credit,
+            });
+            // よく使う勘定科目の表示領域
+            this.commonlyUseAccounts = {
+                debit:  new CommonlyUseAccountItemList(),
+                credit: new CommonlyUseAccountItemList(),
+            }
+            new CommonlyUseAccountAreaView({
+                el: this.$('.debit.commonly-use'),
+                model: this.accounts.debit,
+                collection: this.commonlyUseAccounts.debit,
+            });
+            new CommonlyUseAccountAreaView({
+                el: this.$('.credit.commonly-use'),
+                model: this.accounts.credit,
+                collection: this.commonlyUseAccounts.credit,
+            });
+
+            this.commonlyUseAccounts.debit.fetch({
+                side: 'debit',
+                limit: 3,
+            });
+            this.commonlyUseAccounts.credit.fetch({
+                side: 'credit',
+                limit: 3,
+            });
         },
         onSubmit: function() {
             // 画面に入力された情報を取得
@@ -24,7 +78,9 @@ var EntryTabView = (function() {
             var entries = {
                 date: (dateVal) ? new Date(dateVal): new Date(),
                 item: this.$('[name=item]').val(),
+                itemId: this.$('[name="item-id"]').val(),
                 oppositeItem: this.$('[name=opposite-item]').val(),
+                oppositeItemId: this.$('[name="item-id"]').val(),
                 amount: this.$('[name=amount]').val(),
                 details: null
             };
@@ -38,6 +94,7 @@ var EntryTabView = (function() {
                     new Account({
                         date: entries.date,
                         item: entries.item,
+                        itemId: entries.itemId,
                         amount: entries.amount,
                         type: 'debit'
                     }),
@@ -45,6 +102,7 @@ var EntryTabView = (function() {
                     new Account({
                         date: entries.date,
                         item: entries.oppositeItem,
+                        itemId: entries.oppositeItemId,
                         amount: entries.amount,
                         type: 'credit'
                     }),
@@ -64,4 +122,4 @@ var EntryTabView = (function() {
                 .save({validate: true});
         },
     });
-})();
+});

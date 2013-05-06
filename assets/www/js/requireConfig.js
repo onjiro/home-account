@@ -40,34 +40,5 @@ var require = {
         'bootstrap': {
             deps: ['jquery']
         },
-
-        // app modules
-        'indexTabController': {
-            deps: ['jquery', 'bootstrap'],
-        },
-        'view/entryTab': {
-            deps: ['backbone', 'model/account', 'model/transaction'],
-        },
-        'view/commonlyUseAccount': {
-            deps: ['backbone'],
-        },
-        'view/commonlyUseAccountArea': {
-            deps: ['backbone'],
-        },
-        'view/transactionDetail': {
-            deps: ['backbone'],
-        },
-        'view/totalAccountTable': {
-            deps: ['backbone'],
-        },
-        'view/inventory': {
-            deps: ['backbone', 'model/totalAccount', 'model/totalAccountList', 'model/totalAccountTableView'],
-        },
-        'view/subTotal': {
-            deps: ['backbone'],
-        },
-        'view/app': {
-            deps: ['backbone'],
-        },
     },
 }

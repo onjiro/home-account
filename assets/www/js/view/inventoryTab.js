@@ -1,4 +1,10 @@
-this.InventoryTabView = (function(global) {
+define([
+    'jquery',
+    'underscore',
+    'backbone',
+    'model/totalAccount',
+    'view/totalAccountTable',
+], function($, _, Backbone, TotalAccount, TotalAccountTableView) {
     var createFilteredAccounts = function(all, accepts) {
         return all.filter(function(account) {
             return (accepts) ?
@@ -57,4 +63,4 @@ this.InventoryTabView = (function(global) {
         },
 
     });
-})(this);
+});

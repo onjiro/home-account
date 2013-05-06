@@ -1,28 +1,70 @@
-this.AppView = (function(global) {
+define([
+    'backbone',
+    'underscore',
+    'view/historyArea',
+    'view/historyRow',
+    'view/itemOptionView',
+    'view/entryTab',
+    'view/inventoryTab',
+    'view/subTotal',
+], function(Backbone, _, HistoryAreaView, HistoryRowView, ItemOptionView, EntryTabView, InventoryTabView, SubTotalView) {
     return Backbone.View.extend({
-        events: {
-            'change [name="item-in-selection"],[name="opposite-item-in-selection"]': function(e) { this.onSelectItem($(e.srcElement)); },
-        },
         initialize: function(options) {
-            this.$select = this.$('[name="item-in-selection"], [name="opposite-item-in-selection"]');
+            this.accountItems = this.options.accountItems;
+            this.$itemSelection = this.$('[name="item-in-selection"]');
+            this.$oppositeSelection = this.$('[name="opposite-item-in-selection"]');
 
-            options.accountItems
+            this.accountItems
                 .on('add', this.onAddAccountItems, this)
-                .on('reset', function(collection) {
-                    collection.each(this.onAddAccountItems, this);
-                    this.onSelectItem(this.$select);
+                .on('select-for-item', function(model) {
+                    this.$('[name="item-id"]').val(model.id);
+                    this.$('[name="item"]')
+                        .val(model.isNew() ? '': model.get('name'))
+                        .toggle(model.isNew());
+                }, this)
+                .on('select-for-opposite-item', function(model) {
+                    this.$('[name="opposite-item-id"]').val(model.id);
+                    this.$('[name="opposite-item"]')
+                        .val(model.isNew() ? '': model.get('name'))
+                        .toggle(model.isNew());
                 }, this);
+
+            // 履歴ビュー
+            new (HistoryAreaView.extend({
+                innerView: HistoryRowView.extend({
+                    template: _.template($('#history-row-template').html()),
+                }),
+            }))({
+                el: this.$('#history'),
+                collection: this.collection,
+            });
+
+            // エントリータブのビュー
+            new EntryTabView({
+                el: this.$('#entry-tab'),
+                collection: this.collection,
+                alertTemplate: _.template(this.$('#alert-template').html()),
+            });
+            // 集計タブビューの生成
+            new SubTotalView({
+                el: this.$('#subtotal-tab'),
+            });
+            // 棚卸タブビューの生成
+            new InventoryTabView({
+                el: this.$('#inventory-tab'),
+                collection: this.options.totalAccounts,
+                transactions: this.collection,
+            });
         },
         onAddAccountItems: function(accountItem) {
-            this.$select.append(this.template({
-                item: accountItem.get('name'),
-            }));
-        },
-        onSelectItem: function($selection) {
-            $selection
-                .siblings('[name="item"], [name="opposite-item"]')
-                .val($selection.val())
-                .toggle($selection.val() === '');
+            this.$itemSelection.append(new ItemOptionView({
+                model: accountItem,
+                eventName: 'select-for-item',
+            }).el);
+            this.$oppositeSelection.append(new ItemOptionView({
+                model: accountItem,
+                eventName: 'select-for-opposite-item',
+            }).el);
         },
     });
-})(this);
+});
