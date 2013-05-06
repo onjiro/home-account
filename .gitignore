@@ -23,3 +23,6 @@ local.properties
 
 # npm modules
 node_modules
+
+# for ci
+phantomjs
