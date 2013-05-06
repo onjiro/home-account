@@ -119,7 +119,10 @@ define([
                 .on('invalid', function(model, error) {
                     alert(error);
                 }, this)
-                .save({validate: true});
+                .save({}, {
+                    validate: true,
+                    accountItems: this.options.accountItems,
+                });
         },
     });
 });

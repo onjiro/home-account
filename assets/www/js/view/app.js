@@ -44,6 +44,7 @@ define([
                 el: this.$('#entry-tab'),
                 collection: this.collection,
                 alertTemplate: _.template(this.$('#alert-template').html()),
+                accountItems: this.accountItems,
             });
             // 集計タブビューの生成
             new SubTotalView({
