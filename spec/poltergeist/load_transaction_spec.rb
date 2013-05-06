@@ -29,7 +29,7 @@ describe 'transaction history', :type => :feature do
       entry_time = "#{Time.now.month}/#{Time.now.day}"
 
       page.should have_selector('.container .popup')
-      # todo setTimeoutが効いていないため `.popup` が削除されることへのチェックを省く
+      page.should have_selector('.container .popup', visible: false)
       within('#history tbody') do
         page.should have_selector('tr', :count => 1)
         within('tr:first-child') do
