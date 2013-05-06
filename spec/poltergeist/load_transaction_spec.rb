@@ -7,9 +7,9 @@ describe 'transaction history', :type => :feature do
 
   it 'ページを開いた際に自動的にロードされること' do
     visit '/index.html'
-    page.should have_xpath('//title', :text => 'Home Account')
+    page.should have_title('Home Account')
     page.should have_selector('#history .loading', visible: false)
-    page.should have_selector('#history table')
+    page.should have_selector('#history .body')
   end
 
   context '履歴がロード済みの場合' do
