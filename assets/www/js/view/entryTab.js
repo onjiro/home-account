@@ -32,6 +32,9 @@ define([
                 e.preventDefault();
                 this.onSubmit();
             },
+            'reset': function() {
+                this.$('[name="item"], [name="opposite-item"]').show();
+            },
         },
         initialize: function() {
             this.alertTemplate = this.options.alertTemplate;
