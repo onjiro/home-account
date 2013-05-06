@@ -22,11 +22,11 @@ define([
     Constructor.prototype.save = function(attribute, options) {
         var _this = this,
         options = options || {},
-        doSave = function() {
+        doSave = function(newAccountItem) {
             options.tx.executeSql(insertSql, [
                 _this.transactionId,
                 _this.date.getTime(),
-                _this.itemId,
+                _this.itemId || newAccountItem.attributes.id,
                 _this.amount,
                 _this.type
             ], function(tx, rs) {
@@ -38,7 +38,7 @@ define([
             doSave();
         } else {
             if (!confirm('新たに科目"' + this.item + '"を登録してよいですか？')) { return }
-            Constructor.items.create({ name: this.item }, {
+            options.accountItems.create({ name: this.item }, {
                 tx:      options.tx,
                 success: doSave,
                 error:   options.error,

@@ -10,11 +10,12 @@ define(['backbone'], function() {
             'delete': ['id'],
         },
         hooks: {
-            create: function(tx, resultSet) {
+            create: function(tx, resultSet, options) {
                 _.each(this.get('accounts'), function(account) {
                     account.transactionId = this.id;
                     account.save({}, {
                         tx: tx,
+                        accountItems: options.accountItems,
                     });
                 }, this);
             },

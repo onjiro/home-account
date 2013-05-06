@@ -34,9 +34,9 @@
 
             if ((this.hooks || {})[method]) {
                 if (_.isFunction(this.hooks[method])) {
-                    this.hooks[method].call(this, tx, resultSet);
+                    this.hooks[method].call(this, tx, resultSet, options);
                 } else {
-                    var hookSql = _.template(this.hooks[method], attr);
+                    var hookSql = _.template(this.hooks[method], attr, options);
                     tx.executeSql(hookSql, []);
                 }
             }
