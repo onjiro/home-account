@@ -4,4 +4,4 @@ version=phantomjs-1.9.0-linux-i686
 wget https://phantomjs.googlecode.com/files/$version.tar.bz2
 tar xjf $version.tar.bz2
 mv $version phantomjs
-
+tree phantomjs
