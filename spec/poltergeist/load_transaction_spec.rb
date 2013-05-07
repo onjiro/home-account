@@ -78,5 +78,20 @@ describe 'transaction history', :type => :feature do
         find_field('opposite-item').value.should eq('')
       end
     end
+
+    it '履歴からTransactionを選択したら詳細が表示されること' do
+      within('#history tbody') do
+        find('tr:nth-child(1)').trigger('click')
+      end
+
+      page.should have_selector('.history-detail')
+      within('.history-detail') do
+        # 日付のチェックは省略
+        page.should have_selector('.date')
+        find('.debit').should  have_text('現金 40')
+        find('.credit').should have_text('食費 40')
+      end
+    end
+
   end
 end
