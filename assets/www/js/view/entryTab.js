@@ -83,7 +83,7 @@ define([
                 item: this.$('[name=item]').val(),
                 itemId: this.$('[name="item-id"]').val(),
                 oppositeItem: this.$('[name=opposite-item]').val(),
-                oppositeItemId: this.$('[name="item-id"]').val(),
+                oppositeItemId: this.$('[name="opposite-item-id"]').val(),
                 amount: this.$('[name=amount]').val(),
                 details: null
             };
