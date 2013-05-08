@@ -35,6 +35,14 @@ define([
             },
             'reset': function() {
                 this.$('[name="item"], [name="opposite-item"]').show();
+                this.accounts.debit.set({
+                    accountItem: null,
+                    accountItemId: null,
+                });
+                this.accounts.credit.set({
+                    accountItem: null,
+                    accountItemId: null,
+                });
             },
         },
         initialize: function() {
