@@ -99,6 +99,13 @@ describe 'transaction history', :type => :feature do
         page.should have_selector('.history-detail')
       end
 
+      it '詳細画面で外を選択したら詳細が閉じられること' do
+        page.should have_selector('#history tbody tr:nth-child(2)')
+        find('.history-detail').trigger('click')
+
+        page.should have_no_selector('.history-detail')
+      end
+
       it '詳細画面で削除ボタンをクリックしたらTransactionが削除されること' do
         page.should have_selector('#history tbody tr:nth-child(2)')
         within('.history-detail') do
