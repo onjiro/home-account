@@ -21,6 +21,7 @@ define([
         events: {
             'click .edit-date': function(e){
                 this.$('.past-mode').show()
+                    .find('.date').trigger('focus').end()
                     .siblings().hide();
             },
             'click .no-edit-date': function(e) {
