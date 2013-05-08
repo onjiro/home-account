@@ -93,18 +93,21 @@ describe 'transaction history', :type => :feature do
       end
     end
 
-    it '詳細画面で削除ボタンをクリックしたらTransactionが削除されること' do
-      within('#history tbody') do
-        page.should have_selector('tr:nth-child(2)')
-        find('tr:nth-child(1)').trigger('click')
+    context '先頭の履歴の詳細を表示している場合' do
+      before do
+        find('#history tbody tr:nth-child(1)').trigger('click')
+        page.should have_selector('.history-detail')
       end
 
-      within('.history-detail') do
-        find('.remove').trigger('click')
-      end
+      it '詳細画面で削除ボタンをクリックしたらTransactionが削除されること' do
+        page.should have_selector('#history tbody tr:nth-child(2)')
+        within('.history-detail') do
+          find('.remove').trigger('click')
+        end
 
-      page.should have_no_selector('.history-detail')
-      page.should have_no_selector('#histroy tbody tr:nth-child(2)')
+        page.should have_no_selector('.history-detail')
+        page.should have_no_selector('#history tbody tr:nth-child(2)')
+      end
     end
   end
 end
