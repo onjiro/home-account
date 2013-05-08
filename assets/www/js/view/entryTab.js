@@ -21,6 +21,7 @@ define([
         events: {
             'click .edit-date': function(e){
                 this.$('.past-mode').show()
+                    .find('.date').trigger('focus').end()
                     .siblings().hide();
             },
             'click .no-edit-date': function(e) {
@@ -34,6 +35,14 @@ define([
             },
             'reset': function() {
                 this.$('[name="item"], [name="opposite-item"]').show();
+                this.accounts.debit.set({
+                    accountItem: null,
+                    accountItemId: null,
+                });
+                this.accounts.credit.set({
+                    accountItem: null,
+                    accountItemId: null,
+                });
             },
         },
         initialize: function() {
